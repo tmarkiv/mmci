@@ -1,3 +1,3 @@
-==mmb==
+# mmci
 
-The macroeconomic modelling database (MMB) replication files
+Octave/Matlab code for the macroeconomic comparison using the macroeconomic model database (MMB)
