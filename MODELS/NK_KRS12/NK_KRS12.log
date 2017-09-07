@@ -1,0 +1,132 @@
+Starting Dynare (version master-2017-05-12-ae50f25).
+Starting preprocessing of the model file ...
+Substitution of endo leads >= 2: added 9 auxiliary variables and equations.
+Substitution of endo lags >= 2: added 15 auxiliary variables and equations.
+Found 69 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+ - order 2
+Processing outputs ...
+done
+Preprocessing completed.
+
+STEADY-STATE RESULTS:
+
+q                 		 0
+c                 		 0
+i                 		 0
+mu                		 0
+d                 		 0
+r                 		 0
+deltac            		 0
+deltap            		 0
+deltapC           		 0
+b                 		 0
+p                 		 0
+pC                		 0
+pD                		 0
+deltapD           		 0
+lC                		 0
+lD                		 0
+wC                		 0
+wD                		 0
+cB                		 0
+deltacB           		 0
+iB                		 0
+muB               		 0
+dB                		 0
+lCB               		 0
+lDB               		 0
+rL                		 0
+bB                		 0
+aC                		 0
+xiD               		 0
+v                 		 0
+lCtot             		 0
+lDtot             		 0
+y                 		 0
+ystar             		 0
+yC                		 0
+yD                		 0
+yCstar            		 0
+yDstar            		 0
+dstar             		 0
+deltabB           		 0
+interest          		 0
+inflation         		 0
+inflationq        		 0
+output            		 0
+outputgap         		 0
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+
+               0               -0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+      6.535e-017      -6.535e-017                0
+      1.146e-015       1.146e-015                0
+      4.931e-009       4.931e-009                0
+      4.931e-009      -4.931e-009                0
+          0.2686           0.2686                0
+          0.5162           0.5162                0
+          0.6634           0.6634                0
+          0.6667           0.6667                0
+          0.7285           0.6779           0.2668
+          0.7285           0.6779          -0.2668
+          0.7596           0.6064           0.4575
+          0.7596           0.6064          -0.4575
+          0.8119           0.8119                0
+          0.8659           0.8557           0.1323
+          0.8659           0.8557          -0.1323
+          0.9187           0.9187                0
+            0.95             0.95                0
+            0.95             0.95                0
+          0.9631           0.9631                0
+          0.9633           0.9633                0
+            0.98             0.98                0
+               1                1                0
+               1                1                0
+           1.052            1.052                0
+           1.095            1.095                0
+           1.181            1.167           0.1794
+           1.181            1.167          -0.1794
+            1.21             1.21                0
+           1.548            1.548                0
+           1.856            1.688           0.7709
+           1.856            1.688          -0.7709
+      2.369e+016      -2.369e+016                0
+      6.683e+016      -6.683e+016                0
+      7.159e+016      -7.159e+016                0
+      1.183e+017       1.183e+017                0
+      1.522e+017      -1.522e+017                0
+      3.245e+017      -3.245e+017                0
+      2.349e+018       2.349e+018                0
+      1.898e+019       1.898e+019                0
+        3.8e+019         3.8e+019                0
+       7.14e+019        7.14e+019                0
+             Inf              Inf                0
+             Inf              Inf                0
+
+
+There are 20 eigenvalue(s) larger than 1 in modulus 
+for 20 forward-looking variable(s)
+
+The rank condition is verified.
+
+Total computing time : 0h00m01s

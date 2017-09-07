@@ -1,0 +1,97 @@
+ 
+STEADY-STATE RESULTS:
+ 
+c_t               		 -1.63787
+r_t               		 0.0196743
+pi_t              		 0.00962399
+z_t               		 -1.93586
+zbar_t            		 -3.58084
+fo_t              		 0.150651
+CapG_t            		 0.0092176
+co_t              		 0.011078
+ho_t              		 0.488498
+omeg_t            		 -0.160142
+n_t               		 -1.61656
+y_t               		 -1.61656
+ni_t              		 0.0284273
+rl_t              		 0.024121
+del_t             		 0.00444679
+lagz_t            		 -1.93586
+dumnum_t          		 0.0499456
+dumden_t          		 0.988922
+a_t               		 0
+mu_t              		 -2.12026
+gam_t             		 -2.81341
+std_t             		 -2.65926
+pol_t             		 0
+Util              		 -2.63077
+Welf              		 -263.077
+interest          		 7.86973
+inflation         		 3.8496
+inflationq        		 3.8496
+output            		 -161.656
+outputgap         		 0
+ 
+EIGENVALUES:
+         Modulus             Real        Imaginary
+
+               0               -0                0
+               0               -0                0
+               0               -0                0
+               0                0                0
+               0               -0                0
+               0               -0                0
+               0               -0                0
+               0               -0                0
+               0               -0                0
+               0               -0                0
+               0               -0                0
+               0               -0                0
+               0               -0                0
+               0                0                0
+               0               -0                0
+       1.123e-17        1.123e-17                0
+       1.629e-16       -1.629e-16                0
+       2.438e-12        2.438e-12                0
+       1.844e-09        1.823e-15        1.844e-09
+       1.844e-09        1.823e-15       -1.844e-09
+       5.411e-05       -5.411e-05                0
+       5.439e-05       -2.711e-07        5.438e-05
+       5.439e-05       -2.711e-07       -5.438e-05
+       5.465e-05        5.465e-05                0
+          0.3021           0.3021                0
+          0.7467           0.7467                0
+             0.9              0.9                0
+             0.9              0.9                0
+             0.9              0.9                0
+             0.9              0.9                0
+            1.01             1.01                0
+           1.284            1.284                0
+       2.235e+15       -2.235e+15                0
+             Inf             -Inf                0
+             Inf             -Inf                0
+             Inf             -Inf                0
+             Inf             -Inf                0
+             Inf             -Inf                0
+             Inf             -Inf                0
+             Inf             -Inf                0
+             Inf             -Inf                0
+             Inf             -Inf                0
+             Inf             -Inf                0
+             Inf              Inf                0
+             Inf             -Inf                0
+             Inf              Inf                0
+             Inf              Inf                0
+             Inf              Inf                0
+             Inf              Inf                0
+             Inf              Inf                0
+             Inf              Inf                0
+             Inf              Inf                0
+
+
+There are 22 eigenvalue(s) larger than 1 in modulus 
+for 22 forward-looking variable(s)
+ 
+The rank condition is verified.
+ 
+Total computing time : 0h00m02s
