@@ -1,7 +1,7 @@
 function CMD_MMB(varargin)
 
 %clear all; clc; close all;
-% modelsvec = zeros(1,93); modelsvec(1, [3 65]) = 1;
+% modelsvec = zeros(1,93); modelsvec(1, [3 71]) = 1;
 % rule = zeros(1,11); rule(1,3) = 1;
 % CMD_MMB('excersie',1,'modelsvec', modelsvec ,'rule',rule ,'shocks', [1, 0],'option1',0)
 % CMD_MMB('exercise',2,'modelsvec', [1; zeros(92,1)]','rule',[zeros(2,1) ;  1; 1; zeros(7,1)]' ,'shocks', [1, 0],'option1',1)
@@ -25,27 +25,16 @@ cd([currentpath num2str('\MMB_OPTIONS\')])
 %% Loading in the MMB Settings
 MMB_settings
 % load Modelbase
-%% Adding folder structure to path
-modelbase.homepath = cd; cd(modelbase.homepath); addpath(modelbase.homepath);
-modelbase.uphomepath =cd(cd('..')); addpath(modelbase.uphomepath);
-%% Creating the additional variables needed
-modelbase.totaltime = cputime;
-modelbase.models = find(modelsvec~=0);
-modelbase.savepath = [modelbase.uphomepath num2str('\OUTPUT\') num2str('results.xls')];
-modelbase.rule = find(rule==1);
-xls_check_if_open(modelbase.savepath, 'close');
-if strcmp(results, 'results.xls')
-    delete(modelbase.savepath); % overwrite the output file 'results.xls' if no output file is specified by the user
-else
-    modelbase.savepath = [modelbase.uphomepath num2str('\OUTPUT\') results]; % create a new output file
-end
-solution_found = zeros(size(find(modelsvec~=0)')); % solution_found(number)= 1 if a solution is found and 0 else
-
 save Modelbase modelbase                                % neccessary to save in between as dynare clears the workspace
 
 if modelbase.exercise == 1;
     %% One rule many models have been chosen
     disp('One policy rule, many models exercise has been selected.');
+    disp(' ')
+    disp('Selected Models:')
+     for epsilon=1:size(modelbase.models,2)
+           disp([num2str(deblank(modelbase.names((modelbase.models(epsilon)),:)))]);
+     end
     disp(' ')
     disp('Selected Policy Rule:');
     disp(deblank(modelbase.rulenames(modelbase.rule,:)));
@@ -86,21 +75,11 @@ if modelbase.exercise == 1;
         al=deblank(modelbase.names(modelbase.models(epsilon),:));
         modelbase.AL=strcmp(al(end-1:end),'AL');
         if modelbase.AL
-            if ~ismember(modelbase.rule,[8 9 10])
-                control=0;
-                while control==0
-                    gain=str2num(selectgain(modelbase.names,modelbase.models,epsilon));
-                    if gain>=0 && gain<=0.05
-                        control=1;
-                    end
-                end
-                modelbase.control=control;
-                modelbase.gain=gain;
+            if ~ismember(modelbase.rule,[8 9 10])          
                 modelbase.ModelGAIN(modelbase.models(epsilon))=modelbase.gain;
             else
                 modelbase.gain=0;
                 modelbase.ModelGAIN(modelbase.models(epsilon))=modelbase.gain;
-                modelbase.control=[];
             end
         end
         
@@ -112,45 +91,7 @@ if modelbase.exercise == 1;
         cd('..');
         cd('..'); % insert one more cd('..');
         cd MMB_OPTIONS
-        load Modelbase
-        options_.ar=100;
-        if modelbase.AL
-            if ~ismember(modelbase.rule,[8 9 10])
-                thepath=cd;
-                cd(modelbase.setpath(modelbase.models(epsilon),:))
-                load AL_Info
-                cd(thepath);
-                AL_.forwards = AL_Info.forwards;
-                if ismember(modelbase.rule,[6 7])
-                    AL_.states = AL_Info.states_short;
-                else
-                    AL_.states = AL_Info.states_long;
-                end
-                %menu for selection of states for learning
-                control_sel_states=0;
-                while control_sel_states==0
-                    rb_temp=menu_AL_select_states;
-                    if sum(rb_temp)==1
-                        control_sel_states=1;
-                    end
-                end
-                if rb_temp(2)==1
-                    while control_sel_states==1
-                        rb2_temp=menu_AL_select_subset(AL_.states);
-                        if size(rb2_temp,2)~=0
-                            control_sel_states=2;
-                            AL_.states=rb2_temp;
-                        end
-                    end
-                end
-                modelbase.AL_=AL_;
-                modelbase.ModelStates(modelbase.models(epsilon))={modelbase.AL_.states};
-            else
-                modelbase.AL_=[];
-                modelbase.ModelStates(modelbase.models(epsilon))={[]};
-            end
-        end
-        save -append Modelbase modelbase
+
         modelbase=stoch_simul_MMB(modelbase);                                     % solve model
         % Octave version check
         if (exist ('OCTAVE_VERSION', 'builtin') > 0)
@@ -474,6 +415,11 @@ if modelbase.exercise == 1;
 else
     %% One model many rules
     disp('One model many policy rules exercise has been selected.');
+    disp(' ');
+    disp('Selected Model:')
+     for epsilon=1:size(modelbase.models,2)
+           disp([num2str(deblank(modelbase.names((modelbase.models(epsilon)),:)))]);
+     end
     modelbase.rule=rule;
     rulechosen=find(rule>0);
     modelbase.info = ones(size(rule,2),1);
@@ -487,6 +433,13 @@ else
     modelbase.rownrfp = 1;modelbase.rownrmp=1;
     modelbase.rulerank=0;  
     modelbase.myrulecolor = myrulecolor;
+    disp(' ');
+    disp('Selected Policy Rules:');
+    for i=1:size(modelbase.rulenames,1)
+        if (modelbase.rule(i)>0) % If the i-th rule has been chosen
+             disp(deblank(modelbase.rulenames(i,:)));
+        end
+    end
     disp(' ');
     disp('Selected options:');
     if modelbase.option(1) == 1
@@ -577,11 +530,7 @@ else
                 
             end
             %%
-            
-            %**********************************************************************************************************************
-            %                                DON'T CHANGE ANYTHING AFTER THIS LINE                                                %
-            %**********************************************************************************************************************
-            
+        
             cd('..');
             cd MODELS
             save policy_param.mat cofintintb1 cofintintb2 cofintintb3 cofintintb4...
@@ -609,15 +558,6 @@ else
             
             if modelbase.AL
                 if modelbase.l==min(find(modelbase.rule>0)) % If the model is solved for the first rule chosen
-                    control=0;
-                    while control==0
-                        gain=str2num(selectgain(modelbase.names,modelbase.models,epsilon));
-                        if gain>=0 && gain<=0.05
-                            control=1;
-                        end
-                    end
-                    modelbase.control=control;
-                    modelbase.gain=gain;
                     modelbase.ModelGAIN(modelbase.models(epsilon))=modelbase.gain;
                 end
             end
@@ -631,43 +571,6 @@ else
             cd('..');
             cd('..'); % insert one more cd('..');
             cd MMB_OPTIONS
-            load Modelbase
-            options_.ar=100;
-            if modelbase.AL
-                if modelbase.l==min(find(modelbase.rule>0)) % If the model is solved for the first rule chosen
-                    thepath=cd;
-                    cd(modelbase.setpath(modelbase.models(epsilon),:))
-                    load AL_Info
-                    cd(thepath);
-                    AL_.forwards = AL_Info.forwards;
-                    if ismember(modelbase.rule,[6 7])
-                        AL_.states = AL_Info.states_short;
-                    else
-                        AL_.states = AL_Info.states_long;
-                    end
-                    %menu for selection of states for learning
-                    control_sel_states=0;
-                    while control_sel_states==0
-                        rb_temp=menu_AL_select_states;
-                        if sum(rb_temp)==1
-                            control_sel_states=1;
-                        end
-                    end
-                    if rb_temp(2)==1
-                        while control_sel_states==1
-                            rb2_temp=menu_AL_select_subset(AL_.states);
-                            if size(rb2_temp,2)~=0
-                                control_sel_states=2;
-                                AL_.states=rb2_temp;
-                            end
-                        end
-                    end
-                    modelbase.AL_=AL_;
-                    modelbase.ModelStates(modelbase.models(epsilon))={modelbase.AL_.states};
-                end
-            end
-            
-            save -append Modelbase modelbase
             modelbase=stoch_simul_MMB(modelbase);                                     % solve model
             cd(modelbase.homepath);                                                   % go back to main directory
             %toc
