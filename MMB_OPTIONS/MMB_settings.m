@@ -31,7 +31,7 @@
 % gain    :(0.01 - double) AL gain parameter - by default it is 0.01, gain can be between
 %          0.01 and 0.05, if outside of this range, then it is reset to its
 %          default value.
-% states  :([1 0] -1*2 matrix)  Model state variables in AL that age 
+% states  :([1 0] -1*2 matrix)  Model state variables in AL that age
 %% Main options
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -152,6 +152,13 @@ gain = 0.01;
 
 end
 modelbase.gain = gain;
+
+%% ------------------------------ Retrunres
+if ~exist('returnres','var')
+     returnres = 20; 
+end
+modelbase.returnres = returnres;
+
 
  %%  MMB Structure setting up
 %%%%%%%%%%%%%%%%%%%%%%% List of model names

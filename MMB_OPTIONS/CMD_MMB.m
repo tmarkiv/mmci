@@ -3,10 +3,10 @@ function CMD_MMB(varargin)
 %clear all; clc; close all;
 % modelsvec = zeros(1,93); modelsvec(1, [3 71]) = 1;
 % rule = zeros(1,11); rule(1,3) = 1;
-% CMD_MMB('excersie',1,'modelsvec', modelsvec ,'rule',rule ,'shocks', [1, 0],'option1',0)
+% CMD_MMB('exercise',1,'modelsvec', modelsvec ,'rule',rule ,'shocks', [1, 0],'option1',0)
 % CMD_MMB('exercise',2,'modelsvec', [1; zeros(92,1)]','rule',[zeros(2,1) ;  1; 1; zeros(7,1)]' ,'shocks', [1, 0],'option1',1)
-%  CMD_MMB('excersie',1,'modelsvec', [1;1; zeros(90,1);1]','rule',[zeros(2,1) ;  1; 1; zeros(7,1)]' ,'shocks', [1, 1],'option1',1)
-%  CMD_MMB('excersie',1,'modelsvec', [1;1; zeros(90,1);1]','rule',[zeros(2,1) ;  1; 1; zeros(7,1)]' ,'shocks', [1, 1],'option1',1)
+%  CMD_MMB('exercise',1,'modelsvec', [1;1; zeros(90,1);1]','rule',[zeros(2,1) ;  1; 1; zeros(7,1)]' ,'shocks', [1, 1],'option1',1)
+%  CMD_MMB('exercise',1,'modelsvec', [1;1; zeros(90,1);1]','rule',[zeros(2,1) ;  1; 1; zeros(7,1)]' ,'shocks', [1, 1],'option1',1)
 
 %%%%%%%%%%%%%%%%%%% Declaration of key settings
 warning('off','all')
@@ -921,4 +921,5 @@ else
     disp(['Total elapsed cputime: ' ,num2str(modelbase.totaltime), ' seconds.']);
     statusbar(0, '');
     rmpath(modelbase.homepath);
+    
 end
