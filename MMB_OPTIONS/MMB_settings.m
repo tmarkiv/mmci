@@ -31,7 +31,7 @@
 % gain    :(0.01 - double) AL gain parameter - by default it is 0.01, gain can be between
 %          0.01 and 0.05, if outside of this range, then it is reset to its
 %          default value.
-% states  :([1 0] -1*2 matrix)  Model state variables in AL that age
+% states  :([1 0] -1*2 matrix)  Model state variables in AL that agents learn about
 %% Main options
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -97,26 +97,34 @@ modelbase.maxhorizon = maxhorizon;
 
 %% ------------------------------ Exercise
 if ~exist('exercise','var')
-    exercise=1;
+    if sum(modelsvec) == 1;
+    exercise=2;
+    elseif sum(rule) == 1;
+        exercise = 1;
+    else
+    exercise=3;
     end
+end
 modelbase.exercise = exercise;
-if exercise == 1  && size(find(rule),2)>1
-    % if the 1st excercise is chosen and multiple rules only the first will be selected!
-    disp('One rule many models exercise is incompatible with multiple rules, only the first will be considered. Please press a key to continue!')
-    pause
-    rule_id=1:Number_rule;
-    rule_id(find(rule,1))=[];
-    rule(rule_id) = 0;
-end
-% if the 2nd excercise is chosen and multiple models only the first will be selected!
 
-if exercise == 2  && size(find(modelsvec),2)>1
-disp('One model many rules exercise is incompatible with multiple models, only the first will be considered. Please press a key to continue!')
-    pause
-    model_id=1:Number_models;
-    model_id(find(modelsvec,1))=[];
-    modelsvec(model_id) = 0;
-end
+
+                % if exercise == 1  && size(find(rule),2)>1
+                %     % if the 1st excercise is chosen and multiple rules only the first will be selected!
+                %     disp('One rule many models exercise is incompatible with multiple rules, only the first will be considered. Please press a key to continue!')
+                %     pause
+                %     rule_id=1:Number_rule;
+                %     rule_id(find(rule,1))=[];
+                %     rule(rule_id) = 0;
+                % end
+                % % if the 2nd excercise is chosen and multiple models only the first will be selected!
+                % 
+                % if exercise == 2  && size(find(modelsvec),2)>1
+                % disp('One model many rules exercise is incompatible with multiple models, only the first will be considered. Please press a key to continue!')
+                %     pause
+                %     model_id=1:Number_models;
+                %     model_id(find(modelsvec,1))=[];
+                %     modelsvec(model_id) = 0;
+                % end
 
 
 %% ------------------------------ Models
@@ -425,7 +433,6 @@ rulenamesshort1 = char(['User_Rule   ' %rule_number 1
                   ]); 
 %rule colors
 myrulecolor = char(':b','g','b','c','m','r','k',':r',':g','k-.','b-.');              
-
 % List of numbers of models according to having a model-specific rule implemented
 model_with_rule=[2 3 4 5 6 7 10 11 14 18 19 20 21 22 24 25 26 27 29 31 ...
                 32 33 34 35 37 39 40 41 42 43 45 46 47 49 52 ...
@@ -716,44 +723,6 @@ for mo = 1:1:length(modelbase.names);
 end;
 
 
-%% Set Parameters for the Monetary Policy Rule
-
-if modelbase.rule >2
-    cofintintb1 = modelbase.common_rule(modelbase.rule,1); cofintintb2 = modelbase.common_rule(modelbase.rule,2); cofintintb3 = modelbase.common_rule(modelbase.rule,3);
-    cofintintb4 = modelbase.common_rule(modelbase.rule,4); cofintinf0 = modelbase.common_rule(modelbase.rule,5); cofintinfb1 = modelbase.common_rule(modelbase.rule,6); cofintinfb2 = modelbase.common_rule(modelbase.rule,7);
-    cofintinfb3 = modelbase.common_rule(modelbase.rule,8); cofintinfb4 = modelbase.common_rule(modelbase.rule,9); cofintinff1 = modelbase.common_rule(modelbase.rule,10); cofintinff2 = modelbase.common_rule(modelbase.rule,11);
-    cofintinff3 = modelbase.common_rule(modelbase.rule,12); cofintinff4 = modelbase.common_rule(modelbase.rule,13); cofintout = modelbase.common_rule(modelbase.rule,14); cofintoutb1 = modelbase.common_rule(modelbase.rule,15);
-    cofintoutb2 = modelbase.common_rule(modelbase.rule,16); cofintoutb3 = modelbase.common_rule(modelbase.rule,17); cofintoutb4 = modelbase.common_rule(modelbase.rule,18); cofintoutf1 = modelbase.common_rule(modelbase.rule,19);
-    cofintoutf2 = modelbase.common_rule(modelbase.rule,20); cofintoutf3 = modelbase.common_rule(modelbase.rule,21); cofintoutf4 = modelbase.common_rule(modelbase.rule,22);
-    cofintoutp = modelbase.common_rule(modelbase.rule,23); cofintoutpb1 = modelbase.common_rule(modelbase.rule,24); cofintoutpb2 = modelbase.common_rule(modelbase.rule,25); cofintoutpb3 = modelbase.common_rule(modelbase.rule,26);
-    cofintoutpb4 = modelbase.common_rule(modelbase.rule,27); cofintoutpf1 = modelbase.common_rule(modelbase.rule,28); cofintoutpf2 = modelbase.common_rule(modelbase.rule,29); cofintoutpf3 = modelbase.common_rule(modelbase.rule,30);
-    cofintoutpf4 = modelbase.common_rule(modelbase.rule,31);
-    std_r_ = modelbase.common_rule(modelbase.rule,32);
-    std_r_quart = modelbase.common_rule(modelbase.rule,33);
-    
-elseif modelbase.rule == 1
-    % User specified policy rule
-    cofintintb1 =  modelbase.data(2,1); cofintintb2 = modelbase.data(3,1); cofintintb3 = modelbase.data(4,1); cofintintb4 = modelbase.data(5,1);
-    cofintinf0 = modelbase.data(1,2); cofintinfb1 = modelbase.data(2,2); cofintinfb2 = modelbase.data(3,2); cofintinfb3 = modelbase.data(4,2); cofintinfb4 = modelbase.data(5,2);
-    cofintinff1 = modelbase.data(6,2); cofintinff2 = modelbase.data(7,2); cofintinff3 = modelbase.data(8,2); cofintinff4 = modelbase.data(9,2);
-    cofintout = modelbase.data(1,3); cofintoutb1 = modelbase.data(2,3); cofintoutb2 = modelbase.data(3,3); cofintoutb3 = modelbase.data(4,3); cofintoutb4 = modelbase.data(5,3);
-    cofintoutf1 = modelbase.data(6,3); cofintoutf2 = modelbase.data(7,3); cofintoutf3 = modelbase.data(8,3); cofintoutf4 = modelbase.data(9,3);
-    cofintoutp = modelbase.data(1,4); cofintoutpb1 = modelbase.data(2,4); cofintoutpb2 = modelbase.data(3,4); cofintoutpb3 = modelbase.data(4,4); cofintoutpb4 = modelbase.data(5,4);
-    cofintoutpf1 = modelbase.data(6,4); cofintoutpf2 = modelbase.data(7,4); cofintoutpf3 = modelbase.data(8,4); cofintoutpf4 = modelbase.data(9,4);
-    std_r_ = 1;
-    std_r_quart = 0.25;
-end
-
-%%
-cd('..');
-cd MODELS
-save policy_param.mat cofintintb1 cofintintb2 cofintintb3 cofintintb4...
-    cofintinf0 cofintinfb1 cofintinfb2 cofintinfb3 cofintinfb4 cofintinff1 cofintinff2 cofintinff3 cofintinff4...
-    cofintout cofintoutb1 cofintoutb2 cofintoutb3 cofintoutb4 cofintoutf1 cofintoutf2 cofintoutf3 cofintoutf4...
-    cofintoutp cofintoutpb1 cofintoutpb2 cofintoutpb3 cofintoutpb4 cofintoutpf1 cofintoutpf2 cofintoutpf3 cofintoutpf4...
-    std_r_ std_r_quart ;
-cd('..');
-cd MMB_OPTIONS
 
 
 %% Adding folder structure to path
@@ -771,6 +740,7 @@ else
     modelbase.savepath = [modelbase.uphomepath num2str('\OUTPUT\') results]; % create a new output file
 end
 solution_found = zeros(size(find(modelsvec~=0)')); % solution_found(number)= 1 if a solution is found and 0 else
+modelbase.myrulecolor = myrulecolor;
 
 
 %% ------------------------------ AL states
