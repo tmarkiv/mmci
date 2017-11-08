@@ -18,9 +18,9 @@ It contains the following tables, followed by their datatype.
 	* `fiscal_` INTEGER
 	* `prule01` INTEGER
 	* ...
-	* `prule_m` INTEGER
+	* `prule09` INTEGER
 
-The policy rules (prules) contain boolean data (either 0 or 1) on whether the model works with the respective policy rule or not.
+The policy rules (prules) contain boolean data on whether the model works with the respective policy rule (e.i. NULL) or not (value of 1).
 
 The description_id links to an entry from the 'description' table.
 
