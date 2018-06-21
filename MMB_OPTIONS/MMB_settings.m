@@ -35,7 +35,7 @@
 %% Main options
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-if nargin>0
+if nargin>4
     for ii=1:2:size(varargin,2)
         if isrow(varargin{ii+1})
             eval([varargin{ii},'= [ ',num2str(varargin{ii+1}),'];']) 
@@ -698,9 +698,6 @@ common_rule=zeros(Number_rule,33);
             % common_rule(rn,33) = 0.25;
        
 
-%% User specific rule 
-data =[NaN 0 0 0;0 0 0 0;0 0 0 0;0 0 0 0;...
-    0 0 0 0;NaN 0 0 0;NaN 0 0 0;NaN 0 0 0;NaN 0 0 0];
 
 
 %%

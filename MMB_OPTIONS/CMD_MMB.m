@@ -1,15 +1,6 @@
 function function_output = CMD_MMB(models,rules,output,shock,varargin)
 
-modelsvec = de2bi(models,93);       % 1*93 vector for selecting models to run
-rule = de2bi(rules,11);             % 1*11 vector for selecting rules to run
-outp = de2bi(output,3);             % ACF for first digit, IRF for second, Unc. variance for third
-option1 = outp(1,1);        % option1 :(1 - double) Autocorrelation Functions (ACFs) will be plotted, default = 1
-option2 = outp(1,2);        % option2 :(1 - double) Impulse Response Functions (IRFs) will be plotted, default = 1
-option5 = outp(1,3);        % option5 :(1 - double) Show the unconditional variance in the Matlab console, default =1
-shocks = de2bi(shock,2);            % 1*2  vector for selecting Monetary policy shock (default, shocks(1,1)=1) and/or Fiscal polilcy shock (shocks(1,2) = 1)
-if exist('Modelbase') ~= 0
-delete Modelbase
-end
+
 
 %clear all; clc; close all;
 % modelsvec = zeros(1,93); modelsvec(1, [3 71]) = 1;
@@ -22,20 +13,69 @@ end
 %%%%%%%%%%%%%%%%%%% Declaration of key settings
 warning('off','all')
 %% Adding dynare to path if it was not
-addpath c:\dynare\4.5.0\matlab
+if isunix == 1
+    try
+        addpath /usr/lib/dynare/matlab
+    catch
+        disp('Please indicate the location of your dynare installation!');
+    end
+else
+    try
+        addpath c:\dynare\4.5.0\matlab
+    catch
+        disp('Please indicate the location of your dynare installation!');
+    end
+end
+
+
 %% Adding MMB to path (required for Dynare and Octave)
 cd(fileparts(mfilename('fullpath')));
 cd ..
 currentpath= cd;  cd(currentpath);
 addpath(currentpath);
-addpath([currentpath num2str('\ALTOOL\')]);
-addpath([currentpath num2str('\MODELS\')]);
-newpath=[currentpath num2str('\MMB_OPTIONS\')];
-cd([currentpath num2str('\MMB_OPTIONS\')])
+if isunix == 1
+    addpath([currentpath num2str('/ALTOOL/')]);
+    addpath([currentpath num2str('/MODELS/')]);
+    addpath([currentpath num2str('/MMB_OPTIONS/')]);
+    
+    newpath=[currentpath num2str('/MMB_OPTIONS/')];
+    cd([currentpath num2str('/MMB_OPTIONS/')])
+else
+    addpath([currentpath num2str('\ALTOOL\')]);
+    addpath([currentpath num2str('\MODELS\')]);
+    newpath=[currentpath num2str('\MMB_OPTIONS\')];
+    cd([currentpath num2str('\MMB_OPTIONS\')])
+end
+
+modelsvec = de2bi(models,93);       % 1*93 vector for selecting models to run
+rule = de2bi(rules,11);             % 1*11 vector for selecting rules to run
+outp = de2bi(output,3);             % ACF for first digit, IRF for second, Unc. variance for third
+option1 = outp(1,1);        % option1 :(1 - double) Autocorrelation Functions (ACFs) will be plotted, default = 1
+option2 = outp(1,2);        % option2 :(1 - double) Impulse Response Functions (IRFs) will be plotted, default = 1
+option5 = outp(1,3);        % option5 :(1 - double) Show the unconditional variance in the Matlab console, default =1
+shocks = de2bi(shock,2);            % 1*2  vector for selecting Monetary policy shock (default, shocks(1,1)=1) and/or Fiscal polilcy shock (shocks(1,2) = 1)
+if exist('Modelbase') ~= 0
+    delete Modelbase
+end
+
+ if (exist ('OCTAVE_VERSION', 'builtin') > 0) % Matlab passes the shocks variable to the dependent function MMB_opt1 but Octave does not.
+        modelbase.shocks = shocks;
+ end
+ 
+ if (exist ('OCTAVE_VERSION', 'builtin') > 0) % Try to load the io package for xlswrite to function.
+    try 
+      pkg load io;  % To load the io package
+    catch
+      disp('IO package was not found, now installing. Please wait!');
+      pkg install -forge io ;
+      pkg load io;
+    end
+ end
+
 
 %% Loading in the MMB Settings
 MMB_settings
-
+global epsilon
 switch modelbase.exercise
     case 1
         disp('One policy rule, many models exercise has been selected.');
@@ -60,7 +100,7 @@ switch modelbase.exercise
         modelbase.modelchosen=find(modelsvec>0);
         modelbase.rule=rule;
         save Modelbase modelbase                                % neccessary to save in between as dynare clears the workspace
-MMB_opt2
+        MMB_opt2
     case 3
         disp('Many model, many policy rules exercise has been selected.');
         disp(' ');
@@ -78,21 +118,21 @@ MMB_opt2
                 modelbase.modelchosen = modelbase.modelchosenall(modelbase.epsilon);
                 modelbase.rule=rule;
                 modelbase.exercise = 2;
-                try 
+                try
                     loadedVars =  load('Modelbase.mat', 'modelbase');
                     modelbase.result = loadedVars.modelbase.result;
                 catch
                 end
                 
-                save Modelbase modelbase                                % neccessary to save in between as dynare clears the workspace             
-                     MMB_opt2
+                save Modelbase modelbase                                % neccessary to save in between as dynare clears the workspace
+                MMB_opt2
                 modelbase.exercise = 3;
             end
         end
         
 end
- save Modelbase modelbase 
- function_output = modelbase.result
+save Modelbase modelbase
+% function_output = modelbase.result
 end
 
 function MMB_opt1
@@ -178,6 +218,13 @@ modelbase.namesinnos= char(['interest_'
 
 choices=[]; % initialize, otherwise we have an error when trying to save
 modelbase.innos = [];
+ if (exist ('OCTAVE_VERSION', 'builtin') > 0) % Matlab passes the shocks variable to the dependent function MMB_opt1 but Octave does not.
+        shocks = modelbase.shocks;
+ else
+             shocks = modelbase.shocks;
+
+ end
+    
 choices=find(shocks>0);
 if modelbase.option(2)==1
     choice=1;
@@ -191,7 +238,11 @@ end;
 for epsilon=1:size(modelbase.models,2)
     %tic
     modelbase.modeltime(modelbase.models(epsilon)) = cputime;
-    modelbase.setpath(modelbase.models(epsilon),:) = [modelbase.uphomepath num2str('\MODELS\') num2str(modelbase.names(modelbase.models(epsilon),:))]; % path for dynare file of specific model
+    if isunix == 1
+        modelbase.setpath(modelbase.models(epsilon),:) = [modelbase.uphomepath num2str('/MODELS/') num2str(modelbase.names(modelbase.models(epsilon),:)), '/']; % path for dynare file of specific model
+    else
+        modelbase.setpath(modelbase.models(epsilon),:) = [modelbase.uphomepath num2str('\MODELS\') num2str(modelbase.names(modelbase.models(epsilon),:))]; % path for dynare file of specific model
+    end
     modelbase.epsilon = epsilon;
     al=deblank(modelbase.names(modelbase.models(epsilon),:));
     modelbase.AL=strcmp(al(end-1:end),'AL');
@@ -667,13 +718,17 @@ for i=1:size(modelbase.rulenames,1)
         %**********************************************************************************************************************
         save Modelbase modelbase                                % neccessary to save in between as dynare clears the workspace
         try
-        epsilon = modelbase.epsilon;
+            epsilon = modelbase.epsilon;
         catch
-        epsilon=1;
+            epsilon=1;
         end
         %tic
         modelbase.modeltime(modelbase.models(epsilon)) = cputime;
-        modelbase.setpath(modelbase.models(epsilon),:) = [modelbase.uphomepath num2str('\MODELS\') num2str(modelbase.names(modelbase.models(epsilon),:))]; % path for dynare file of specific model
+        if isunix == 1
+            modelbase.setpath(modelbase.models(epsilon),:) = [modelbase.uphomepath num2str('/MODELS/') num2str(modelbase.names(modelbase.models(epsilon),:)), '/']; % path for dynare file of specific model
+        else
+            modelbase.setpath(modelbase.models(epsilon),:) = [modelbase.uphomepath num2str('\MODELS\') num2str(modelbase.names(modelbase.models(epsilon),:))]; % path for dynare file of specific model
+        end
         modelbase.epsilon = epsilon;
         al=deblank(modelbase.names(modelbase.models(epsilon),:));
         modelbase.AL=strcmp(al(end-1:end),'AL');
@@ -1050,20 +1105,20 @@ rmpath(modelbase.homepath);
 end
 
 function [IRF_Non_Aux_Var,IRFendo_names_Non_Aux]=Get_IRF_VAR(current_shock,current_rule,i, rules_set,rules_chosen,rule_solved,rules_setshort1,IRF_STR,Index_Non_Aux_Var,All_Endo_Var,precision)
-    r1=1; 
-    for r=1:size(rules_set,1)
-        if (rules_chosen(r)>0)
-            if ~rule_solved(r)
-                IRF_Non_Negligeable_Var = IRF_STR.(num2str(deblank(rules_setshort1(r,:))))(:,:,current_shock);
-                for v=1:size(IRF_Non_Negligeable_Var,1)
-                    IRF_Non_Negligeable(v,r1)=(max(abs(IRF_Non_Negligeable_Var(v,:)))>precision);
-                end
-                r1=r1+1;
+r1=1;
+for r=1:size(rules_set,1)
+    if (rules_chosen(r)>0)
+        if ~rule_solved(r)
+            IRF_Non_Negligeable_Var = IRF_STR.(num2str(deblank(rules_setshort1(r,:))))(:,:,current_shock);
+            for v=1:size(IRF_Non_Negligeable_Var,1)
+                IRF_Non_Negligeable(v,r1)=(max(abs(IRF_Non_Negligeable_Var(v,:)))>precision);
             end
+            r1=r1+1;
         end
     end
-    Index_Non_Negligeable_Var{current_shock}=max(IRF_Non_Negligeable,[],2);
-    Index_Non_Negligeable_Var{current_shock}=find(Index_Non_Negligeable_Var{current_shock}>0);
+end
+Index_Non_Negligeable_Var{current_shock}=max(IRF_Non_Negligeable,[],2);
+Index_Non_Negligeable_Var{current_shock}=find(Index_Non_Negligeable_Var{current_shock}>0);
 To_be_plotted=intersect(Index_Non_Aux_Var,Index_Non_Negligeable_Var{current_shock});
 IRF_Non_Aux_Var=IRF_STR.(num2str(deblank(rules_setshort1(current_rule,:))))(To_be_plotted,:,:);
 IRFendo_names_Non_Aux = All_Endo_Var(To_be_plotted,:);
@@ -1110,24 +1165,24 @@ set(fig_id, 'visible', 'on');
 end
 
 function isopen = xls_check_if_open(xlsfile,action)
-% 
+%
 % Determine if Excel file is open. If it is open in MS Excel, it can be
 % closed.
-% 
-% 
+%
+%
 %USAGE
 %-----
 % isopen = xls_check_if_open(xlsfile)
 % isopen = xls_check_if_open(xlsfile,action)
-% 
-% 
+%
+%
 %INPUT
 %-----
 % - XLSFILE: name of the Excel file
 % - ACTION : 'close' (closes file if it is open) or '' (do nothing)
 %   Option 'close' only works with MS Excel.
-% 
-% 
+%
+%
 %OUTPUT
 %------
 % - ISOPEN:
@@ -1136,12 +1191,12 @@ function isopen = xls_check_if_open(xlsfile,action)
 %   10 if XLSFILE was closed
 %   11 if XLSFILE is open and could not be closed
 %   -1 if an error occurred
-% 
-% 
+%
+%
 % Based on "How can I determine if an XLS-file is open in Microsoft Excel,
 % without using DDE commands, using MATLAB 7.7 (R2008b)?"
 % (www.mathworks.com/support/solutions/en/data/1-954SDY/index.html)
-% 
+%
 
 % Guilherme Coco Beltramini (guicoco@gmail.com)
 % 2012-Dec-30, 05:21 pm
@@ -1220,8 +1275,8 @@ if close
     end
     
 end
-    
-    
+
+
 % 3) Using FOPEN
 %==========================================================================
 if ~close
@@ -1240,3 +1295,4 @@ if ~close
     end
 end
 end
+
