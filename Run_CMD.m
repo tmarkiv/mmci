@@ -1,5 +1,8 @@
 %% Run the CMD MMB_settings
-graphics_toolkit fltk
+try
+    graphics_toolkit fltk
+catch
+end
 
 % Exercise 1- RW97 with Tayor rule 
 cd('C:\Temp\Shared Ubuntu\mmci-cli-master')
