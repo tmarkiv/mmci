@@ -35,7 +35,7 @@
 %% Main options
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-if nargin>4
+if nargin>0
     for ii=1:2:size(varargin,2)
         if isrow(varargin{ii+1})
             eval([varargin{ii},'= [ ',num2str(varargin{ii+1}),'];']) 
@@ -97,8 +97,10 @@ modelbase.maxhorizon = maxhorizon;
 
 %% ------------------------------ Exercise
 if ~exist('exercise','var')
-    if sum(modelsvec) == 1;
-    exercise=2;
+    if sum(modelsvec) == 1 && sum(rule) == 1;
+    exercise= 1;
+    elseif sum(modelsvec) == 1
+        exercise = 2;
     elseif sum(rule) == 1;
         exercise = 1;
     else
@@ -698,6 +700,9 @@ common_rule=zeros(Number_rule,33);
             % common_rule(rn,33) = 0.25;
        
 
+%% User specific rule 
+data =[NaN 0 0 0;0 0 0 0;0 0 0 0;0 0 0 0;...
+    0 0 0 0;NaN 0 0 0;NaN 0 0 0;NaN 0 0 0;NaN 0 0 0];
 
 
 %%

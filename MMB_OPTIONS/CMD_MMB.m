@@ -1,6 +1,15 @@
 function function_output = CMD_MMB(models,rules,output,shock,varargin)
 
-
+modelsvec = de2bi(models,93);       % 1*93 vector for selecting models to run
+rule = de2bi(rules,11);             % 1*11 vector for selecting rules to run
+outp = de2bi(output,3);             % ACF for first digit, IRF for second, Unc. variance for third
+option1 = outp(1,1);        % option1 :(1 - double) Autocorrelation Functions (ACFs) will be plotted, default = 1
+option2 = outp(1,2);        % option2 :(1 - double) Impulse Response Functions (IRFs) will be plotted, default = 1
+option5 = outp(1,3);        % option5 :(1 - double) Show the unconditional variance in the Matlab console, default =1
+shocks = de2bi(shock,2);            % 1*2  vector for selecting Monetary policy shock (default, shocks(1,1)=1) and/or Fiscal polilcy shock (shocks(1,2) = 1)
+if exist('Modelbase') ~= 0
+delete Modelbase
+end
 
 %clear all; clc; close all;
 % modelsvec = zeros(1,93); modelsvec(1, [3 71]) = 1;
@@ -13,69 +22,20 @@ function function_output = CMD_MMB(models,rules,output,shock,varargin)
 %%%%%%%%%%%%%%%%%%% Declaration of key settings
 warning('off','all')
 %% Adding dynare to path if it was not
-if isunix == 1
-    try
-        addpath /usr/lib/dynare/matlab
-    catch
-        disp('Please indicate the location of your dynare installation!');
-    end
-else
-    try
-        addpath c:\dynare\4.5.0\matlab
-    catch
-        disp('Please indicate the location of your dynare installation!');
-    end
-end
-
-
+addpath c:\dynare\4.5.0\matlab
 %% Adding MMB to path (required for Dynare and Octave)
 cd(fileparts(mfilename('fullpath')));
 cd ..
 currentpath= cd;  cd(currentpath);
 addpath(currentpath);
-if isunix == 1
-    addpath([currentpath num2str('/ALTOOL/')]);
-    addpath([currentpath num2str('/MODELS/')]);
-    addpath([currentpath num2str('/MMB_OPTIONS/')]);
-    
-    newpath=[currentpath num2str('/MMB_OPTIONS/')];
-    cd([currentpath num2str('/MMB_OPTIONS/')])
-else
-    addpath([currentpath num2str('\ALTOOL\')]);
-    addpath([currentpath num2str('\MODELS\')]);
-    newpath=[currentpath num2str('\MMB_OPTIONS\')];
-    cd([currentpath num2str('\MMB_OPTIONS\')])
-end
-
-modelsvec = de2bi(models,93);       % 1*93 vector for selecting models to run
-rule = de2bi(rules,11);             % 1*11 vector for selecting rules to run
-outp = de2bi(output,3);             % ACF for first digit, IRF for second, Unc. variance for third
-option1 = outp(1,1);        % option1 :(1 - double) Autocorrelation Functions (ACFs) will be plotted, default = 1
-option2 = outp(1,2);        % option2 :(1 - double) Impulse Response Functions (IRFs) will be plotted, default = 1
-option5 = outp(1,3);        % option5 :(1 - double) Show the unconditional variance in the Matlab console, default =1
-shocks = de2bi(shock,2);            % 1*2  vector for selecting Monetary policy shock (default, shocks(1,1)=1) and/or Fiscal polilcy shock (shocks(1,2) = 1)
-if exist('Modelbase') ~= 0
-    delete Modelbase
-end
-
- if (exist ('OCTAVE_VERSION', 'builtin') > 0) % Matlab passes the shocks variable to the dependent function MMB_opt1 but Octave does not.
-        modelbase.shocks = shocks;
- end
- 
- if (exist ('OCTAVE_VERSION', 'builtin') > 0) % Try to load the io package for xlswrite to function.
-    try 
-      pkg load io;  % To load the io package
-    catch
-      disp('IO package was not found, now installing. Please wait!');
-      pkg install -forge io ;
-      pkg load io;
-    end
- end
-
+addpath([currentpath num2str('\ALTOOL\')]);
+addpath([currentpath num2str('\MODELS\')]);
+newpath=[currentpath num2str('\MMB_OPTIONS\')];
+cd([currentpath num2str('\MMB_OPTIONS\')])
 
 %% Loading in the MMB Settings
 MMB_settings
-global epsilon
+
 switch modelbase.exercise
     case 1
         disp('One policy rule, many models exercise has been selected.');
@@ -87,7 +47,7 @@ switch modelbase.exercise
         disp(' ')
         disp('Selected Policy Rule:');
         disp(deblank(modelbase.rulenames(modelbase.rule,:)));
-        save Modelbase modelbase                                % neccessary to save in between as dynare clears the workspace
+        save Modelbase modelbase shocks                            % neccessary to save in between as dynare clears the workspace
         MMB_opt1
         
     case 2
@@ -100,7 +60,7 @@ switch modelbase.exercise
         modelbase.modelchosen=find(modelsvec>0);
         modelbase.rule=rule;
         save Modelbase modelbase                                % neccessary to save in between as dynare clears the workspace
-        MMB_opt2
+MMB_opt2
     case 3
         disp('Many model, many policy rules exercise has been selected.');
         disp(' ');
@@ -118,21 +78,22 @@ switch modelbase.exercise
                 modelbase.modelchosen = modelbase.modelchosenall(modelbase.epsilon);
                 modelbase.rule=rule;
                 modelbase.exercise = 2;
-                try
+                try 
                     loadedVars =  load('Modelbase.mat', 'modelbase');
                     modelbase.result = loadedVars.modelbase.result;
                 catch
                 end
                 
-                save Modelbase modelbase                                % neccessary to save in between as dynare clears the workspace
-                MMB_opt2
+                save Modelbase modelbase                                % neccessary to save in between as dynare clears the workspace             
+                     MMB_opt2
                 modelbase.exercise = 3;
             end
         end
         
 end
-save Modelbase modelbase
-% function_output = modelbase.result
+load Modelbase
+%  save Modelbase modelbase 
+ function_output = modelbase.result;
 end
 
 function MMB_opt1
@@ -218,13 +179,6 @@ modelbase.namesinnos= char(['interest_'
 
 choices=[]; % initialize, otherwise we have an error when trying to save
 modelbase.innos = [];
- if (exist ('OCTAVE_VERSION', 'builtin') > 0) % Matlab passes the shocks variable to the dependent function MMB_opt1 but Octave does not.
-        shocks = modelbase.shocks;
- else
-             shocks = modelbase.shocks;
-
- end
-    
 choices=find(shocks>0);
 if modelbase.option(2)==1
     choice=1;
@@ -238,11 +192,7 @@ end;
 for epsilon=1:size(modelbase.models,2)
     %tic
     modelbase.modeltime(modelbase.models(epsilon)) = cputime;
-    if isunix == 1
-        modelbase.setpath(modelbase.models(epsilon),:) = [modelbase.uphomepath num2str('/MODELS/') num2str(modelbase.names(modelbase.models(epsilon),:)), '/']; % path for dynare file of specific model
-    else
-        modelbase.setpath(modelbase.models(epsilon),:) = [modelbase.uphomepath num2str('\MODELS\') num2str(modelbase.names(modelbase.models(epsilon),:))]; % path for dynare file of specific model
-    end
+    modelbase.setpath(modelbase.models(epsilon),:) = [modelbase.uphomepath num2str('\MODELS\') num2str(modelbase.names(modelbase.models(epsilon),:))]; % path for dynare file of specific model
     modelbase.epsilon = epsilon;
     al=deblank(modelbase.names(modelbase.models(epsilon),:));
     modelbase.AL=strcmp(al(end-1:end),'AL');
@@ -279,6 +229,10 @@ end;
 %**********************************************************************************************************************
 %                    Display Variances on screen                                                                    %
 %**********************************************************************************************************************
+
+%% Creating JSON structure
+json.rulenamesshort= modelbase.rulenamesshort(modelbase.rule,:);
+
 % statusbar(0, 'Busy...');
 if modelbase.option(5) == 1
     disp(' ')
@@ -295,6 +249,10 @@ if modelbase.option(5) == 1
             var = modelbase.VAR.(num2str(deblank(modelbase.names(modelbase.models(j),:))))(loc(modelbase.VARendo_names.(num2str(deblank(modelbase.names(modelbase.models(j),:)))),'interest'),loc(modelbase.VARendo_names.(num2str(deblank(modelbase.names(modelbase.models(j),:)))),'interest'));
             st = sprintf('%9s %19f',...
                 vname,var);
+			%% Creating JSON structure
+            vmod = num2str(modelbase.names(modelbase.models(:,j),:));
+            eval(['json.VAR.' , vmod ,'.', vname ,' = var;']);
+			%%
             disp(st)
             %Plotting the variance of inflation
             vname='Inflation';
@@ -302,12 +260,18 @@ if modelbase.option(5) == 1
             st = sprintf('%9s %19f',...
                 vname,var);
             disp(st)
+			
+            eval(['json.VAR.' , vmod ,'.', vname ,' = var;']);
+
             %Plotting the variance of outputgap
             vname='outputgap';
             var = modelbase.VAR.(num2str(deblank(modelbase.names(modelbase.models(j),:))))(loc(modelbase.VARendo_names.(num2str(deblank(modelbase.names(modelbase.models(j),:)))),'outputgap'),loc(modelbase.VARendo_names.(num2str(deblank(modelbase.names(modelbase.models(j),:)))),'outputgap'));
             st = sprintf('%9s %19f',...
                 vname,var);
             disp(st)
+			
+			eval(['json.VAR.' , vmod ,'.', vname ,' = var;']);
+			
             if loc(modelbase.VARendo_names.(num2str(deblank(modelbase.names(modelbase.models(j),:)))),'output')~=0
                 %Plotting the variance of output
                 vname='output   ';
@@ -341,7 +305,16 @@ if modelbase.option(2)==1
             if modelbase.pos_shock(p,modelbase.models(j))~=0
                 modelplottedIRF=[modelplottedIRF modelbase.models(j)]; % this is neccessary to plot a proper legend, that ignores the models,
                 % which lack the specific shock
-                subplot(2,2,1)
+				
+                 %% Creating JSON structure - Inflation, interest rate, and output gap
+                irfmod = deblank(num2str(modelbase.names(modelbase.models(:,j),:)));
+                irfshock = deblank(modelbase.namesshocks(p,1:3));
+                eval(['json.IRF.' , irfmod , '.', irfshock, '.inflation = modelbase.IRF.(num2str(deblank(modelbase.names(modelbase.models(j),:))))(loc(modelbase.IRFendo_names.(num2str(deblank(modelbase.names(modelbase.models(j),:)))),''inflation''),:,p);']);
+                eval(['json.IRF.' , irfmod , '.', irfshock, '.interest = modelbase.IRF.(num2str(deblank(modelbase.names(modelbase.models(j),:))))(loc(modelbase.IRFendo_names.(num2str(deblank(modelbase.names(modelbase.models(j),:)))),''interest''),:,p);']);
+                eval(['json.IRF.' , irfmod , '.', irfshock, '.outputgap = modelbase.IRF.(num2str(deblank(modelbase.names(modelbase.models(j),:))))(loc(modelbase.IRFendo_names.(num2str(deblank(modelbase.names(modelbase.models(j),:)))),''outputgap''),:,p);']);
+				
+				
+				subplot(2,2,1)
                 plot(time,modelbase.IRF.(num2str(deblank(modelbase.names(modelbase.models(j),:))))(loc(modelbase.IRFendo_names.(num2str(deblank(modelbase.names(modelbase.models(j),:)))),'outputgap'),:,p),modelbase.mycolor(j,:),'LineWidth',2,'MarkerSize',5); hold on
                 grid on
                 title('Output Gap','FontUnits','normalized')
@@ -359,6 +332,9 @@ if modelbase.option(2)==1
                     plot(time,modelbase.IRF.(num2str(deblank(modelbase.names(modelbase.models(j),:))))(loc(modelbase.IRFendo_names.(num2str(deblank(modelbase.names(modelbase.models(j),:)))),'output'),:,p),modelbase.mycolor(j,:),'LineWidth',2,'MarkerSize',5); hold on
                     grid on
                     title('Output','FontUnits','normalized')
+					%%Store IRF of output in JSON
+					eval(['json.IRF.' , irfmod , '.', irfshock, '.output = modelbase.IRF.(num2str(deblank(modelbase.names(modelbase.models(j),:))))(loc(modelbase.IRFendo_names.(num2str(deblank(modelbase.names(modelbase.models(j),:)))),''output''),:,p);']);
+
                 end
             end;
         end;
@@ -377,6 +353,16 @@ if modelbase.option(1)==1
     modelplottedAC=[];
     for j=1:size(modelbase.models,2)
         if modelbase.info(modelbase.models(j))==0
+		
+		
+              %% Creating JSON structure for AUTR for outputgap and inflation and interest rate
+               autmod = deblank(num2str(modelbase.names(modelbase.models(:,j),:)));
+               autshock = deblank(modelbase.namesshocks(p,1:3));
+               eval(['json.AUTR.' , autmod , '.outputgap = modelbase.AUTR.(num2str(deblank(modelbase.names(modelbase.models(j),:))))(loc(modelbase.AUTendo_names.(num2str(deblank(modelbase.names(modelbase.models(j),:)))),''outputgap''),:);']);
+               eval(['json.AUTR.' , autmod , '.inflation = modelbase.AUTR.(num2str(deblank(modelbase.names(modelbase.models(j),:))))(loc(modelbase.AUTendo_names.(num2str(deblank(modelbase.names(modelbase.models(j),:)))),''inflation''),:);']);
+               eval(['json.AUTR.' , autmod , '.interest = modelbase.AUTR.(num2str(deblank(modelbase.names(modelbase.models(j),:))))(loc(modelbase.AUTendo_names.(num2str(deblank(modelbase.names(modelbase.models(j),:)))),''interest''),:);']);
+		
+		
             modelplottedAC=[modelplottedAC modelbase.models(j)]; % this is neccessary to plot a proper legend, that ignores the models, which lack the specific shock
             subplot(2,2,1)
             plot(time,modelbase.AUTR.(num2str(deblank(modelbase.names(modelbase.models(j),:))))(loc(modelbase.AUTendo_names.(num2str(deblank(modelbase.names(modelbase.models(j),:)))),'outputgap'),:),modelbase.mycolor(j,:),'LineWidth',2,'MarkerSize',5); hold on
@@ -399,6 +385,9 @@ if modelbase.option(1)==1
                 plot(time,modelbase.AUTR.(num2str(deblank(modelbase.names(modelbase.models(j),:))))(loc(modelbase.AUTendo_names.(num2str(deblank(modelbase.names(modelbase.models(j),:)))),'output'),:),modelbase.mycolor(j,:),'LineWidth',2,'MarkerSize',5); hold on
                 grid on
                 title('Output','FontUnits','normalized')
+				%% Storing output AUTR into JSON.
+				eval(['json.AUTR.' , autmod , '.output = modelbase.AUTR.(num2str(deblank(modelbase.names(modelbase.models(j),:))))(loc(modelbase.AUTendo_names.(num2str(deblank(modelbase.names(modelbase.models(j),:)))),''output''),:);']);
+
             end
         end
     end
@@ -482,6 +471,8 @@ end
 modelbase.totaltime = cputime-modelbase.totaltime;
 disp(' '); disp(' ');
 disp(['Total elapsed cputime: ' ,num2str(modelbase.totaltime), ' seconds.']);
+json.totaltime = modelbase.totaltime;
+
 
 % save the results
 keyvariables = ['outputgap';
@@ -581,6 +572,46 @@ try
     modelbase=rmfield(modelbase,'figHandleRest');
 catch
 end
+modelbase.result = result;
+
+%% JSON Schema part- not working!
+% Counting how many "entries" the excercise has generated:
+% entry = 1;  
+% if sum(modelbase.shocks) == 1 else entry = entry+1; end
+% if isfield(json, 'VAR') entry = entry+1;    end
+% if isfield(json, 'IRF') entry = entry+1;    end
+% if isfield(json, 'AUTR') entry = entry+1;    end
+% if size(modelbase.innos,1)>1 entry = enty+1; end
+
+
+% %% Creating schema:
+% model = (repmat(deblank(modelbase.names(modelbase.models,:)),entry,1));
+% for shhock= 1:size(modelbase.innos,1)
+%     if modelbase.innos(shhock,:) == 'interest_'
+%         shock = 'monetary_policy';
+%     elseif shhock== 1
+%         shock = 'fiscal_policy';
+%     else
+%         shock = [shock; 'fiscal_policy'];
+%     end
+% end
+% if sum(modelbase.shocks) == 1
+%     model = deblank(modelbase.names(modelbase.models,:));
+% else
+%     model  = repmat(deblank(modelbase.names(modelbase.models,:)),2,1);
+% end
+% if modelbase.shocks(1,1)== 1
+%     shock = 'monetary_policy';
+%     if modelbase.shocks(1,2)== 1
+%         shock = 'fiscal_policy';
+%     end
+% else
+%     shock = 'fiscal_policy'; 
+% end
+
+
+savejson('',json,'OUTPUTSJSON');
+savejson('',modelbase,'ModelbaseJSON');
 save Modelbase.mat modelbase % Save settings
 rmpath(modelbase.homepath);
 
@@ -718,17 +749,13 @@ for i=1:size(modelbase.rulenames,1)
         %**********************************************************************************************************************
         save Modelbase modelbase                                % neccessary to save in between as dynare clears the workspace
         try
-            epsilon = modelbase.epsilon;
+        epsilon = modelbase.epsilon;
         catch
-            epsilon=1;
+        epsilon=1;
         end
         %tic
         modelbase.modeltime(modelbase.models(epsilon)) = cputime;
-        if isunix == 1
-            modelbase.setpath(modelbase.models(epsilon),:) = [modelbase.uphomepath num2str('/MODELS/') num2str(modelbase.names(modelbase.models(epsilon),:)), '/']; % path for dynare file of specific model
-        else
-            modelbase.setpath(modelbase.models(epsilon),:) = [modelbase.uphomepath num2str('\MODELS\') num2str(modelbase.names(modelbase.models(epsilon),:))]; % path for dynare file of specific model
-        end
+        modelbase.setpath(modelbase.models(epsilon),:) = [modelbase.uphomepath num2str('\MODELS\') num2str(modelbase.names(modelbase.models(epsilon),:))]; % path for dynare file of specific model
         modelbase.epsilon = epsilon;
         al=deblank(modelbase.names(modelbase.models(epsilon),:));
         modelbase.AL=strcmp(al(end-1:end),'AL');
@@ -753,13 +780,17 @@ for i=1:size(modelbase.rulenames,1)
         %toc
         modelbase.modeltime(modelbase.models(modelbase.epsilon))=cputime-modelbase.modeltime(modelbase.models(modelbase.epsilon));
         disp(['Elapsed cputime is ' ,num2str(modelbase.modeltime(modelbase.models(modelbase.epsilon))), ' seconds.']);
-        
-        %**********************************************************************************************************************
-        %                    Display Variances on screen                                                                    %
-        %**********************************************************************************************************************
-        
+         
     end
 end
+ 
+%**********************************************************************************************************************
+%                    Display Variances on screen                                                                    %
+%**********************************************************************************************************************
+      
+%% Creating JSON structure
+json.rulenamesshort= deblank(modelbase.rulenamesshort(logical(modelbase.rule),:));
+
 %     statusbar(0, 'Busy...');
 if modelbase.option(5) == 1
     
@@ -780,18 +811,27 @@ if modelbase.option(5) == 1
                 var = modelbase.VAR.(num2str(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.VARendo_names.(num2str(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),'interest'),loc(modelbase.VARendo_names.(num2str(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),'interest'));
                 st = sprintf('%9s %19f',...
                     vname,var);
-                disp(st)
+				 %% Creating JSON structure
+				vmod = num2str(modelbase.names(modelbase.models(:,j),:));
+				eval(['json.VAR.' , vmod ,'.', vname ,' = var;']);
+				%%	
+				disp(st)
                 %Plotting the variance of inflation
                 vname='Inflation';
                 var = modelbase.VAR.(num2str(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.VARendo_names.(num2str(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),'inflation'),loc(modelbase.VARendo_names.(num2str(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),'inflation'));
                 st = sprintf('%9s %19f',...
                     vname,var);
                 disp(st)
+
+	            eval(['json.VAR.' , vmod ,'.', vname ,' = var;']);
                 %Plotting the variance of outputgap
                 vname='outputgap';
                 var = modelbase.VAR.(num2str(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.VARendo_names.(num2str(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),'outputgap'),loc(modelbase.VARendo_names.(num2str(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),'outputgap'));
                 st = sprintf('%9s %19f',...
                     vname,var);
+					
+				eval(['json.VAR.' , vmod ,'.', vname ,' = var;']);
+
                 disp(st)
                 if loc(modelbase.VARendo_names.(num2str(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),'output')~=0
                     %Plotting the variance of output
@@ -800,6 +840,8 @@ if modelbase.option(5) == 1
                     st = sprintf('%9s %19f',...
                         vname,var);
                     disp(st)
+		            eval(['json.VAR.' , vmod ,'.', vname ,' = var;']);
+
                 end;
             end;
         end;
@@ -1000,11 +1042,21 @@ for p=1:size(modelbase.innos,1)
                             end
                             result.allIRFs.(num2str(deblank(modelbase.innos(p,:))))((v-1)*m+modelbase.rulerank+1,1:(modelbase.horizon+2)) =...
                                 [{num2str(deblank(modelbase.rulenamesshort(modelbase.l,:)))}, num2cell(IRF_Non_Aux_Var(v,1:(modelbase.horizon+1),p))];
+
+
+
+								
                         end;
                     end;
                 end;
             end;
         end;
+		%% Creating JSON structure
+		irfinno = (num2str(deblank(modelbase.innos(p,:))));
+		irfshock = deblank(modelbase.namesshocks(p,1:3));
+        irfrule = json.rulenamesshort;
+        irfrule =  irfrule(~isspace(irfrule)); 
+        eval(['json.allIRF.' , irfrule , '.', irfshock, ' = result.allIRFs.(num2str(deblank(modelbase.innos(p,:))))']);    
         xlswrite(modelbase.savepath, result.allIRFs.(num2str(deblank(modelbase.innos(p,:)))), ['all IRFs ' num2str(deblank(modelbase.namesshocks(p,:)))]);
     end;
 end;
@@ -1078,6 +1130,11 @@ if ~isempty(find(modelbase.info==0))
                             if pp==1
                                 legend(modelbase.str);
                             end
+							
+							%% Creating JSON structure
+               autrule = deblank(modelbase.rulenamesshort1(modelbase.l,:));
+			   autvar = keyvariables(pp,:);
+			   eval(['json.AUTR.' ,autrule, '.', autvar ,'= modelbase.AUTR.(num2str(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.AUTendo_names.(num2str(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),:)']);
                         end
                     end
                     
@@ -1099,26 +1156,31 @@ end
 
 save Modelbase modelbase -append
 modelbase.totaltime = cputime-modelbase.totaltime;
+
+json.totaltime = modelbase.totaltime;
+savejson('',json,'OUTPUTSJSON');
+savejson('',modelbase,'ModelbaseJSON');
+
 disp(' '); disp(' ');
 disp(['Total elapsed cputime: ' ,num2str(modelbase.totaltime), ' seconds.']);
 rmpath(modelbase.homepath);
 end
 
 function [IRF_Non_Aux_Var,IRFendo_names_Non_Aux]=Get_IRF_VAR(current_shock,current_rule,i, rules_set,rules_chosen,rule_solved,rules_setshort1,IRF_STR,Index_Non_Aux_Var,All_Endo_Var,precision)
-r1=1;
-for r=1:size(rules_set,1)
-    if (rules_chosen(r)>0)
-        if ~rule_solved(r)
-            IRF_Non_Negligeable_Var = IRF_STR.(num2str(deblank(rules_setshort1(r,:))))(:,:,current_shock);
-            for v=1:size(IRF_Non_Negligeable_Var,1)
-                IRF_Non_Negligeable(v,r1)=(max(abs(IRF_Non_Negligeable_Var(v,:)))>precision);
+    r1=1; 
+    for r=1:size(rules_set,1)
+        if (rules_chosen(r)>0)
+            if ~rule_solved(r)
+                IRF_Non_Negligeable_Var = IRF_STR.(num2str(deblank(rules_setshort1(r,:))))(:,:,current_shock);
+                for v=1:size(IRF_Non_Negligeable_Var,1)
+                    IRF_Non_Negligeable(v,r1)=(max(abs(IRF_Non_Negligeable_Var(v,:)))>precision);
+                end
+                r1=r1+1;
             end
-            r1=r1+1;
         end
     end
-end
-Index_Non_Negligeable_Var{current_shock}=max(IRF_Non_Negligeable,[],2);
-Index_Non_Negligeable_Var{current_shock}=find(Index_Non_Negligeable_Var{current_shock}>0);
+    Index_Non_Negligeable_Var{current_shock}=max(IRF_Non_Negligeable,[],2);
+    Index_Non_Negligeable_Var{current_shock}=find(Index_Non_Negligeable_Var{current_shock}>0);
 To_be_plotted=intersect(Index_Non_Aux_Var,Index_Non_Negligeable_Var{current_shock});
 IRF_Non_Aux_Var=IRF_STR.(num2str(deblank(rules_setshort1(current_rule,:))))(To_be_plotted,:,:);
 IRFendo_names_Non_Aux = All_Endo_Var(To_be_plotted,:);
@@ -1165,24 +1227,24 @@ set(fig_id, 'visible', 'on');
 end
 
 function isopen = xls_check_if_open(xlsfile,action)
-%
+% 
 % Determine if Excel file is open. If it is open in MS Excel, it can be
 % closed.
-%
-%
+% 
+% 
 %USAGE
 %-----
 % isopen = xls_check_if_open(xlsfile)
 % isopen = xls_check_if_open(xlsfile,action)
-%
-%
+% 
+% 
 %INPUT
 %-----
 % - XLSFILE: name of the Excel file
 % - ACTION : 'close' (closes file if it is open) or '' (do nothing)
 %   Option 'close' only works with MS Excel.
-%
-%
+% 
+% 
 %OUTPUT
 %------
 % - ISOPEN:
@@ -1191,12 +1253,12 @@ function isopen = xls_check_if_open(xlsfile,action)
 %   10 if XLSFILE was closed
 %   11 if XLSFILE is open and could not be closed
 %   -1 if an error occurred
-%
-%
+% 
+% 
 % Based on "How can I determine if an XLS-file is open in Microsoft Excel,
 % without using DDE commands, using MATLAB 7.7 (R2008b)?"
 % (www.mathworks.com/support/solutions/en/data/1-954SDY/index.html)
-%
+% 
 
 % Guilherme Coco Beltramini (guicoco@gmail.com)
 % 2012-Dec-30, 05:21 pm
@@ -1275,8 +1337,8 @@ if close
     end
     
 end
-
-
+    
+    
 % 3) Using FOPEN
 %==========================================================================
 if ~close
@@ -1295,4 +1357,3 @@ if ~close
     end
 end
 end
-
