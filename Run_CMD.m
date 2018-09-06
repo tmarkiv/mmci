@@ -3,6 +3,7 @@
 % NK_RW97 with Taylor rule, printing variances, IRFs and ACFs for both
 % monetary and fiscal policy.
  
+
 cd MMB_OPTIONS
 CMD_MMB(1,4,7,1);
 

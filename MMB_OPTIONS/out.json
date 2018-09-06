@@ -1,0 +1,14 @@
+{
+	"rulenamesshort" : "Taylor rule ",
+	"VAR" : {
+		"NK_RW97" : {
+			"Interest" : 0.0796871,
+			"Inflation" : 0.0619096,
+			"outputgap" : 0.389011
+			}
+		},
+	"IRF" : {
+		"NK_RW97" : {
+			"Mon" : {
+				 "inflation" : [
+				
