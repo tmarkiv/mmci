@@ -34,6 +34,17 @@ newpath=[currentpath num2str('\MMB_OPTIONS\')];
 cd([currentpath num2str('\MMB_OPTIONS\')])
 
 %% Loading in the MMB Settings
+
+if nargin>0
+    for ii=1:2:size(varargin,2)
+        if isrow(varargin{ii+1})
+            eval([varargin{ii},'= [ ',num2str(varargin{ii+1}),'];']) 
+        else
+        eval([varargin{ii},'=',num2str(varargin{ii+1}),';'])
+        end
+    end
+end
+
 MMB_settings
 
 switch modelbase.exercise

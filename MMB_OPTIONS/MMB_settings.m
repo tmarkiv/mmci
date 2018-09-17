@@ -35,15 +35,7 @@
 %% Main options
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-if nargin>0
-    for ii=1:2:size(varargin,2)
-        if isrow(varargin{ii+1})
-            eval([varargin{ii},'= [ ',num2str(varargin{ii+1}),'];']) 
-        else
-        eval([varargin{ii},'=',num2str(varargin{ii+1}),';'])
-        end
-    end
-end
+
 Number_models = 93;
 Number_rule = 11;
 %% ------------------------------
