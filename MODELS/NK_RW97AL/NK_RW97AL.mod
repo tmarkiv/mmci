@@ -74,6 +74,7 @@ cd(thispath);
                                                                          
 // Definition of Discretionary Fiscal Policy Parameter                   //*
 coffispol = 1;                                                           //*
+
 //**************************************************************************
 // State and forward variables for learning setup                        //*
  

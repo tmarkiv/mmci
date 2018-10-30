@@ -1,0 +1,201 @@
+Starting Dynare (version 4.5.4).
+Starting preprocessing of the model file ...
+WARNING: in the 'steady_state_model' block, variable 'G_' is not assigned a value
+Substitution of endo lags >= 2: added 2 auxiliary variables and equations.
+Found 70 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+Processing outputs ...
+done
+Preprocessing completed.
+[Warning: Some of the parameters have no value (cofintintb1, cofintintb2,
+cofintintb3, cofintintb4, cofintinf0, cofintinfb1, cofintinfb2, cofintinfb3,
+cofintinfb4, cofintinff1, cofintinff2, cofintinff3, cofintinff4, cofintout,
+cofintoutb1, cofintoutb2, cofintoutb3, cofintoutb4, cofintoutf1, cofintoutf2,
+cofintoutf3, cofintoutf4, cofintoutp, cofintoutpb1, cofintoutpb2, cofintoutpb3,
+cofintoutpb4, cofintoutpf1, cofintoutpf2, cofintoutpf3, cofintoutpf4, std_r_,
+std_r_quart) when using steady. If these parameters are not initialized in a
+steadystate file or a steady_state_model-block, Dynare may not be able to solve the
+model...] 
+
+STEADY-STATE RESULTS:
+
+yn                		 0.33
+cn                		 0.264
+hn                		 0.33
+wn                		 0.833333
+mn                		 0.0231285
+Dn                		 0.165
+Dnewn             		 0.00857015
+i_Dn              		 0.0151515
+i_Dnewn           		 0.0151515
+in                		 0.0151515
+Rn                		 1.0101
+pin               		 1.005
+lamdan            		 7.37215
+mun               		 16.0381
+taun              		 0.245642
+Dbs               		 0
+taun_obs          		 0
+PIESTARn          		 0
+Dn_obs            		 0
+y                 		 0.33
+c                 		 0.264
+h                 		 0.33
+w                 		 0.833333
+m                 		 0.0231285
+D                 		 0.165
+Dnew              		 0.00857015
+i_D               		 0.0151515
+i_Dnew            		 0.0151515
+i                 		 0.0151515
+R                 		 1.0101
+pi                		 1.005
+lamda             		 7.37215
+mu                		 16.0381
+tau               		 0.245642
+PIESTAR           		 0
+pistar            		 1.005
+MC                		 0.833333
+G                 		 0.066
+D_obs             		 0
+tau_obs           		 0
+i_obs             		 0
+pi_obs            		 0
+y_obs             		 0
+yn_obs            		 0
+Disp              		 1
+Z1                		 7.87317
+Z2                		 9.4478
+c_obs             		 0
+w_obs             		 0
+h_obs             		 0
+Dnew_obs          		 0
+m_obs             		 0
+Rrate             		 0
+mu_obs            		 0
+i_Dnew_obs        		 0
+G_                		 0
+PIESTAR_frcst     		 0
+EPSI_R_frcst      		 0
+PIESTAR_est       		 0
+EPSI_R_est        		 0
+ETA_PIE_est       		 0
+ETA_R_est         		 0
+interest          		 0
+inflation         		 0
+inflationq        		 0
+outputgap         		 0
+output            		 0
+fispol            		 0
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+
+       3.568e-16       -3.568e-16                0
+        2.12e-14        -2.12e-14                0
+       2.124e-14        2.124e-14                0
+       1.261e-05        1.261e-05                0
+       1.382e-05        6.908e-06        1.196e-05
+       1.382e-05        6.908e-06       -1.196e-05
+       1.382e-05       -1.382e-05                0
+          0.1874           0.1874                0
+           0.505            0.505                0
+          0.5056           0.5056                0
+          0.6571           0.6571                0
+            0.75             0.75                0
+          0.9479           0.9479                0
+          0.9481           0.9481                0
+            0.99             0.99                0
+            0.99             0.99                0
+          0.9912           0.9912                0
+          0.9988           0.9988                0
+          0.9988           0.9988                0
+           1.065            1.065                0
+           1.065            1.065                0
+           1.065            1.065                0
+           1.066            1.066                0
+           1.347            1.347                0
+           1.526            1.526                0
+           116.7           -116.7                0
+       7.859e+19       -7.859e+19                0
+       4.733e+21        4.733e+21                0
+        3.19e+22        -3.19e+22                0
+        1.44e+25         1.44e+25                0
+
+
+There are 11 eigenvalue(s) larger than 1 in modulus 
+for 12 forward-looking variable(s)
+
+The rank condition ISN'T verified!
+
+[Warning: Some of the parameters have no value (cofintintb1, cofintintb2,
+cofintintb3, cofintintb4, cofintinf0, cofintinfb1, cofintinfb2, cofintinfb3,
+cofintinfb4, cofintinff1, cofintinff2, cofintinff3, cofintinff4, cofintout,
+cofintoutb1, cofintoutb2, cofintoutb3, cofintoutb4, cofintoutf1, cofintoutf2,
+cofintoutf3, cofintoutf4, cofintoutp, cofintoutpb1, cofintoutpb2, cofintoutpb3,
+cofintoutpb4, cofintoutpf1, cofintoutpf2, cofintoutpf3, cofintoutpf4, std_r_,
+std_r_quart) when using stoch_simul. If these parameters are not initialized in a
+steadystate file or a steady_state_model-block, Dynare may not be able to solve the
+model...] 
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('print_info', 'C:\dynare\4.5.4\matlab\print_info.m', 45)" style="font-weight:bold">print_info</a> (<a href="matlab: opentoline('C:\dynare\4.5.4\matlab\print_info.m',45,0)">line 45</a>)
+Blanchard Kahn conditions are not satisfied: indeterminacy
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('stoch_simul', 'C:\dynare\4.5.4\matlab\stoch_simul.m', 100)" style="font-weight:bold">stoch_simul</a> (<a href="matlab: opentoline('C:\dynare\4.5.4\matlab\stoch_simul.m',100,0)">line 100</a>)
+    print_info(info, options_.noprint, options_);
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('NK_KM16_new2', 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MODELS\NK_KM16\NK_KM16_new2.m', 648)" style="font-weight:bold">NK_KM16_new2</a> (<a href="matlab: opentoline('C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MODELS\NK_KM16\NK_KM16_new2.m',648,0)">line 648</a>)
+info = stoch_simul(var_list_);
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dynare', 'C:\dynare\4.5.4\matlab\dynare.m', 223)" style="font-weight:bold">dynare</a> (<a href="matlab: opentoline('C:\dynare\4.5.4\matlab\dynare.m',223,0)">line 223</a>)
+evalin('base',fname) ;} 
+MMB
+[Warning: The file 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m' could not be
+cleared because it contains MATLAB code that is currently executing.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('MMB', 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m', 9)" style="font-weight:bold">MMB</a> (<a href="matlab: opentoline('C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m',9,0)">line 9</a>)] 
+[Warning: The file 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m' could not be
+cleared because it contains MATLAB code that is currently executing.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('MMB', 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m', 9)" style="font-weight:bold">MMB</a> (<a href="matlab: opentoline('C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m',9,0)">line 9</a>)] 
+[Warning: The file 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m' could not be
+cleared because it contains MATLAB code that is currently executing.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('MMB', 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m', 9)" style="font-weight:bold">MMB</a> (<a href="matlab: opentoline('C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m',9,0)">line 9</a>)] 
+Please choose options for an exercise.
+ 
+Selected options:
+Autocorrelation functions will not be plotted.
+Impulse response functions will be plotted.
+ 
+Selected Policy Rule:
+Model Specific Policy Rule
+ 
+Currently Solving: NK_KM16
+
+Configuring Dynare ...
+[mex] Generalized QZ.
+[mex] Sylvester equation solution.
+[mex] Kronecker products.
+[mex] Sparse kronecker products.
+[mex] Local state space iteration (second order).
+[mex] Bytecode evaluation.
+[mex] k-order perturbation solver.
+[mex] k-order solution simulation.
+[mex] Quasi Monte-Carlo sequence (Sobol).
+[mex] Markov Switching SBVAR.
+
+Using 64-bit preprocessor
+Starting Dynare (version 4.5.4).
+Starting preprocessing of the model file ...
+WARNING: in the 'steady_state_model' block, variable 'G_' is not assigned a value
+Substitution of endo leads >= 2: added 9 auxiliary variables and equations.
+Substitution of endo lags >= 2: added 14 auxiliary variables and equations.
+Found 91 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+ - order 2
+Processing outputs ...
+done
+Preprocessing completed.
+

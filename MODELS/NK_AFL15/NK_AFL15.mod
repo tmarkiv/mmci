@@ -1,6 +1,6 @@
 //**************************************************************************
 // A New Comparative Approach to Macroeconomic Modeling and Policy Analysis
-//
+    //
 // Volker Wieland, Tobias Cwik, Gernot J. Mueller, Sebastian Schmidt and 
 // Maik Wolters
 //
@@ -144,7 +144,8 @@ end
 cd(thispath);                                                            
                
 // Definition of Discretionary Fiscal Policy Parameter                   //*
-coffispol = 1/gss;                                                       //*
+coffispol = 0.01/GY;
+//*
 //**************************************************************************
 
 //-------------------------------------------------------------------------
@@ -156,11 +157,11 @@ model;
 //**************************************************************************
 // Definition of Modelbase Variables in Terms of Original Model Variables//*
                                                                          //* 
-interest     = 400*(rn - rnss);                                            //* 
-inflation    = 100*(pai + pai(-1) + pai(-2) + pai(-3) - 4*PAIss);            //*
-inflationq   = 400*(pai - PAIss);                                          //*     
-outputgap    = 100*(y - yf - (yss - steady_state(yf)));                      //*
-output       = 100*(y - yss);                                                //*
+interest     = 400*(log(rn) - log(rnss));                                            //* 
+inflation    = 100*(log(pai) + log(pai(-1)) + log(pai(-2)) + log(pai(-3)) - 4*log(PAIss));            //*
+inflationq   = 400*(log(pai) - log(PAIss));                                          //*     
+outputgap    = 100*(log(y) - log(yf) - (log(yss) - steady_state(log(yf))));                      //*
+output       = 100*(log(y) - log(yss));                                                //*
 fispol       = ug;                                                       //*
 //**************************************************************************
 
@@ -219,10 +220,11 @@ Fk=ALFA*y/k(-1);//
 Fn=(1-ALFA)*y/n;  
 
 // 5.Productivity shock
-a=RHOa*a(-1)+ua;  
+a=RHOa*a(-1)+1/100*ua;  
 
 // 6.Gov spending shock
-(g/gss)=(g(-1)/gss)^(RHOg)*exp(ug); 
+//(g/gss)=(g(-1)/gss)^(RHOg)*exp(ug); 
+log(g)-log(gss)=RHOg*(log(g(-1))-log(gss))+ug;
 
 // 7.Euler
 uc=BETTA*uc(+1)*rd; 
@@ -360,7 +362,7 @@ end;
 //4. Shocks
 //-------------------------------------------------------------------------
 shocks;
-var ua=1;
+var ua=0.01;
 //var ug=0;
 var fiscal_ = 1;
 //var ur=1;
@@ -430,7 +432,7 @@ outputgap = 0;
 fispol = 0;
 end;
 
-steady(nocheck);
+%steady(nocheck);
 
 //-------------------------------------------------------------------------
 //6. Simulation

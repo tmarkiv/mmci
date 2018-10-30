@@ -1,1 +1,13 @@
-Total computing time : 0h00m01s
+Starting Dynare (version 4.5.4).
+Starting preprocessing of the model file ...
+Found 44 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+ - order 2
+Processing outputs ...
+done
+Preprocessing completed.
+Total computing time : 0h00m00s

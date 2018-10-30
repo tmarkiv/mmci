@@ -311,7 +311,8 @@ inflation  = 0;
 inflationq = 0;                                                                                                         
 outputgap  = 0;                                                      
 output     = 0;                                                          
-%fispol     = 0;                                                     
+fispol     = 0;                                                     
+E_G        = 0;
 
 NumberOfEndogenousVariables = M_.orig_endo_nbr;
   ys = zeros(NumberOfEndogenousVariables,1);

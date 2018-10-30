@@ -1,0 +1,302 @@
+Starting Dynare (version 4.5.4).
+Starting preprocessing of the model file ...
+WARNING: in the 'steady_state_model' block, variable 'inflationql' is not assigned a value
+WARNING: in the 'steady_state_model' block, variable 'inflationql2' is not assigned a value
+Found 65 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+ - order 2
+Processing outputs ...
+done
+Preprocessing completed.
+
+STEADY-STATE RESULTS:
+
+yn           		 0.33
+cn           		 0.264
+hn           		 0.33
+wn           		 0.833333
+mn           		 0.0231285
+Dn           		 0.165
+Dnewn        		 0.00857015
+i_Dn         		 0.0151515
+i_Dnewn      		 0.0151515
+in           		 0.0151515
+Rn           		 1.0101
+pin          		 1.005
+lamdan       		 7.37215
+mun          		 16.0381
+taun         		 0.245642
+Dbs          		 0
+taun_obs     		 0
+PIESTARn     		 0
+Dn_obs       		 0
+y            		 0.33
+c            		 0.264
+h            		 0.33
+w            		 0.833333
+m            		 0.0231285
+D            		 0.165
+Dnew         		 0.00857015
+i_D          		 0.0151515
+i_Dnew       		 0.0151515
+i            		 0.0151515
+R            		 1.0101
+pi           		 1.005
+lamda        		 7.37215
+mu           		 16.0381
+tau          		 0.245642
+PIESTAR      		 0
+pistar       		 1.005
+MC           		 0.833333
+G            		 0.066
+D_obs        		 0
+tau_obs      		 0
+i_obs        		 0
+pi_obs       		 0
+y_obs        		 0
+yn_obs       		 0
+Disp         		 1
+Z1           		 7.87317
+Z2           		 9.4478
+c_obs        		 0
+w_obs        		 0
+h_obs        		 0
+Dnew_obs     		 0
+m_obs        		 0
+Rrate        		 0
+mu_obs       		 0
+i_Dnew_obs   		 0
+G_           		 0
+interest     		 0
+inflation    		 0
+inflationq   		 0
+outputgap    		 0
+output       		 0
+fispol       		 0
+inflationql  		 0
+inflationql2 		 0
+inflationqls 		 0
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+
+               0                0                0
+       9.396e-17       -9.396e-17                0
+       2.939e-14        2.939e-14                0
+       6.839e-14        6.839e-14                0
+       4.172e-13       -4.172e-13                0
+       1.486e-05        7.436e-06        1.286e-05
+       1.486e-05        7.436e-06       -1.286e-05
+       1.487e-05       -1.487e-05                0
+           0.505            0.505                0
+          0.5059           0.5059                0
+          0.5783           0.5783                0
+            0.75             0.75                0
+          0.9479           0.9479                0
+          0.9479           0.9479                0
+            0.99             0.99                0
+            0.99             0.99                0
+          0.9988           0.9988                0
+          0.9988           0.9988                0
+           1.065            1.065                0
+           1.065            1.065                0
+           1.066            1.066                0
+           1.066            1.066                0
+           1.218            1.198           0.2191
+           1.218            1.198          -0.2191
+           1.347            1.347                0
+           116.7           -116.7                0
+       6.814e+16       -6.814e+16                0
+       1.822e+19       -1.822e+19                0
+       3.417e+19        3.417e+19                0
+       1.148e+20        1.148e+20                0
+       5.781e+23       -5.781e+23                0
+
+
+There are 13 eigenvalue(s) larger than 1 in modulus 
+for 13 forward-looking variable(s)
+
+The rank condition is verified.
+
+Total computing time : 0h00m00s
+Note: 2 warning(s) encountered in the preprocessor
+rance','CSHelpWindow');">constraint tolerance</a>.
+
+<<a href = "matlab: createExitMsg('barrier',2.000000e+00,true,true,'fmincon',1.403532e-08,'selected',1.490116e-08,0.000000e+00,'default',1.000000e-06,0.000000e+00,'',0.000000e+00);">stopping criteria details</a>>
+
+Change in X too small.
+
+MODEL  ESTIMATION RESULTS 
+                  distribution    initval      mode      mode_std 
+                  ____________    _______    ________    _________
+
+    sig_a         INV_GAMMA        0.4618      0.4565     0.032285
+    sig_b         INV_GAMMA       0.18185     0.21725     0.021891
+    sig_g         INV_GAMMA         0.609     0.52349     0.029619
+    sig_qs        INV_GAMMA       0.46017     0.44091     0.041413
+    sig_m         INV_GAMMA        0.2397      0.2422      0.01779
+    sig_pinf      INV_GAMMA        0.1455     0.13021     0.016782
+    sig_w         INV_GAMMA        0.2089     0.22549     0.022921
+    calfa         NORMAL             0.24     0.17744      0.02464
+    csigma        NORMAL              1.5      1.5092     0.071889
+    cfc           NORMAL              1.5      1.6046      0.03633
+    cgy           NORMAL             0.51     0.52084      0.10623
+    csadjcost     NORMAL           6.0144      6.3741      0.18047
+    chabb         BETA             0.6361      0.6808     0.033596
+    cprobw        BETA             0.8087     0.94437     0.014511
+    csigl         NORMAL           1.9423      2.2357     0.078373
+    cprobp        BETA                0.6     0.72938      0.02778
+    cindw         BETA             0.3243      0.6453     0.049083
+    cindp         BETA               0.47     0.25694     0.028856
+    czcap         BETA             0.2696     0.55146     0.030661
+    crpi          NORMAL            1.488      1.9139      0.12205
+    crr           BETA             0.8762     0.81715     0.018376
+    cry           NORMAL           0.0593    0.075642     0.017076
+    crdy          NORMAL           0.2347     0.25529     0.028613
+    crhoa         BETA             0.9977     0.96171    0.0084288
+    crhob         BETA             0.5799     0.28488     0.082217
+    crhog         BETA             0.9957     0.98395    0.0063777
+    crhoqs        BETA             0.7165     0.71108     0.040627
+    crhoms        BETA                0.3     0.19136     0.051862
+    crhopinf      BETA                0.8     0.82612     0.043826
+    crhow         BETA                0.8     0.65823     0.082892
+    cmap          BETA                0.7     0.63735     0.086831
+    cmaw          BETA                0.7     0.54455     0.094621
+    constebeta    GAMMA             0.742    0.056671     0.020302
+    ctrend        NORMAL           0.3982     0.42497     0.077623
+    constepinf    GAMMA               0.7     0.81575       0.1144
+    constelab     NORMAL           1.2918    -0.29886      0.38962
+                  ____________    _______    ________    _________
+
+                  distribution    initval      mode      mode_std 
+
+log-post: -861.5151 log-lik: -825.8140 log-prior: -35.7011 log-endog_prior   0.0000 numberOfActiveInequalities 0 
+log-MDD(Laplace) -964.0002095 
+estimation sample is:  1965Q1 : 2004Q4 (160 observations) 
+solution algorithm is:  rise_1 
+estimation algorithm is:  fmincon 
+number of estimated parameters is:  36 
+number of function evaluations is:  4903 
+
+start time: 12-Jul-2018 15:35:03 end time : 12-Jul-2018 15:42:49 total time: 0:7:47 
+
+List of issues
+ 
+none 
+MMB
+[Warning: The file 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m' could not be
+cleared because it contains MATLAB code that is currently executing.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('MMB', 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m', 9)" style="font-weight:bold">MMB</a> (<a href="matlab: opentoline('C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m',9,0)">line 9</a>)] 
+[Warning: The file 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m' could not be
+cleared because it contains MATLAB code that is currently executing.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('MMB', 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m', 9)" style="font-weight:bold">MMB</a> (<a href="matlab: opentoline('C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m',9,0)">line 9</a>)] 
+[Warning: The file 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m' could not be
+cleared because it contains MATLAB code that is currently executing.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('MMB', 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m', 9)" style="font-weight:bold">MMB</a> (<a href="matlab: opentoline('C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m',9,0)">line 9</a>)] 
+ 
+Selected options:
+Autocorrelation functions will not be plotted.
+Impulse response functions will be plotted.
+ 
+Selected Policy Rule:
+Taylor (1993)
+ 
+Currently Solving: NK_KW16AL
+
+Configuring Dynare ...
+[mex] Generalized QZ.
+[mex] Sylvester equation solution.
+[mex] Kronecker products.
+[mex] Sparse kronecker products.
+[mex] Local state space iteration (second order).
+[mex] Bytecode evaluation.
+[mex] k-order perturbation solver.
+[mex] k-order solution simulation.
+[mex] Quasi Monte-Carlo sequence (Sobol).
+[mex] Markov Switching SBVAR.
+
+Using 64-bit preprocessor
+Starting Dynare (version 4.5.4).
+Starting preprocessing of the model file ...
+ERROR: NK_KW16AL.mod: line 249, cols 1-11: Unknown symbol: inflationql
+ERROR: NK_KW16AL.mod: line 250, cols 1-12: Unknown symbol: inflationql2
+ERROR: NK_KW16AL.mod: line 250, cols 16-30: Unknown symbol: inflationql
+ERROR: NK_KW16AL.mod: line 251, cols 1-12: Unknown symbol: inflationqls
+ERROR: NK_KW16AL.mod: line 251, cols 16-26: Unknown symbol: inflationql
+ERROR: NK_KW16AL.mod: line 251, cols 30-41: Unknown symbol: inflationql2
+ERROR: NK_KW16AL.mod: line 268, cols 26-40: Unknown symbol: inflationql
+ERROR: NK_KW16AL.mod: line 269, cols 26-41: Unknown symbol: inflationql2
+
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dynare', 'C:\dynare\4.5.4\matlab\dynare.m', 217)" style="font-weight:bold">dynare</a> (<a href="matlab: opentoline('C:\dynare\4.5.4\matlab\dynare.m',217,0)">line 217</a>)
+DYNARE: preprocessing failed
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('MMBOPT2', 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB_OPTIONS\MMBOPT2.m', 252)" style="font-weight:bold">MMBOPT2</a> (<a href="matlab: opentoline('C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB_OPTIONS\MMBOPT2.m',252,0)">line 252</a>)
+        eval(['dynare '  modelbase.names(modelbase.models(epsilon),:) '
+        noclearall']);% solve model "epsilon" in dynare by running the .mod file
+        --> translates Dynare syntax into .m file, that is run
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('OPT2MENU>togglebutton1_Callback', 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB_OPTIONS\OPT2MENU.m', 390)" style="font-weight:bold">OPT2MENU>togglebutton1_Callback</a> (<a href="matlab: opentoline('C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB_OPTIONS\OPT2MENU.m',390,0)">line 390</a>)
+    MMBOPT2      % Run the file MMBOPT2.m
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('gui_mainfcn', 'C:\Program Files\MATLAB\R2017a\toolbox\matlab\guide\gui_mainfcn.m', 95)" style="font-weight:bold">gui_mainfcn</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2017a\toolbox\matlab\guide\gui_mainfcn.m',95,0)">line 95</a>)
+        feval(varargin{:});
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('OPT2MENU', 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB_OPTIONS\OPT2MENU.m', 19)" style="font-weight:bold">OPT2MENU</a> (<a href="matlab: opentoline('C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB_OPTIONS\OPT2MENU.m',19,0)">line 19</a>)
+    gui_mainfcn(gui_State, varargin{:});
+
+Error in
+<a href="matlab:matlab.internal.language.introspective.errorDocCallback('matlab.graphics.internal.figfile.FigFile/read>@(hObject,eventdata)OPT2MENU(''togglebutton1_Callback'',hObject,eventdata,guidata(hObject))')" style="font-weight:bold">matlab.graphics.internal.figfile.FigFile/read>@(hObject,eventdata)OPT2MENU('togglebutton1_Callback',hObject,eventdata,guidata(hObject))</a>} 
+Error while evaluating DestroyedObject Callback.
+
+MMB
+[Warning: The file 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m' could not be
+cleared because it contains MATLAB code that is currently executing.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('MMB', 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m', 9)" style="font-weight:bold">MMB</a> (<a href="matlab: opentoline('C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m',9,0)">line 9</a>)] 
+[Warning: The file 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m' could not be
+cleared because it contains MATLAB code that is currently executing.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('MMB', 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m', 9)" style="font-weight:bold">MMB</a> (<a href="matlab: opentoline('C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m',9,0)">line 9</a>)] 
+[Warning: The file 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m' could not be
+cleared because it contains MATLAB code that is currently executing.] 
+[> In <a href="matlab:matlab.internal.language.introspective.errorDocCallback('MMB', 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m', 9)" style="font-weight:bold">MMB</a> (<a href="matlab: opentoline('C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MMB.m',9,0)">line 9</a>)] 
+C:\MMB_GUI_MASTER\mmb-gui-mlab-master\OUTPUT\results.xls not found.
+ 
+Selected options:
+Autocorrelation functions will not be plotted.
+Impulse response functions will be plotted.
+ 
+Selected Policy Rule:
+Taylor (1993)
+ 
+Currently Solving: NK_KW16AL
+
+Configuring Dynare ...
+[mex] Generalized QZ.
+[mex] Sylvester equation solution.
+[mex] Kronecker products.
+[mex] Sparse kronecker products.
+[mex] Local state space iteration (second order).
+[mex] Bytecode evaluation.
+[mex] k-order perturbation solver.
+[mex] k-order solution simulation.
+[mex] Quasi Monte-Carlo sequence (Sobol).
+[mex] Markov Switching SBVAR.
+
+Using 64-bit preprocessor
+Starting Dynare (version 4.5.4).
+Starting preprocessing of the model file ...
+Substitution of endo lags >= 2: added 2 auxiliary variables and equations.
+Found 86 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+ - order 2
+Processing outputs ...
+done
+Preprocessing completed.
+

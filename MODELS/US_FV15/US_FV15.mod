@@ -76,7 +76,7 @@ var
         interest inflation inflationq outputgap output; //fispol         //*
 //**************************************************************************
     
-varexo epsd epsphi epsmu_I epsA  ud uphi umu uA um epspi epsy // epsm
+varexo epsd epsphi epsmu_I epsA  ud uphi umu uA um epspi // epsy  epsm
 
 //**************************************************************************
 // Modelbase Shocks                                                      //*       
@@ -272,7 +272,7 @@ interest =   cofintintb1*interest(-1)                                    //*
            + cofintoutpf2*output(+2)                                     //* 
            + cofintoutpf3*output(+3)                                     //* 
            + cofintoutpf4*output(+4)                                     //* 
-           + std_r_ *interest_;                                          //* 
+           + std_r_/100 *interest_;                                          //* 
                                                                          //*
 // Discretionary Government Spending                                     //*
                                                                          //*
@@ -373,7 +373,7 @@ log(sigma_mt)   = rhosigm*log(sigma_mt(-1)) + (1-rhosigm^2)^(1/2)*eta_m*um;
 //46. Inflation response drift
 log(gammaPIt)   = rhogammaPI*log(gammaPIt(-1)) + (1-rhogammaPI^2)^(1/2)*sigma_pi*epspi;
 //47. Monetary policy volatility shock
-log(gammayt)    = rhogammay*log(gammayt(-1)) + (1-rhogammay^2)^(1/2)*sigma_y*epsy;
+log(gammayt)    = rhogammay*log(gammayt(-1)) + (1-rhogammay^2)^(1/2)*sigma_y;//*epsy;
 
 end;
 
@@ -390,7 +390,7 @@ var umu;        stderr 1;
 var uA;         stderr 1;
 var um;         stderr 1;
 var epspi;      stderr 1;
-var epsy;       stderr 1;
+//var epsy;       stderr 1;
 end;
 
 //steady;

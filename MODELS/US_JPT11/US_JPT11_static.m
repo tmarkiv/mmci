@@ -2,6 +2,22 @@ function [residual, g1, g2] = US_JPT11_static(y, x, params)
 %
 % Status : Computes static model for Dynare
 %
+% Inputs : 
+%   y         [M_.endo_nbr by 1] double    vector of endogenous variables in declaration order
+%   x         [M_.exo_nbr by 1] double     vector of exogenous variables in declaration order
+%   params    [M_.param_nbr by 1] double   vector of parameter values in declaration order
+%
+% Outputs:
+%   residual  [M_.endo_nbr by 1] double    vector of residuals of the static model equations 
+%                                          in order of declaration of the equations
+%   g1        [M_.endo_nbr by M_.endo_nbr] double    Jacobian matrix of the static model equations;
+%                                                     columns: variables in declaration order
+%                                                     rows: equations in order of declaration
+%   g2        [M_.endo_nbr by (M_.endo_nbr)^2] double   Hessian matrix of the static model equations;
+%                                                       columns: variables in declaration order
+%                                                       rows: equations in order of declaration
+%
+%
 % Warning : this file is generated automatically by Dynare
 %           from model file (.mod)
 

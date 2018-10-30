@@ -1,6 +1,6 @@
-Starting Dynare (version master-2017-05-12-ae50f25).
+Starting Dynare (version 4.5.4).
 Starting preprocessing of the model file ...
-Found 14 equation(s).
+Found 15 equation(s).
 Evaluating expressions...done
 Computing static model derivatives:
  - order 1

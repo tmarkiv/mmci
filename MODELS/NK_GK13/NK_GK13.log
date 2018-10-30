@@ -1,0 +1,17 @@
+Starting Dynare (version 4.5.4).
+Starting preprocessing of the model file ...
+WARNING: A parameter was used with a lead or a lag in the model block
+Substitution of endo leads >= 2: added 9 auxiliary variables and equations.
+Substitution of endo lags >= 2: added 18 auxiliary variables and equations.
+Found 158 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+ - order 2
+Processing outputs ...
+done
+Preprocessing completed.
+Total computing time : 0h00m00s
+Note: 1 warning(s) encountered in the preprocessor

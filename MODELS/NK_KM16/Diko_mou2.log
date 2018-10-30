@@ -1,0 +1,320 @@
+Starting Dynare (version 4.5.4).
+Starting preprocessing of the model file ...
+Found 58 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+Processing outputs ...
+done
+Preprocessing completed.
+
+STEADY-STATE RESULTS:
+
+yn         		 0.33
+cn         		 0.264
+hn         		 0.33
+wn         		 0.833333
+mn         		 0.0231285
+Dn         		 0.165
+Dnewn      		 0.00857015
+i_Dn       		 0.0151515
+i_Dnewn    		 0.0151515
+in         		 0.0151515
+Rn         		 1.0101
+pin        		 1.005
+lamdan     		 7.37215
+mun        		 16.0381
+taun       		 0.245642
+Dbs        		 0
+taun_obs   		 0
+PIESTARn   		 0
+Dn_obs     		 0
+DG         		 0.066
+y          		 0.33
+c          		 0.264
+h          		 0.33
+w          		 0.833333
+m          		 0.0231285
+D          		 0.165
+Dnew       		 0.00857015
+i_D        		 0.0151515
+i_Dnew     		 0.0151515
+i          		 0.0151515
+R          		 1.0101
+pi         		 1.005
+lamda      		 7.37215
+mu         		 16.0381
+tau        		 0.245642
+PIESTAR    		 0
+pistar     		 1.005
+MC         		 0.833333
+G          		 0.066
+D_obs      		 0
+tau_obs    		 0
+i_obs      		 0
+pi_obs     		 0
+y_obs      		 0
+yn_obs     		 0
+Disp       		 1
+Z1         		 7.87317
+Z2         		 9.4478
+epsi_R     		 0
+c_obs      		 0
+w_obs      		 0
+h_obs      		 0
+Dnew_obs   		 0
+m_obs      		 0
+Rrate      		 0
+mu_obs     		 0
+i_Dnew_obs 		 0
+G_obs      		 0
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+
+               0                0                0
+       3.092e-26        3.092e-26                0
+        9.13e-19        -9.13e-19                0
+       2.876e-14        2.876e-14                0
+       4.166e-14       -4.166e-14                0
+            0.01             0.01                0
+          0.4847           0.4847                0
+          0.5035           0.5035                0
+           0.505            0.505                0
+            0.75             0.75                0
+          0.9469           0.9469                0
+          0.9479           0.9479                0
+            0.99             0.99                0
+            0.99             0.99                0
+          0.9983           0.9983                0
+          0.9988           0.9988                0
+           1.063            1.063                0
+           1.065            1.065                0
+           1.065            1.065                0
+           1.066            1.066                0
+           1.105            1.105                0
+           1.347            1.347                0
+           1.414            1.414                0
+           116.7           -116.7                0
+       1.148e+20        1.148e+20                0
+       2.346e+33        2.346e+33                0
+        5.84e+34         5.84e+34                0
+       1.745e+35       -1.745e+35                0
+
+
+There are 12 eigenvalue(s) larger than 1 in modulus 
+for 12 forward-looking variable(s)
+
+The rank condition is verified.
+
+
+STEADY-STATE RESULTS:
+
+yn         		 0.33
+cn         		 0.264
+hn         		 0.33
+wn         		 0.833333
+mn         		 0.0231285
+Dn         		 0.165
+Dnewn      		 0.00857015
+i_Dn       		 0.0151515
+i_Dnewn    		 0.0151515
+in         		 0.0151515
+Rn         		 1.0101
+pin        		 1.005
+lamdan     		 7.37215
+mun        		 16.0381
+taun       		 0.245642
+Dbs        		 0
+taun_obs   		 0
+PIESTARn   		 0
+Dn_obs     		 0
+DG         		 0.066
+y          		 0.33
+c          		 0.264
+h          		 0.33
+w          		 0.833333
+m          		 0.0231285
+D          		 0.165
+Dnew       		 0.00857015
+i_D        		 0.0151515
+i_Dnew     		 0.0151515
+i          		 0.0151515
+R          		 1.0101
+pi         		 1.005
+lamda      		 7.37215
+mu         		 16.0381
+tau        		 0.245642
+PIESTAR    		 0
+pistar     		 1.005
+MC         		 0.833333
+G          		 0.066
+D_obs      		 0
+tau_obs    		 0
+i_obs      		 0
+pi_obs     		 0
+y_obs      		 0
+yn_obs     		 0
+Disp       		 1
+Z1         		 7.87317
+Z2         		 9.4478
+epsi_R     		 0
+c_obs      		 0
+w_obs      		 0
+h_obs      		 0
+Dnew_obs   		 0
+m_obs      		 0
+Rrate      		 0
+mu_obs     		 0
+i_Dnew_obs 		 0
+G_obs      		 0
+
+nparams =
+
+     2
+
+
+pindx =
+
+     9
+
+
+M_ = 
+
+  <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> with fields:
+
+                               fname: 'Diko_mou2'
+                      dynare_version: '4.5.4'
+                               dname: 'Diko_mou2'
+                                bvar: []
+                              params: [19×1 double]
+                        endo_histval: []
+                         exo_histval: []
+                     exo_det_histval: []
+                  Correlation_matrix: [4×4 double]
+               Correlation_matrix_ME: 1
+        parameter_used_with_lead_lag: 0
+                               xref1: [1×1 struct]
+                               xref2: [1×1 struct]
+                                 osr: [1×1 struct]
+                           exo_names: [4×11 char]
+                       exo_names_tex: [4×12 char]
+                      exo_names_long: [4×11 char]
+                          endo_names: [58×10 char]
+                      endo_names_tex: [58×12 char]
+                     endo_names_long: [58×10 char]
+                     endo_partitions: [1×1 struct]
+                         param_names: [19×9 char]
+                     param_names_tex: [19×11 char]
+                    param_names_long: [19×9 char]
+                    param_partitions: [1×1 struct]
+                         exo_det_nbr: 0
+                             exo_nbr: 4
+                            endo_nbr: 58
+                           param_nbr: 19
+                       orig_endo_nbr: 58
+                            aux_vars: []
+                             Sigma_e: [4×4 double]
+                                   H: 0
+                 sigma_e_is_diagonal: 1
+                          det_shocks: []
+                     hessian_eq_zero: 1
+                         orig_eq_nbr: 58
+                              eq_nbr: 58
+                       ramsey_eq_nbr: 0
+             set_auxiliary_variables: 1
+                  lead_lag_incidence: [3×58 double]
+                             nstatic: 30
+                               nfwrd: 12
+                               npred: 16
+                               nboth: 0
+                              nsfwrd: 12
+                              nspred: 16
+                            ndynamic: 28
+                      equations_tags: {}
+    static_and_dynamic_models_differ: 0
+                  exo_names_orig_ord: [1 2 3 4]
+                         maximum_lag: 1
+                        maximum_lead: 1
+                    maximum_endo_lag: 1
+                   maximum_endo_lead: 1
+                     maximum_exo_lag: 0
+                    maximum_exo_lead: 0
+                      NNZDerivatives: [3×1 double]
+                      exo_det_length: 0
+
+
+pindx =
+
+    10
+
+
+M_ = 
+
+  <a href="matlab:helpPopup struct" style="font-weight:bold">struct</a> with fields:
+
+                               fname: 'Diko_mou2'
+                      dynare_version: '4.5.4'
+                               dname: 'Diko_mou2'
+                                bvar: []
+                              params: [19×1 double]
+                        endo_histval: []
+                         exo_histval: []
+                     exo_det_histval: []
+                  Correlation_matrix: [4×4 double]
+               Correlation_matrix_ME: 1
+        parameter_used_with_lead_lag: 0
+                               xref1: [1×1 struct]
+                               xref2: [1×1 struct]
+                                 osr: [1×1 struct]
+                           exo_names: [4×11 char]
+                       exo_names_tex: [4×12 char]
+                      exo_names_long: [4×11 char]
+                          endo_names: [58×10 char]
+                      endo_names_tex: [58×12 char]
+                     endo_names_long: [58×10 char]
+                     endo_partitions: [1×1 struct]
+                         param_names: [19×9 char]
+                     param_names_tex: [19×11 char]
+                    param_names_long: [19×9 char]
+                    param_partitions: [1×1 struct]
+                         exo_det_nbr: 0
+                             exo_nbr: 4
+                            endo_nbr: 58
+                           param_nbr: 19
+                       orig_endo_nbr: 58
+                            aux_vars: []
+                             Sigma_e: [4×4 double]
+                                   H: 0
+                 sigma_e_is_diagonal: 1
+                          det_shocks: []
+                     hessian_eq_zero: 1
+                         orig_eq_nbr: 58
+                              eq_nbr: 58
+                       ramsey_eq_nbr: 0
+             set_auxiliary_variables: 1
+                  lead_lag_incidence: [3×58 double]
+                             nstatic: 30
+                               nfwrd: 12
+                               npred: 16
+                               nboth: 0
+                              nsfwrd: 12
+                              nspred: 16
+                            ndynamic: 28
+                      equations_tags: {}
+    static_and_dynamic_models_differ: 0
+                  exo_names_orig_ord: [1 2 3 4]
+                         maximum_lag: 1
+                        maximum_lead: 1
+                    maximum_endo_lag: 1
+                   maximum_endo_lead: 1
+                     maximum_exo_lag: 0
+                    maximum_exo_lead: 0
+                      NNZDerivatives: [3×1 double]
+                      exo_det_length: 0
+
+ 
+IRFs are saved in IRFs_Diko_mou2_Taxes.mat
+Total computing time : 0h00m02s

@@ -4,7 +4,6 @@
 % Warning : this file is generated automatically by Dynare
 %           from model file (.mod)
 
-clear all
 tic;
 global M_ oo_ options_ ys0_ ex0_ estimation_info
 options_ = [];
@@ -432,6 +431,7 @@ M_.Sigma_e = zeros(3, 3);
 M_.Correlation_matrix = eye(3, 3);
 M_.H = 0;
 M_.Correlation_matrix_ME = 1;
+M_.sigma_e_is_diagonal = 1;
 options_.linear = 1;
 options_.block=0;
 options_.bytecode=0;

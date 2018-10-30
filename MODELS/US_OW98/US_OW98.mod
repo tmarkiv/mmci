@@ -220,6 +220,8 @@ eii	=   3.9412501642005875e-03;
 ex	=   -2.0844600536418095e-02;
 eg	=    1.8672901279611806e-01;
 end;
+%steady(nocheck);
+resid(1);
 
 shocks;
 var interest_          =  0;

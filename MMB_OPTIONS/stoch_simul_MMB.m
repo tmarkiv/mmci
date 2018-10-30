@@ -95,21 +95,13 @@ end
 %%%%%%%%% ADDED BY MODELBASE TEAM
 %check_model;  % commented out by Sebastian, otherwise Matlab breaks down
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-if base.exercise==1
-    rule_number=base.rule;
-elseif base.exercise==2
     rule_number=base.l;
-end
 if (AL && ~isempty(find([8 9 10] == rule_number)))
     disp(' ');
     disp('For the moment, AL models only allow simulations with at most one lead and one lag in the monetary policy rule.');
     disp(' ');
     base.solution=0;
-    if base.exercise==1
-        base.info(base.models(base.epsilon)) = 1;
-    elseif base.exercise==2
-        base.info(base.l) = 1;
-    end
+    base.info(base.models(base.epsilon)) = 1;
     if base.option(2)==1
         if strcmp(base.innos(1,:),'all_shocks')  % this is the case if only one model and then all shocks for this model have been chosen
             shocks= M_.exo_names(M_.exo_names_orig_ord,:);
@@ -117,20 +109,9 @@ if (AL && ~isempty(find([8 9 10] == rule_number)))
             base.innos = shocks; % put all shocks in the choice vector for the IRFs
             base.namesshocks = shocks; % put the right shock names for correct plots
         end
-        if base.exercise==1
-            for p=1:size(base.innos,1)
-                base.pos_shock(p,base.models(base.epsilon))=0;
-            end
-        else
-            if isempty(find(base.info==0))
-                for p=1:size(base.innos,1)
-                    base.pos_shock(p,base.models(base.epsilon))=0;
-                end
-            end
+        for p=1:size(base.innos,1)
+            base.pos_shock(p,base.models(base.epsilon))=0;
         end
-        
-        
-        
     end
 else
     % Execute differently according to Dynare version
@@ -171,11 +152,7 @@ else
         disp('NO SOLUTION FOUND');
         disp(' ');
         base.solution=0;
-        if base.exercise==1
-            base.info(base.models(base.epsilon)) = 1;
-        elseif base.exercise==2
-            base.info(base.l) = 1;
-        end
+        base.info(base.models(base.epsilon)) = 1;
         if base.option(2)==1
             if strcmp(base.innos(1,:),'all_shocks')  % this is the case if only one model and then all shocks for this model have been chosen
                 shocks= M_.exo_names(M_.exo_names_orig_ord,:);
@@ -183,33 +160,15 @@ else
                 base.innos = shocks; % put all shocks in the choice vector for the IRFs
                 base.namesshocks = shocks; % put the right shock names for correct plots
             end
-            if base.exercise==1
-                for p=1:size(base.innos,1)
-                    base.pos_shock(p,base.models(base.epsilon))=0;
-                end
-            else
-                if isempty(find(base.info==0))
-                    for p=1:size(base.innos,1)
-                        base.pos_shock(p,base.models(base.epsilon))=0;
-                    end
-                end
+            for p=1:size(base.innos,1)
+                base.pos_shock(p,base.models(base.epsilon))=0;
             end
-            
-            
-            
         end
-        
     else
-        if base.exercise==1
-            base.info(base.models(base.epsilon)) = info(1);
-            base.solution=1;
-        elseif base.exercise==2
-            base.info(base.l) = info(1);
-            base.solution=1;
-        end
-        
+         base.info(base.l) = info(1);
+         base.solution=1;
+
         %Theoretical ACFs and Variances
-        
         nvar  = length(oo_.dr.order_var);
         ivar  = transpose(1:nvar);
         options_.irf = base.horizon; % horizon for ACFs
@@ -233,22 +192,12 @@ else
             [Gamma_y,stationary_vars] = th_autocovariances(oo_.dr,ivar,M_,options_,1);
             oo_.var = Gamma_y{1}; % Variances
         end
-        if base.exercise==1
-            if AL
-                base.VAR.(num2str(deblank(base.names(base.models(base.epsilon),:)))) =oo_.var;
-                base.VARendo_names.(num2str(deblank(base.names(base.models(base.epsilon),:))))=M_.endo_names;
-            else
-                base.VAR.(num2str(deblank(base.names(base.models(base.epsilon),:)))) =Gamma_y{1};
-                base.VARendo_names.(num2str(deblank(base.names(base.models(base.epsilon),:))))=M_.endo_names;
-            end
-        elseif base.exercise==2
-            if AL
-                base.VAR.(num2str(deblank(base.rulenamesshort1(base.l,:)))) =oo_.var;
-                base.VARendo_names.(num2str(deblank(base.rulenamesshort1(base.l,:))))=M_.endo_names;
-            else
-                base.VAR.(num2str(deblank(base.rulenamesshort1(base.l,:)))) =Gamma_y{1};
-                base.VARendo_names.(num2str(deblank(base.rulenamesshort1(base.l,:))))=M_.endo_names;
-            end
+        if AL
+            base.VAR.(num2str(deblank(base.rulenamesshort1(base.l,:)))) =oo_.var;
+            base.VARendo_names.(num2str(deblank(base.rulenamesshort1(base.l,:))))=M_.endo_names;
+        else
+            base.VAR.(num2str(deblank(base.rulenamesshort1(base.l,:)))) =Gamma_y{1};
+            base.VARendo_names.(num2str(deblank(base.rulenamesshort1(base.l,:))))=M_.endo_names;
         end
         if AL
             aut = zeros(nvar,base.horizon,n_sims);
@@ -270,31 +219,11 @@ else
             end
         end
         if base.option(1) == 1; % If ACF are selected...
-            if base.exercise==1
-                if AL
-                    base.AUTR.(num2str(deblank(base.names(base.models(base.epsilon),:))))(:,:)=[ones(size(R,1),1),R];
-                    base.AUTendo_names.(num2str(deblank(base.names(base.models(base.epsilon),:))))(:,:)=M_.endo_names(ivar,:);
-                else
-                    base.AUTR.(num2str(deblank(base.names(base.models(base.epsilon),:))))(:,:)=[ones(size(R,1),1),R];
-                    base.AUTendo_names.(num2str(deblank(base.names(base.models(base.epsilon),:))))(:,:)=M_.endo_names(ivar,:);
-                end
-            elseif base.exercise==2
-                base.AUTR.(num2str(deblank(base.rulenamesshort1(base.l,:))))(:,:)=[ones(size(R,1),1),R];
-                base.AUTendo_names.(num2str(deblank(base.rulenamesshort1(base.l,:))))(:,:)=M_.endo_names(ivar,:);
-            end
+           base.AUTR.(num2str(deblank(base.rulenamesshort1(base.l,:))))(:,:)=[ones(size(R,1),1),R];
+           base.AUTendo_names.(num2str(deblank(base.rulenamesshort1(base.l,:))))(:,:)=M_.endo_names(ivar,:);
         else
-            if base.exercise==1
-                if AL
-                    base.AUTR.(num2str(deblank(base.names(base.models(base.epsilon),:)))) = [];
-                    base.AUTendo_names.(num2str(deblank(base.names(base.models(base.epsilon),:)))) = [];
-                else
-                    base.AUTR.(num2str(deblank(base.names(base.models(base.epsilon),:)))) = [];
-                    base.AUTendo_names.(num2str(deblank(base.names(base.models(base.epsilon),:)))) = [];
-                end
-            elseif base.exercise==2
-                base.AUTR.(num2str(deblank(base.rulenamesshort1(base.l,:)))) = [];
-                base.AUTendo_names.(num2str(deblank(base.rulenamesshort1(base.l,:)))) = [];
-            end
+           base.AUTR.(num2str(deblank(base.rulenamesshort1(base.l,:)))) = [];
+           base.AUTendo_names.(num2str(deblank(base.rulenamesshort1(base.l,:)))) = [];
         end
         
         % Impulse response functions
@@ -394,13 +323,8 @@ else
                 else
                     R=irf(oo_.dr,cs(M_.exo_names_orig_ord,1), options_.irf, options_.drop, options_.replic, options_.order);
                 end
-                if base.exercise==1
-                    base.IRF.(num2str(deblank(base.names(base.models(base.epsilon),:))))(:,:,1) = [zeros(size(R,1),1),R];
-                    base.IRFendo_names.(num2str(deblank(base.names(base.models(base.epsilon),:))))(:,:)=M_.endo_names;
-                elseif base.exercise==2
-                    base.IRF.(num2str(deblank(base.rulenamesshort1(base.l,:))))(:,:,1) = [zeros(size(R,1),1),R];
-                    base.IRFendo_names.(num2str(deblank(base.rulenamesshort1(base.l,:))))(:,:)=M_.endo_names;
-                end
+                base.IRF.(num2str(deblank(base.rulenamesshort1(base.l,:))))(:,:,1) = [zeros(size(R,1),1),R];
+                base.IRFendo_names.(num2str(deblank(base.rulenamesshort1(base.l,:))))(:,:)=M_.endo_names;
             else
                 for p=1:size(base.innos,1)
                     cd('..');
@@ -443,24 +367,14 @@ else
                         else
                             R=irf(oo_.dr,cs(M_.exo_names_orig_ord,ii), options_.irf, options_.drop, options_.replic, options_.order);
                         end
-                        if base.exercise==1
-                            base.IRF.(num2str(deblank(base.names(base.models(base.epsilon),:))))(:,:,p) = [zeros(size(R,1),1),R];
-                            base.IRFendo_names.(num2str(deblank(base.names(base.models(base.epsilon),:))))(:,:)=M_.endo_names;
-                        elseif base.exercise==2
-                            base.IRF.(num2str(deblank(base.rulenamesshort1(base.l,:))))(:,:,p) = [zeros(size(R,1),1),R];
-                            base.IRFendo_names.(num2str(deblank(base.rulenamesshort1(base.l,:))))(:,:)=M_.endo_names;
-                        end
+                        base.IRF.(num2str(deblank(base.rulenamesshort1(base.l,:))))(:,:,p) = [zeros(size(R,1),1),R];
+                        base.IRFendo_names.(num2str(deblank(base.rulenamesshort1(base.l,:))))(:,:)=M_.endo_names;
                     end;
                 end;
             end;
         else
-            if base.exercise==1
-                base.IRF.(num2str(deblank(base.names(base.models(base.epsilon),:)))) = [];
-                base.IRFendo_names.(num2str(deblank(base.names(base.models(base.epsilon),:))))= [];
-            elseif base.exercise==2
-                base.IRF.(num2str(deblank(base.rulenamesshort1(base.l,:)))) = [];
-                base.IRFendo_names.(num2str(deblank(base.rulenamesshort1(base.l,:))))= [];
-            end
+            base.IRF.(num2str(deblank(base.rulenamesshort1(base.l,:)))) = [];
+            base.IRFendo_names.(num2str(deblank(base.rulenamesshort1(base.l,:))))= [];
         end
     end
 end

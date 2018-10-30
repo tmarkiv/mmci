@@ -4,12 +4,6 @@
 % Warning : this file is generated automatically by Dynare
 %           from model file (.mod)
 
-if isoctave || matlab_ver_less_than('8.6')
-    clear all
-else
-    clearvars -global
-    clear_persistent_variables(fileparts(which('dynare')), false)
-end
 tic0 = tic;
 % Save empty dates and dseries objects in memory.
 dates('initialize');
@@ -18,9 +12,9 @@ dseries('initialize');
 global M_ options_ oo_ estim_params_ bayestopt_ dataset_ dataset_info estimation_info ys0_ ex0_
 options_ = [];
 M_.fname = 'NK_KRS12';
-M_.dynare_version = 'master-2017-05-12-ae50f25';
-oo_.dynare_version = 'master-2017-05-12-ae50f25';
-options_.dynare_version = 'master-2017-05-12-ae50f25';
+M_.dynare_version = '4.5.4';
+oo_.dynare_version = '4.5.4';
+options_.dynare_version = '4.5.4';
 %
 % Some global variables initialization
 %
@@ -554,6 +548,7 @@ erase_compiled_function('NK_KRS12_dynamic');
 M_.orig_eq_nbr = 45;
 M_.eq_nbr = 69;
 M_.ramsey_eq_nbr = 0;
+M_.set_auxiliary_variables = exist(['./' M_.fname '_set_auxiliary_variables.m'], 'file') == 2;
 M_.lead_lag_incidence = [
  0 39 0;
  1 40 0;
@@ -725,8 +720,6 @@ end
 cd(thispath);  
 M_.params( 34 ) = 0;
 coffispol = M_.params( 34 );
-steady;
-oo_.dr.eigval = check(M_,options_,oo_);
 %
 % SHOCKS instructions
 %

@@ -226,7 +226,7 @@ interest =   cofintintb1*interest(-1)                                    //*
            + cofintoutpf2*output(+2)                                     //* 
            + cofintoutpf3*output(+3)                                     //* 
            + cofintoutpf4*output(+4)                                     //* 
-           + std_r_ *interest_;                                          //* 
+           + std_r_/100 *interest_;                                      //* 
                                                                          //*
 // Discretionary Government Spending                                     //*
                                                                          //*
@@ -323,6 +323,4 @@ var epsA;       stderr 1;
 var interest_;  stderr 1;
 end;
 
-//steady;
-//check;
 //stoch_simul(order=1,irf=20, noprint) inflation output outputgap interest;

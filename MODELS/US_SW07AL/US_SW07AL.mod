@@ -136,7 +136,7 @@ coffispol = 1;                                                           //*
 
 // State and forward variables for learning setup                        //*
 
-AL_Info.forwards = {'c','cf','inve','invef','lab','labf','pinf','inflationq','pk','pkf','rk','rkf','w'};
+AL_Info.forwards =     {'c','cf','inve','invef','lab','labf','pinf','inflationq','pk','pkf','rk','rkf','w'};
 //states_long  = {'c','cf','inve','invef','kp','kpf','inflationq','inflationqls','w','a','b','epinfma','ewma','g','qs','spinf','sw'};
 AL_Info.states_long  = {'c','cf','inve','invef','kp','kpf','inflationq','inflationqls','w','a','b','epinfma','ewma','g','qs','spinf','sw','interest'};
 //states_long  = {'c','cf','inve','invef','kp','kpf','inflationq','inflationql','inflationql2','w','a','b','epinfma','ewma','g','qs','spinf','sw','interest'};

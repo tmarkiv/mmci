@@ -47,7 +47,8 @@ var
 
 
 
-varexo e_a e_ksi     e_Ne      e_psi e_Gamma e_zlb
+varexo e_a e_ksi     e_Ne      e_psi e_Gamma 
+//e_zlb
 //**************************************************************************
 // Modelbase Shocks                                                      //*   
        interest_ fiscal_                                                 //*
@@ -850,7 +851,7 @@ initval;
         //e_ir=0;
     e_psi=0;
     e_Gamma=0;
-    e_zlb=0;
+    //e_zlb=0;
 
     Ymf=0;
     Yf=0;

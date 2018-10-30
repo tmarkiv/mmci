@@ -3,8 +3,8 @@
 % the command line.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % OPTIONS:
-% excersie  : 1 for One rule many models, 2 for One model many rules
-% modelsvec : 1*93 vector for selecting models to run 
+% excercise : 1 for One rule many models, 2 for One model many rules
+% modelsvec : 1*114 vector for selecting models to run 
 % rule      : 1*11 vector for selecting rules to run
 % shocks    : 1*2  vector for selecting Monetary policy shock (default,
 %             shocks(1,1)=1) and/or Fiscal polilcy shock (shocks(1,2) = 1) 
@@ -36,7 +36,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-Number_models = 93;
+Number_models = 114;
 Number_rule = 11;
 %% ------------------------------
 if ~exist('option1','var')
@@ -88,37 +88,8 @@ maxhorizon = 100;
 modelbase.maxhorizon = maxhorizon;
 
 %% ------------------------------ Exercise
-if ~exist('exercise','var')
-    if sum(modelsvec) == 1 && sum(rule) == 1;
-    exercise= 1;
-    elseif sum(modelsvec) == 1
-        exercise = 2;
-    elseif sum(rule) == 1;
-        exercise = 1;
-    else
-    exercise=3;
-    end
-end
+exercise= 2;
 modelbase.exercise = exercise;
-
-
-                % if exercise == 1  && size(find(rule),2)>1
-                %     % if the 1st excercise is chosen and multiple rules only the first will be selected!
-                %     disp('One rule many models exercise is incompatible with multiple rules, only the first will be considered. Please press a key to continue!')
-                %     pause
-                %     rule_id=1:Number_rule;
-                %     rule_id(find(rule,1))=[];
-                %     rule(rule_id) = 0;
-                % end
-                % % if the 2nd excercise is chosen and multiple models only the first will be selected!
-                % 
-                % if exercise == 2  && size(find(modelsvec),2)>1
-                % disp('One model many rules exercise is incompatible with multiple models, only the first will be considered. Please press a key to continue!')
-                %     pause
-                %     model_id=1:Number_models;
-                %     model_id(find(modelsvec,1))=[];
-                %     modelsvec(model_id) = 0;
-                % end
 
 
 %% ------------------------------ Models
@@ -164,109 +135,133 @@ modelbase.returnres = returnres;
 
  %%  MMB Structure setting up
 %%%%%%%%%%%%%%%%%%%%%%% List of model names
-  names =char(['NK_RW97      ' % model_number 1
-               'NK_LWW03     ' %              2
-               'NK_CGG99     ' %              3
-               'NK_CGG02     ' %              4
-               'NK_MCN99cr   ' %              5
-               'NK_IR04      ' %              6
-               'NK_BGG99     ' %              7
-               'NK_GM05      ' %              8
-               'NK_GK09lin   ' %              9
-               'NK_CK08      ' %              10
-               'NK_CKL09     ' %              11
-               'NK_RW06      ' %              12
-               'US_FM95      ' %              13
-               'US_OW98      ' %              14
-               'US_FRB03     ' %              15
-               'US_FRB08     ' %              16
-               'US_FRB08mx   ' %              17
-               'US_SW07      ' %              18
-               'US_ACELm     ' %              19 IRFs to monetary policy shock with cost channel
-               'US_ACELt     ' %              20 IRFs to technology shocks with cost channel                       
-               'US_ACELswm   ' %              21 IRFs to monetary policy shock without cost channel, no timing constraint
-               'US_ACELswt   ' %              22 IRFs to technology shocks without cost channel, no timing constraint
-              % 'US_NFED08   ' % contained only in the MMB version 1.2 for DYNARE 3
-               'US_RS99      ' %              23
-               'US_OR03      ' %              24
-               'US_PM08      ' %              25
-               'US_PM08fl    ' %              26
-               'US_DG08      ' %              27
-               'US_CD08      ' %              28
-               'US_IAC05     ' %              29
-               'US_MR07      ' %              30
-               'US_RA07      ' %              31
-               'US_CCTW10    ' %              32
-               'US_IR11      ' %              33
-               'EA_CW05ta    ' %              34
-               'EA_CW05fm    ' %              35
-               'EA_AWM05     ' %              36
-               'EA_SW03      ' %              37
-               'EA_SR07      ' %              38
-               'EA_QUEST3    ' %              39
-               'EA_CKL09     ' %              40
-               'EA_GE10      ' %              41
-               'G7_TAY93     ' %              42
-               'G3_CW03      ' %              43
-               'EACZ_GEM03   ' %              44
-               'G2_SIGMA08   ' %              45
-               'EAUS_NAWM08  ' %              46
-               'EAES_RA09    ' %              47
-               'CL_MS07      ' %              48
+names =char(['NK_RW97       ' % model_number 1     
+               'NK_LWW03      ' %              2
+               'NK_CGG99      ' %              3
+               'NK_CGG02      ' %              4
+               'NK_MCN99cr    ' %              5
+               'NK_IR04       ' %              6
+               'NK_BGG99      ' %              7
+               'NK_GM05       ' %              8
+               'NK_GK09lin    ' %              9
+               'NK_CK08       ' %              10
+               'NK_CKL09      ' %              11
+               'NK_RW06       ' %              12
+               'US_CMR14noFA  ' %              13 (used to be at place 67 in MMB2.2 had to be brought to the front due to Dynare's SS auxiliary variables' indexation's bug)
+               'US_CMR14      ' %              14 (66)
+               'US_FRB03      ' %              15
+               'US_FRB08      ' %              16
+               'US_FRB08mx    ' %              17
+               'US_SW07       ' %              18
+               'US_ACELm      ' %              19 IRFs to monetary policy shock with cost channel
+               'US_ACELt      ' %              20 IRFs to technology shocks with cost channel                       
+               'US_ACELswm    ' %              21 IRFs to monetary policy shock without cost channel, no timing constraint
+               'US_ACELswt    ' %              22 IRFs to technology shocks without cost channel, no timing constraint
+              % 'US_NFED08    ' % contained only in the MMB version 1.2 for DYNARE 3
+               'US_RS99       ' %              23
+               'US_OR03       ' %              24
+               'US_PM08       ' %              25
+               'US_PM08fl     ' %              26
+               'US_DG08       ' %              27
+               'US_CD08       ' %              28
+               'US_IAC05      ' %              29
+               'US_MR07       ' %              30
+               'US_RA07       ' %              31
+               'US_CCTW10     ' %              32
+               'US_IR11       ' %              33
+               'EA_CW05ta     ' %              34
+               'EA_CW05fm     ' %              35
+               'EA_AWM05      ' %              36
+               'EA_SW03       ' %              37
+               'EA_SR07       ' %              38
+               'EA_QUEST3     ' %              39
+               'EA_CKL09      ' %              40
+               'EA_GE10       ' %              41
+               'G7_TAY93      ' %              42
+               'G3_CW03       ' %              43
+               'EACZ_GEM03    ' %              44
+               'G2_SIGMA08    ' %              45
+               'EAUS_NAWM08   ' %              46
+               'EAES_RA09     ' %              47
+               'CL_MS07       ' %              48
               % 'CA_ToTEM10  ' % available only in the MMB version 1.2 for DYNARE 3
-               'BRA_SAMBA08  ' %              49
-               'CA_LS07      ' %              50
-               'HK_FPP11     ' %              51
-               'US_IN10      ' %              52
-               'US_CMR10     ' %              53
-               'US_CMR10fa   ' %              54
-               'US_VMDno     ' %              55
-               'US_VMDop     ' %              56
-               'EA_GNSS10    ' %              57
-               'NK_MM10      ' %              58
-               'NK_KRS12     ' %              59
-               'HK_FP13      ' %              60
-               'EAUS_NAWMctww' %              61
-               'NK_CW09      ' %              62                 
-               'GPM6_IMF13   ' %              63   
-               'CA_BMZ12     ' %              64
-               'NK_GK11      ' %              65
-               'US_CMR14     ' %              66
-               'US_CMR14noFA ' %              67
-               'EA_QR14      ' %              68
-               'NK_RW97AL    ' %              69
-               'NK_LWW03AL   ' %              70
-               'NK_CGG99AL   ' %              71
-               'NK_CGG02AL   ' %              72
-               'NK_IR04AL    ' %              73
-               'NK_BGG99AL   ' %              74
-               'NK_RW06AL    ' %              75
-               'US_FM95AL    ' %              76
-               'US_SW07AL    ' %              77
-               'US_MI07AL    ' %              78
-               'US_YR13AL    ' %              79
-               'NK_ET14      ' %              80
-               'NK_GK13      ' %              81
-               'EA_DKR11     ' %              82
-               'NK_BGEU10    ' %              83
-               'NK_BGUS10    ' %              84
-               'RBC_DTT11    ' %              85
-               'US_CFOP14    ' %              86
-               'US_JPT11     ' %              87
-               'US_CPS10     ' %              88
-               'NK_NS14      ' %              89
-               'US_DNGS15    ' %              90
-               'US_FMS134    ' %              91
-               'NK_AFL15     ' %              92
-               'US_FGKR15    ']);%              93
+               'BRA_SAMBA08   ' %              49
+               'CA_LS07       ' %              50
+               'HK_FPP11      ' %              51
+               'US_IN10       ' %              52
+               'US_CMR10      ' %              53
+               'US_CMR10fa    ' %              54
+               'US_VMDno      ' %              55
+               'US_VMDop      ' %              56
+               'EA_GNSS10     ' %              57
+               'NK_MM10       ' %              58
+               'NK_KRS12      ' %              59
+               'HK_FP13       ' %              60
+               'EAUS_NAWMctww ' %              61
+               'NK_CW09       ' %              62                 
+               'GPM6_IMF13    ' %              63   
+               'CA_BMZ12      ' %              64
+               'NK_GK11       ' %              65
+               'US_FM95       ' %              66 (13)
+               'US_OW98       ' %              67 (14)
+               'EA_QR14       ' %              68
+               'NK_RW97AL     ' %              69
+               'NK_LWW03AL    ' %              70
+               'NK_CGG99AL    ' %              71
+               'NK_CGG02AL    ' %              72
+               'NK_IR04AL     ' %              73
+               'NK_BGG99AL    ' %              74
+               'NK_RW06AL     ' %              75
+               'US_FM95AL     ' %              76
+               'US_SW07AL     ' %              77
+               'US_MI07AL     ' %              78
+               'US_YR13AL     ' %              79
+               'NK_ET14       ' %              80
+               'NK_GK13       ' %              81
+               'EA_DKR11      ' %              82
+               'NK_BGEU10     ' %              83
+               'NK_BGUS10     ' %              84
+               'RBC_DTT11     ' %              85
+               'US_CFOP14     ' %              86
+               'US_JPT11      ' %              87
+               'US_CPS10      ' %              88
+               'NK_NS14       ' %              89
+               'US_DNGS15     ' %              90
+               'US_FMS134     ' %              91
+               'NK_AFL15      ' %              92
+               'US_FGKR15     ' %              93
+               'EA_PV15       ' %              94
+               'NK_CFP10      ' %              95
+               'NK_GM07       ' %              96
+               'NK_KW16       ' %              97
+               'NK_MPT10      ' %              98
+               'NK_PP17       ' %              99
+               'NK_PSV16      ' %              100
+               'NK_RA16       ' %              101
+               'NK_ST13       ' %              102
+               'US_AJ16       ' %              103
+               'US_CFP17endo  ' %              104
+               'US_CFP17exo   ' %              105
+               'US_DNGS15SW   ' %              106
+               'US_DNGS15SWpi ' %              107
+               'US_DNGS15SWSP ' %              108
+               'US_FV10       ' %              109
+               'US_FV15       ' %              110
+               'US_IR15       ' %              111
+               'US_LWY13      ' %              112
+               'US_RE09       ' %              113
+               'NK_GLSV07     ' %              114
+               'NK_KM16       ' %              115
+               'NK_KW16AL     ' %              116
+                         ]);%             
 
 % Models by categories
-NK_Models=[1 2 3 4 5 6 7 8 9 10 11 12 58 59 62 65 80 81 83 84 85 89 92];
-Est_US_Models=[13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 52 53 54 55 56 66 67 86 87 88 90 91 93];
-Est_EA_Models=[34 35 36 37 38 39 40 41 57 68 82];
+NK_Models=[1 2 3 4 5 6 7 8 9 10 11 12 58 59 62 65 80 81 83 84 85 89 92 95 96 97 98 99 100 101 102 114 115];
+Est_US_Models=[13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 52 53 54 55 56 66 67 86 87 88 90 91 93 103 104 105 106 107 108 109 110 111 112 113];
+Est_EA_Models=[34 35 36 37 38 39 40 41 57 68 82 94];
 Est_Cal_Models=[42 43 44 45 46 47 61 63];
 Est_SOE_Models=[48 49 50 51 60 64];
-AL_Models=[69 70 71 72 73 74 75 76 77 78 79];
+AL_Models=[69 70 71 72 73 74 75 76 77 78 79 116];
 % Dimension unit of original model shocks
 % 1 -> shocks in percent
 % 2 -> shocks in percent/100
@@ -283,8 +278,8 @@ AL_Models=[69 70 71 72 73 74 75 76 77 78 79];
                  1   %NK_CK08
                  1   %NK_CKL09
                  1   %NK_RW06
-                 1   %US_FM95  (different from D3 version, see shock section in modfile)       
-                 1   %US_OW98  (different from D3 version, see shock section in modfile)      
+                 2   %US_CMR14noFA  
+                 2   %US_CMR14  
                  2   %US_FRB03 
                  2   %US_FRB08    
                  2   %US_FRB08mx 
@@ -337,9 +332,9 @@ AL_Models=[69 70 71 72 73 74 75 76 77 78 79];
                  1   %NK_CW09
                  1   %GPM6_IMF13
                  2   %CA_BMZ12
-                 2   %NK_GK11 
-                 2   %US_CMR14
-                 2   %US_CMR14noFA
+                 2   %NK_GK11
+                 1   %US_FM95  (different from D3 version, see shock section in modfile)       
+                 1   %US_OW98  (different from D3 version, see shock section in modfile)    
                  2   %EA_QR14
                  1   %NK_RW97AL
                  1   %NK_LWW03AL
@@ -365,22 +360,33 @@ AL_Models=[69 70 71 72 73 74 75 76 77 78 79];
                  1   %US_DNGS15
                  1   %US_FMS134
                  1   %NK_AFL15
-                 1]; %US_FGKR15  
+                 1   %US_FGKR15
+                 1   %EA_PV15
+                 1   %NK_CFP10  
+                 1   %NK_GM07  
+                 2   %NK_KW16  
+                 2   %NK_MPT10  
+                 1   %NK_PP17  
+                 1   %NK_PSV16  
+                 1   %NK_RA16  
+                 2   %NK_ST13  
+                 1   %US_AJ16  
+                 1   %US_CFP17_endo  
+                 1   %US_CFP17_exo  
+                 1   %US_DNGS15_SW  
+                 1   %US_DNGS15_SWpi  
+                 1   %US_DNGS15_SWSP  
+                 1   %US_FV10  
+                 1   %US_FV15  
+                 1   %US_IR15  
+                 1   %US_LWY13  
+                 1   %US_RE09  
+                 1   %NK_GLSV07  
+                 1   %NK_KM16  
+                 1   %NK_KW16AL  
+                 ];%  
 
 
-mycolor = char('r','g','b','c','m','y','k',':r',':g',':b',':c',':m',':y',':k',...
-                       '--r','--g','--b','--c','--m','--y','--k',...
-                       '-.r','-.g','-.b','-.c','-.m','-.y','-.k',...
-                       '+-r','+-g','+-b','+-c','+-m','+-y','+-k',...
-                       'o-r','o-g','o-b','o-c','o-m','o-y','o-k',...
-                       'x-r','x-g','x-b','x-c','x-m','x-y','x-k',...
-                       '*-r','*-g','*-b','*-c','*-m','*-y','*-k',...
-                       '^-r','^-g','^-b','^-c','^-m','^-y','^-k',...
-                       '<-r','<-g','<-b','<-c','<-m','<-y','<-k',...
-                       '>-r','>-g','>-b','>-c','>-m','>-y','>-k',...
-                       '.r','.g','.b','.c','.m','.y','.k',...
-                       '+r','+g','+b','+c','+m','+y','+k',...
-                       'or','og','ob','oc','om','oy','ok');         
 Number_models=max(size(names));                   
 
 %%
@@ -396,7 +402,6 @@ rulenames = char(['User specified rule                 ' %rule_number 1
                   'Orphanides and Wieland (2013)       ' %            9
                   'Coenen et al. (2012)                ' %            10
                   'Chistiano, Motto, Rostagno (2014)   ' %            11
-                 %'New common rule                     ' %            rn           
                   ]);     
          
  rulenamesshort = char(['User rule   ' %rule_number 1
@@ -410,7 +415,6 @@ rulenames = char(['User specified rule                 ' %rule_number 1
                         'OW13 rule   ' %            9
                         'Coenen rule ' %            10
                         'CMR rule    ' %            11
-                       %'New common rule' %         rn           
                   ]);    
 rulenamesshort1 = char(['User_Rule   ' %rule_number 1
                         'Model_Rule  ' %            2
@@ -423,15 +427,15 @@ rulenamesshort1 = char(['User_Rule   ' %rule_number 1
                         'OW13_Rule   ' %            9
                         'Coenen_Rule ' %            10
                         'CMR_Rule    ' %            11
-                       %'New common rule' %         rn           
                   ]); 
-%rule colors
-myrulecolor = char(':b','g','b','c','m','r','k',':r',':g','k-.','b-.');              
-% List of numbers of models according to having a model-specific rule implemented
-model_with_rule=[2 3 4 5 6 7 10 11 14 18 19 20 21 22 24 25 26 27 29 31 ...
+
+              % List of numbers of models according to having a model-specific rule implemented
+model_with_rule=[2 3 4 5 6 7 10 11 14    18 19 20 21 22 24 25 26 27 29 31 ...
                 32 33 34 35 37 39 40 41 42 43 45 46 47 49 52 ...
-                55 56 57 58 59 61 62 63 64 66 68 80 86 87 88 89 90 91 92 93];
-model_without_rule=[1 8 9 12 13 15 16 17 23 28 30 36 38 44 48 50 51 53 54 60 65 67];
+                55 56 57 58 59 61 62 63 64 66 68 70 71 72 73 74 ...
+                77 78 79 80 86 87 88 89 90 91 92 93 94 95 96 97 98 99 100 101 102 103 104 105 106 107 108 112 113 114 115 ];
+model_without_rule=[1 8 9 12 13 15 16 17 23 28 30 36 38 44 48 50 51 53 54 60 ...
+                65 67 69 75 76 81 82 83 84 85 109 110 111 116];
 
 Number_rule=size(rulenames,1);
 common_rule=zeros(Number_rule,33);
@@ -700,7 +704,6 @@ data =[NaN 0 0 0;0 0 0 0;0 0 0 0;0 0 0 0;...
 %%
 modelbase.names =names;
 modelbase.variabledim = variabledim;
-modelbase.mycolor = mycolor;
 modelbase.rulenames = rulenames;
 modelbase.rulenamesshort = rulenamesshort;
 modelbase.rulenamesshort1 = rulenamesshort1;
@@ -708,15 +711,6 @@ modelbase.rulelegend  = [];
 modelbase.common_rule=common_rule;
 modelbase.data = data;
 modelbase.AL_Models = AL_Models;
-% Create 'modelsbase.namesplot':
-% (required for a proper print out of the model names in
-% the graphical output)
-for mo = 1:1:length(modelbase.names);
-    namesplotaux = regexprep(modelbase.names(mo,:), '_', 'HERE_');
-    modelbase.namesplot(mo,:) = regexprep(namesplotaux, 'HERE', '\');
-end;
-
-
 
 
 %% Adding folder structure to path
@@ -725,22 +719,14 @@ modelbase.uphomepath =cd(cd('..')); addpath(modelbase.uphomepath);
 %% Creating the additional variables needed
 modelbase.totaltime = cputime;
 modelbase.models = find(modelsvec~=0);
-modelbase.savepath = [modelbase.uphomepath num2str('\OUTPUT\') num2str('results.xls')];
+modelbase.savepath = [modelbase.uphomepath filesep 'OUTPUT' filesep num2str('results.xls')];
 modelbase.rule = find(rule==1);
-xls_check_if_open(modelbase.savepath, 'close');
-if strcmp(results, 'results.xls')
-    delete(modelbase.savepath); % overwrite the output file 'results.xls' if no output file is specified by the user
-else
-    modelbase.savepath = [modelbase.uphomepath num2str('\OUTPUT\') results]; % create a new output file
-end
 solution_found = zeros(size(find(modelsvec~=0)')); % solution_found(number)= 1 if a solution is found and 0 else
-modelbase.myrulecolor = myrulecolor;
-
 
 %% ------------------------------ AL states
 if ~exist('states','var')
     for epsilon=1:size(modelbase.models,2)
-      modelbase.setpath(modelbase.models(epsilon),:) = [modelbase.uphomepath num2str('\MODELS\') num2str(modelbase.names(modelbase.models(epsilon),:))]; % path for dynare file of specific model
+      modelbase.setpath(modelbase.models(epsilon),:) = [modelbase.uphomepath filesep 'MODELS' filesep strtrim(modelbase.names(modelbase.models(epsilon),:))]; % path for dynare file of specific model
       al=deblank(modelbase.names(modelbase.models(epsilon),:));
         modelbase.AL=strcmp(al(end-1:end),'AL');
          
@@ -762,9 +748,10 @@ if ~exist('states','var')
              else
                 modelbase.AL_=[];
                 modelbase.ModelStates(modelbase.models(epsilon))={[]};
-            end    
-            
-    end
+            end        
+            end
+    modelbase = rmfield(modelbase,'setpath') ; % path for dynare file of specific model
+        
     end
             options_.ar=100;
 end

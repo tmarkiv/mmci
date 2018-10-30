@@ -18,9 +18,9 @@ dseries('initialize');
 global M_ options_ oo_ estim_params_ bayestopt_ dataset_ dataset_info estimation_info ys0_ ex0_
 options_ = [];
 M_.fname = 'NK_IR04';
-M_.dynare_version = '4.5.0';
-oo_.dynare_version = '4.5.0';
-options_.dynare_version = '4.5.0';
+M_.dynare_version = '4.5.6';
+oo_.dynare_version = '4.5.6';
+options_.dynare_version = '4.5.6';
 %
 % Some global variables initialization
 %
@@ -415,6 +415,7 @@ erase_compiled_function('NK_IR04_dynamic');
 M_.orig_eq_nbr = 12;
 M_.eq_nbr = 35;
 M_.ramsey_eq_nbr = 0;
+M_.set_auxiliary_variables = exist(['./' M_.fname '_set_auxiliary_variables.m'], 'file') == 2;
 M_.lead_lag_incidence = [
  0 23 58;
  0 24 59;

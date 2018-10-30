@@ -166,8 +166,8 @@ pi   =  bet * pi(+1) + lam*mc;
 mc = alf*g*M*xhat-bet*(1-del)*g*M*((c-a)-(c(+1)-a(+1))+alf*xhat(+1))-bphi*gam*a;
 alf*g*M*xhatf = bet*(1-del)*g*M*((cf-a)-(cf(+1)-a(+1))+alf*xhatf(+1))+ bphi*gam*a;
 // Labor Supply 
-del*xhat = n-(1-del)*(1-xhat)*n(-1);
-del*xhatf = nf-(1-del)*(1-xhatf)*nf(-1);
+del*xhat = n-(1-del)*(1-x_)*n(-1);
+del*xhatf = nf-(1-del)*(1-x_)*nf(-1);
 // Consumption
 c = a + (1-g)/(1-del*g)*n + (g*(1-del))/(1-del*g)*n(-1) - (alf*g)/(1-del*g)*del*xhat;
 cf = a + (1-g)/(1-del*g)*nf + (g*(1-del))/(1-del*g)*nf(-1) - (alf*g)/(1-del*g)*del*xhatf;

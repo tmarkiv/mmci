@@ -1,0 +1,141 @@
+Starting Dynare (version 4.5.4).
+Starting preprocessing of the model file ...
+Found 72 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+Processing outputs ...
+done
+Preprocessing completed.
+Preprocessing completed.
+
+
+KV =
+
+  -0.494350535353517
+   0.009375820031119
+
+[Warning: Some of the parameters have no value (Lambdas, Cs, Disps, DHS, kappa,
+epsps, Pies, Int_news, D_news, Int_Ds, Ints, ws, trs, epsim, Ys, Hs, Ptilds, Mcs,
+Q1s, Q2s, xi, Ws, As, DGs, Taus, Ds, Tauns, Cns, Yns, Mns, Hns, Ms, Mus) when using
+steady. If these parameters are not initialized in a steadystate file or a
+steady_state_model-block, Dynare may not be able to solve the model...] 
+
+STEADY-STATE RESULTS:
+
+Y             		 0.33
+Disp          		 1
+C             		 0.264
+H             		 0.33
+Mu            		 16.0381
+M             		 0.0231
+Int_new       		 0.0151515
+Int_D         		 0.0151515
+D             		 0.165
+D_new         		 0.00857015
+Tau           		 0.245643
+Tax_obs       		 0
+Mu_obs        		 0
+Q1            		 7.87317
+Pie           		 1.005
+Lambda        		 7.37215
+Mc            		 0.833333
+Int           		 0.0151515
+AW            		 1
+Z1            		 0.0478696
+Z2            		 0.614607
+Q2            		 9.4478
+Ptild         		 1
+W             		 0.833333
+DG            		 0.066
+A_t           		 1
+Dbs           		 0
+DI_obs        		 0
+Rrate         		 0
+Delta         		 1
+Y_obs         		 0
+Int_obs       		 0
+Int_new_obs   		 0
+Pie_obs       		 0
+H_obs         		 0
+W_obs         		 0
+C_obs         		 0
+Tau_obs       		 0
+D_obs         		 0
+D_new_obs     		 0
+Int_D_obs     		 0
+PIESTAR       		 0
+EPSI_R        		 0
+PIESTAR_frcst 		 0
+PIESTAR_est   		 0
+EPSI_R_est    		 0
+EPSI_R_frcst  		 0
+ETA_PIE_est   		 0
+ETA_R_est     		 0
+M_obs         		 0
+PIESTAR4      		 0
+Mcn           		 0.833333
+Wn            		 0.833333
+Z1n           		 0.0478696
+Z2n           		 0.614607
+Lambdan       		 7.37215
+Taun          		 0.245643
+Hn            		 0.33
+Mn            		 0.0231
+D_newn        		 0.00857015
+Int_Dn        		 0.0151515
+Dn            		 0.165
+Rn            		 1.0101
+Pien          		 1.005
+Yn            		 0.33
+Cn            		 0.264
+Taun_obs      		 0
+Yn_obs        		 0
+Int_newn      		 0.0151515
+Mun           		 16.0381
+Intn          		 0.0151515
+Dn_obs        		 0
+ 
+IRFs are saved in IRFs_NK_KM16_new_Taxes.mat
+{Undefined variable "irfs_NK_KM16_new" or class
+"irfs_NK_KM16_new.ETA_PIE_est_ETA_PIESTAR".
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('Learn_Irfs_1', 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MODELS\NK_KM16\Learn_Irfs_1.m', 53)" style="font-weight:bold">Learn_Irfs_1</a> (<a href="matlab: opentoline('C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MODELS\NK_KM16\Learn_Irfs_1.m',53,0)">line 53</a>)
+eval(['Shocks_PIESTAR_frcst.ETA_PIESTAR(1,1) = irfs_' M_.fname
+'.ETA_PIE_est_ETA_PIESTAR(1,1);']);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('NK_KM16_new', 'C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MODELS\NK_KM16\NK_KM16_new.m', 708)" style="font-weight:bold">NK_KM16_new</a> (<a href="matlab: opentoline('C:\MMB_GUI_MASTER\mmb-gui-mlab-master\MODELS\NK_KM16\NK_KM16_new.m',708,0)">line 708</a>)
+Learn_Irfs_1(str2mat('EPSI_R','PIESTAR4'),80,'Baseline');
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('dynare', 'C:\dynare\4.5.4\matlab\dynare.m', 223)" style="font-weight:bold">dynare</a> (<a href="matlab: opentoline('C:\dynare\4.5.4\matlab\dynare.m',223,0)">line 223</a>)
+evalin('base',fname) ;
+} 
+dynare KM_debt_AEJ
+
+Configuring Dynare ...
+[mex] Generalized QZ.
+[mex] Sylvester equation solution.
+[mex] Kronecker products.
+[mex] Sparse kronecker products.
+[mex] Local state space iteration (second order).
+[mex] Bytecode evaluation.
+[mex] k-order perturbation solver.
+[mex] k-order solution simulation.
+[mex] Quasi Monte-Carlo sequence (Sobol).
+[mex] Markov Switching SBVAR.
+
+Using 64-bit preprocessor
+Starting Dynare (version 4.5.4).
+Starting preprocessing of the model file ...
+Found 72 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+Processing outputs ...
+done
+Preprocessing completed.
+

@@ -1,4 +1,4 @@
-function [residual, g1, g2, g3] = US_FM95AL_static(y, x, params)
+function [residual, g1, g2] = US_FM95AL_static(y, x, params)
 %
 % Status : Computes static model for Dynare
 %
@@ -9,15 +9,11 @@ function [residual, g1, g2, g3] = US_FM95AL_static(y, x, params)
 %
 % Outputs:
 %   residual  [M_.endo_nbr by 1] double    vector of residuals of the static model equations 
-%                                          in order of declaration of the equations.
-%                                          Dynare may prepend or append auxiliary equations, see M_.aux_vars
+%                                          in order of declaration of the equations
 %   g1        [M_.endo_nbr by M_.endo_nbr] double    Jacobian matrix of the static model equations;
-%                                                       columns: variables in declaration order
-%                                                       rows: equations in order of declaration
+%                                                     columns: variables in declaration order
+%                                                     rows: equations in order of declaration
 %   g2        [M_.endo_nbr by (M_.endo_nbr)^2] double   Hessian matrix of the static model equations;
-%                                                       columns: variables in declaration order
-%                                                       rows: equations in order of declaration
-%   g3        [M_.endo_nbr by (M_.endo_nbr)^3] double   Third derivatives matrix of the static model equations;
 %                                                       columns: variables in declaration order
 %                                                       rows: equations in order of declaration
 %
@@ -56,7 +52,7 @@ lhs =y(15);
 rhs =y(3);
 residual(8)= lhs-rhs;
 lhs =y(8);
-rhs =y(8)*params(1)+y(10)*params(5)+y(10)*params(6)+y(11)*params(7)+y(12)*params(8)+y(10)*params(10)+y(14)*params(14)+y(14)*params(15)+params(32)*x(3);
+rhs =y(8)*params(1)+y(10)*params(5)+y(10)*params(6)+y(11)*params(7)+y(12)*params(8)+y(10)*params(10)+y(14)*params(14)+y(14)*params(15)+y(15)*params(23)+y(15)*params(24)+params(32)*x(3);
 residual(9)= lhs-rhs;
 lhs =y(19);
 rhs =y(4);
@@ -138,6 +134,7 @@ if nargout >= 2,
   g1(9,11)=(-params(7));
   g1(9,12)=(-params(8));
   g1(9,14)=(-(params(14)+params(15)));
+  g1(9,15)=(-(params(23)+params(24)));
   g1(10,4)=(-1);
   g1(10,19)=1;
   g1(11,19)=(-1);
@@ -184,19 +181,12 @@ if nargout >= 2,
   if ~isreal(g1)
     g1 = real(g1)+2*imag(g1);
   end
+end
 if nargout >= 3,
   %
   % Hessian matrix
   %
 
   g2 = sparse([],[],[],25,625);
-if nargout >= 4,
-  %
-  % Third order derivatives
-  %
-
-  g3 = sparse([],[],[],25,15625);
-end
-end
 end
 end

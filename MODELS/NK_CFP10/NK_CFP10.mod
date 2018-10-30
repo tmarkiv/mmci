@@ -188,7 +188,7 @@ interest =   cofintintb1*interest(-1)                                    //*
            + cofintoutpf2*output(+2)                                     //* 
            + cofintoutpf3*output(+3)                                     //* 
            + cofintoutpf4*output(+4)                                     //* 
-           + std_r_ *interest_;                                          //* 
+           + std_r_/100 *interest_;                                          //* 
                                                                          //*
 // Discretionary Government Spending                                     //*
                                                                          //*
@@ -270,7 +270,7 @@ var eta_n;      stderr 1;
 var interest_;  stderr 1;
 end;
 
-check;
-steady;
-close all;
-stoch_simul(order=1,irf=21, noprint) outputgap inflation interest output;
+%check;
+%steady;
+%close all;
+%stoch_simul(order=1,irf=21, noprint) outputgap inflation interest output;

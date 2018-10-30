@@ -1,59 +1,15 @@
-[Warning: Some of the parameters have no value (star) when
-using steady. If these parameters are not initialized in
-a steadystate file, Dynare may not be able to solve the
-model...] 
-[> In <a href="matlab: opentoline('F:\dynare\4.3.1\matlab\test_for_deep_parameters_calibration.m',46,1)">test_for_deep_parameters_calibration at 46</a>
-  In <a href="matlab: opentoline('F:\dynare\4.3.1\matlab\steady.m',33,1)">steady at 33</a>
-  In <a href="matlab: opentoline('G:\Dropbox\MMB_AL\MMB_2_1_Dyn4_AL2017_UPDATE\MODELS\US_DNGS15\US_DNGS15.m',634,1)">US_DNGS15 at 634</a>
-  In <a href="matlab: opentoline('F:\dynare\4.3.1\matlab\dynare.m',120,1)">dynare at 120</a>
-  In <a href="matlab: opentoline('G:\Dropbox\MMB_AL\MMB_2_1_Dyn4_AL2017_UPDATE\MMB_OPTIONS\MMBOPT1.m',180,1)">MMBOPT1 at 180</a>
-  In <a href="matlab: opentoline('G:\Dropbox\MMB_AL\MMB_2_1_Dyn4_AL2017_UPDATE\MMB_OPTIONS\OPT1MENU.m',290,1)">OPT1MENU>togglebutton1_Callback at 290</a>
-  In <a href="matlab: opentoline('F:\MATLAB\R2013b\toolbox\matlab\guide\gui_mainfcn.m',96,1)">gui_mainfcn at 96</a>
-  In <a href="matlab: opentoline('G:\Dropbox\MMB_AL\MMB_2_1_Dyn4_AL2017_UPDATE\MMB_OPTIONS\OPT1MENU.m',19,1)">OPT1MENU at 19</a>
-  In @(hObject,eventdata)OPT1MENU('togglebutton1_Callback',hObject,eventdata,guidata(hObject))] 
- 
-STEADY-STATE RESULTS:
- 
-c                 		 0
-R                 		 0
-pi                		 0
-L                 		 0
-qk                		 0
-i                 		 0
-Rktil             		 0
-rk                		 0
-kbar              		 0
-n                 		 0
-y                 		 0
-k                 		 0
-u                 		 0
-mc                		 0
-w                 		 0
-wh                		 0
-z                 		 0
-ztil              		 0
-mu                		 0
-sigw              		 0
-laf               		 0
-law               		 0
-g                 		 0
-b                 		 0
-c_f               		 0
-r_f               		 0
-L_f               		 0
-qk_f              		 0
-i_f               		 0
-rk_f              		 0
-y_f               		 0
-k_f               		 0
-u_f               		 0
-kbar_f            		 0
-w_f               		 0
-psi_g             		 0
-interest          		 0
-inflation         		 0
-inflationq        		 0
-outputgap         		 0
-output            		 0
-fispol            		 0
-Total computing time : 0h00m01s
+Starting Dynare (version 4.4.3).
+Starting preprocessing of the model file ...
+Substitution of endo leads >= 2: added 9 auxiliary variables and equations.
+Substitution of endo lags >= 2: added 14 auxiliary variables and equations.
+Found 65 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+ - order 2
+Processing outputs ...done
+Preprocessing completed.
+Starting MATLAB/Octave computing.
+Total computing time : 0h00m00s

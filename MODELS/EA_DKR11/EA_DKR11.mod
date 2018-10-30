@@ -104,17 +104,17 @@ T_Dobsf dDebtobsf Debtobsf CRobsf CNRobsf L_Cobsf L_Dobsf W_Cobsf W_Dobsf
 R_Lobsf R_Dobsf RB_Lobsf R_L_Eobsf RB_Dobsf Debt_Eobsf Debt_TOTobsf Bankcapobsf LEVobsf
 SB_Lobsf Depoobsf R_LLobsf R_LL_Eobsf S_LLobsf S_LL_Eobsf 
 PD_HHobsf PD_Eobsf 
-S_Lobsf S_L_Eobsf S_Dobsf
+S_Lobsf S_L_Eobsf S_Dobsf E_G
 
-EE_Pf EE_Wf EE_P_Df EE_R_Lf EE_R_L_Ef
+EE_Pf EE_Wf EE_P_Df EE_R_Lf EE_R_L_Ef 
 
 //**************************************************************************
 // Modelbase Variables                                                   //*
-        interest inflation inflationq outputgap output; // fispol;       //*
+        interest inflation inflationq outputgap output fispol;       //*
 //**************************************************************************
 
 varexo 
-E_A E_I E_B E_G E_P E_W E_R E_A_D E_H 
+E_A E_I E_B  E_P E_W E_R E_A_D E_H 
 E_SIG_HH E_SIG
 E_R_L E_R_L_E E_R_D E_Bankcap
 //E_LTV E_LTV_E 
@@ -133,7 +133,7 @@ E_R_L E_R_L_E E_R_D E_Bankcap
 
 //**************************************************************************
 // Modelbase Shocks                                                      //*       
-       interest_; //fiscal_                                              //*
+       interest_ fiscal_;                                                //*
 //**************************************************************************
 
   
@@ -150,7 +150,7 @@ parameters
         cofintoutf1 cofintoutf2 cofintoutf3 cofintoutf4                  //*
         cofintoutp cofintoutpb1 cofintoutpb2 cofintoutpb3 cofintoutpb4   //*
         cofintoutpf1 cofintoutpf2 cofintoutpf3 cofintoutpf4              //*
-        std_r_ std_r_quart //coffispol                                   //*
+        std_r_ std_r_quart coffispol                                     //*
                                                                          //*
 //**************************************************************************
 
@@ -416,7 +416,7 @@ cd(thispath);
 std_r_ = 100;                                                            //* 
                                                                          //*
 // Definition of Discretionary Fiscal Policy Parameter                   //*
-//coffispol = 1/(GSS*ZSS);                                               //*
+coffispol = 1/GSS;                                               //*
 //**************************************************************************
 
 model;
@@ -467,7 +467,7 @@ model;
 # KSS =KCSS + KDSS;
 # ISS = tau*(KLSS*LCSS + KLDSS*(1-LCSS));
 # LANDSS = LAND_LDSS*(1-LCSS);
-# ZSS = KCSS^alph*LCSS^(1-alph) / phi_y;
+#ZSS = KCSS^alph*LCSS^(1-alph) / phi_y;
 # ZDSS = KDSS^alph_D*(1-LCSS)^(1-alph_D-alph_LAN)*LANDSS^alph_LAN/ phi_y_D;
 # YSS = CSS + CESS+ ISS + GSS*ZSS;
 # DSS = DCSS*CSS;
@@ -526,7 +526,7 @@ inflation  = (log(1+CPI)+log(1+CPI(-1))+log(1+CPI(-2))+log(1+CPI(-3)))*100; //*
 inflationq = log(1+CPI)*400;                                                //*                                                           
 outputgap  = YGAPobs;                                                       //*
 output     = Yobs;                                                          //*
-//fispol     = E_G/100;                                                     //*
+fispol     = E_G/100;                                                     //*
 //**************************************************************************
 
 //**************************************************************************                                                                    
@@ -569,7 +569,7 @@ interest =   cofintintb1*interest(-1)                                    //*
                                                                          //*
 // Discretionary Government Spending                                     //*
                                                                          //*
-//fispol = coffispol*fiscal_;                                            //*
+  fispol = coffispol*fiscal_;                                            //*
 //**************************************************************************
 
         WELFARE = exp(EE_B)*(X^(1-sig_c)/(1-sig_c) 
@@ -1132,7 +1132,8 @@ end;
 shocks; //estimated
 var	E_A	;	stderr	0.49	;
 var	E_B	;	stderr	1.44	;
-var	E_G	;	stderr	1.85	;
+//var	E_G	;	stderr	1.85	;
+var fiscal_; stderr 1;
 var	E_W	;	stderr	0.17	;
 var	E_I	;	stderr	0.26	;
 var	E_R	;	stderr	0.10	;

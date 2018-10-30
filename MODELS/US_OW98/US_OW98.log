@@ -1,4 +1,4 @@
-Starting Dynare (version master-2017-05-12-ae50f25).
+Starting Dynare (version 4.5.5).
 Starting preprocessing of the model file ...
 Substitution of endo leads >= 2: added 31 auxiliary variables and equations.
 Substitution of endo lags >= 2: added 14 auxiliary variables and equations.
@@ -12,4 +12,53 @@ Computing dynamic model derivatives:
 Processing outputs ...
 done
 Preprocessing completed.
+
+
+
+
+Residuals of the static equations:
+
+Equation number 1 : 2.7397
+Equation number 2 : 1.721
+Equation number 3 : 1.721
+Equation number 4 : 0
+Equation number 5 : 0
+Equation number 6 : 0
+Equation number 7 : 0
+Equation number 8 : 0
+Equation number 9 : 0
+Equation number 10 : 0
+Equation number 11 : -0.01029
+Equation number 12 : 0.01029
+Equation number 13 : 0.01029
+Equation number 14 : 0.01029
+Equation number 15 : 0.017384
+Equation number 16 : 0.017384
+Equation number 17 : 0
+Equation number 18 : 0
+Equation number 19 : -0.017384
+Equation number 20 : 0
+Equation number 21 : 0.00032816
+Equation number 22 : 0.00078948
+Equation number 23 : 0
+Equation number 24 : 0
+Equation number 25 : 0
+Equation number 26 : 0
+Equation number 27 : 0
+Equation number 28 : 0
+Equation number 29 : -0.017384
+Equation number 30 : 0
+Equation number 31 : 0
+Equation number 32 : 0
+Equation number 33 : 0
+Equation number 34 : 0
+Equation number 35 : -0.027674
+Equation number 36 : -0.14662
+Equation number 37 : 0
+Equation number 38 : -0.0039413
+Equation number 39 : 0
+Equation number 40 : 0
+Equation number 41 : 0
+
+
 Total computing time : 0h00m00s

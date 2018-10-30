@@ -11,7 +11,7 @@ for resp = 1:size(irfresp,1)
 fid = fopen('Modelbasefile.json','a');
 fprintf(fid, '{ \n');
 fprintf(fid,['"model":"', deblank(irfmod),'",\n' ]);
-% fprintf(fid,['"rule":"', deblank(modelbase.rulenamesshort1(modelbase.rule,:)), '",\n']);
+fprintf(fid,['"rule":"', deblank(modelbase.rulenamesshort1(modelbase.rule,:)), '",\n']);
 
 if irfshock == 'Mon'
 % fprintf(fid,['"shock":"', irfshock,'",\n' ]);
@@ -40,7 +40,7 @@ fprintf(fid, '{ \n');
 end
 fprintf(fid, '{ \n');
 fprintf(fid,['"model":"', deblank(autmod) ,'",\n' ]);
-% fprintf(fid,['"rule":"', deblank(modelbase.rulenamesshort1(modelbase.rule,:)), '",\n']);
+fprintf(fid,['"rule":"', deblank(modelbase.rulenamesshort1(modelbase.rule,:)), '",\n']);
 if autshock == 'Mon'
 % fprintf(fid,['"shock":"', autshock,'",\n' ]);
 fprintf(fid,['"shock":"monetary_policy",\n' ]);

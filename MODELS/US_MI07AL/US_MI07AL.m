@@ -4,12 +4,6 @@
 % Warning : this file is generated automatically by Dynare
 %           from model file (.mod)
 
-if isoctave || matlab_ver_less_than('8.6')
-    clear all
-else
-    clearvars -global
-    clear_persistent_variables(fileparts(which('dynare')), false)
-end
 tic0 = tic;
 % Save empty dates and dseries objects in memory.
 dates('initialize');
@@ -18,9 +12,9 @@ dseries('initialize');
 global M_ options_ oo_ estim_params_ bayestopt_ dataset_ dataset_info estimation_info ys0_ ex0_
 options_ = [];
 M_.fname = 'US_MI07AL';
-M_.dynare_version = 'master-2017-05-12-ae50f25';
-oo_.dynare_version = 'master-2017-05-12-ae50f25';
-options_.dynare_version = 'master-2017-05-12-ae50f25';
+M_.dynare_version = '4.5.4';
+oo_.dynare_version = '4.5.4';
+options_.dynare_version = '4.5.4';
 %
 % Some global variables initialization
 %
@@ -69,6 +63,9 @@ M_.endo_names_long = char(M_.endo_names_long, 'inflationq');
 M_.endo_names = char(M_.endo_names, 'outputgap');
 M_.endo_names_tex = char(M_.endo_names_tex, 'outputgap');
 M_.endo_names_long = char(M_.endo_names_long, 'outputgap');
+M_.endo_names = char(M_.endo_names, 'output');
+M_.endo_names_tex = char(M_.endo_names_tex, 'output');
+M_.endo_names_long = char(M_.endo_names_long, 'output');
 M_.endo_names = char(M_.endo_names, 'inflationql');
 M_.endo_names_tex = char(M_.endo_names_tex, 'inflationql');
 M_.endo_names_long = char(M_.endo_names_long, 'inflationql');
@@ -208,9 +205,9 @@ M_.param_names_long = char(M_.param_names_long, 'phi_u');
 M_.param_partitions = struct();
 M_.exo_det_nbr = 0;
 M_.exo_nbr = 3;
-M_.endo_nbr = 14;
+M_.endo_nbr = 15;
 M_.param_nbr = 42;
-M_.orig_endo_nbr = 14;
+M_.orig_endo_nbr = 15;
 M_.aux_vars = [];
 M_.Sigma_e = zeros(3, 3);
 M_.Correlation_matrix = eye(3, 3);
@@ -225,31 +222,33 @@ options_.use_dll=0;
 M_.hessian_eq_zero = 1;
 erase_compiled_function('US_MI07AL_static');
 erase_compiled_function('US_MI07AL_dynamic');
-M_.orig_eq_nbr = 14;
-M_.eq_nbr = 14;
+M_.orig_eq_nbr = 15;
+M_.eq_nbr = 15;
 M_.ramsey_eq_nbr = 0;
+M_.set_auxiliary_variables = exist(['./' M_.fname '_set_auxiliary_variables.m'], 'file') == 2;
 M_.lead_lag_incidence = [
- 0 10 0;
- 1 11 24;
- 0 12 25;
- 2 13 26;
- 0 14 27;
- 3 15 0;
- 4 16 0;
- 5 17 0;
- 0 18 0;
- 6 19 28;
- 7 20 0;
- 8 21 0;
- 9 22 0;
- 0 23 0;]';
+ 0 11 0;
+ 1 12 26;
+ 0 13 27;
+ 2 14 28;
+ 0 15 29;
+ 3 16 0;
+ 4 17 0;
+ 5 18 0;
+ 0 19 0;
+ 6 20 30;
+ 7 21 0;
+ 8 22 0;
+ 9 23 0;
+ 10 24 0;
+ 0 25 0;]';
 M_.nstatic = 3;
 M_.nfwrd   = 2;
-M_.npred   = 6;
+M_.npred   = 7;
 M_.nboth   = 3;
 M_.nsfwrd   = 5;
-M_.nspred   = 9;
-M_.ndynamic   = 11;
+M_.nspred   = 10;
+M_.ndynamic   = 12;
 M_.equations_tags = {
 };
 M_.static_and_dynamic_models_differ = 0;
@@ -258,12 +257,12 @@ M_.maximum_lag = 1;
 M_.maximum_lead = 1;
 M_.maximum_endo_lag = 1;
 M_.maximum_endo_lead = 1;
-oo_.steady_state = zeros(14, 1);
+oo_.steady_state = zeros(15, 1);
 M_.maximum_exo_lag = 0;
 M_.maximum_exo_lead = 0;
 oo_.exo_steady_state = zeros(3, 1);
 M_.params = NaN(42, 1);
-M_.NNZDerivatives = [51; 0; -1];
+M_.NNZDerivatives = [55; 0; -1];
 M_.params( 35 ) = 0.9897;
 beta = M_.params( 35 );
 M_.params( 36 ) = 2.666;

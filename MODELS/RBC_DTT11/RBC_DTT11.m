@@ -1,241 +1,352 @@
 %
-% Status : main Dynare file 
+% Status : main Dynare file
 %
 % Warning : this file is generated automatically by Dynare
 %           from model file (.mod)
 
-clear all
-clear global
-tic;
-global M_ oo_ options_ ys0_ ex0_ estimation_info
+tic0 = tic;
+% Save empty dates and dseries objects in memory.
+dates('initialize');
+dseries('initialize');
+% Define global variables.
+global M_ options_ oo_ estim_params_ bayestopt_ dataset_ dataset_info estimation_info ys0_ ex0_
 options_ = [];
 M_.fname = 'RBC_DTT11';
+M_.dynare_version = '4.5.4';
+oo_.dynare_version = '4.5.4';
+options_.dynare_version = '4.5.4';
 %
 % Some global variables initialization
 %
 global_initialization;
 diary off;
-logname_ = 'RBC_DTT11.log';
-if exist(logname_, 'file')
-    delete(logname_)
-end
-diary(logname_)
+diary('RBC_DTT11.log');
 M_.exo_names = 'epsA';
 M_.exo_names_tex = 'epsA';
+M_.exo_names_long = 'epsA';
 M_.exo_names = char(M_.exo_names, 'epsmu');
 M_.exo_names_tex = char(M_.exo_names_tex, 'epsmu');
+M_.exo_names_long = char(M_.exo_names_long, 'epsmu');
 M_.exo_names = char(M_.exo_names, 'epsgam');
 M_.exo_names_tex = char(M_.exo_names_tex, 'epsgam');
+M_.exo_names_long = char(M_.exo_names_long, 'epsgam');
 M_.exo_names = char(M_.exo_names, 'epsstd');
 M_.exo_names_tex = char(M_.exo_names_tex, 'epsstd');
+M_.exo_names_long = char(M_.exo_names_long, 'epsstd');
 M_.exo_names = char(M_.exo_names, 'epspol');
 M_.exo_names_tex = char(M_.exo_names_tex, 'epspol');
+M_.exo_names_long = char(M_.exo_names_long, 'epspol');
 M_.exo_names = char(M_.exo_names, 'interest_');
 M_.exo_names_tex = char(M_.exo_names_tex, 'interest\_');
+M_.exo_names_long = char(M_.exo_names_long, 'interest_');
 M_.endo_names = 'c_t';
 M_.endo_names_tex = 'c\_t';
+M_.endo_names_long = 'c_t';
 M_.endo_names = char(M_.endo_names, 'r_t');
 M_.endo_names_tex = char(M_.endo_names_tex, 'r\_t');
+M_.endo_names_long = char(M_.endo_names_long, 'r_t');
 M_.endo_names = char(M_.endo_names, 'pi_t');
 M_.endo_names_tex = char(M_.endo_names_tex, 'pi\_t');
+M_.endo_names_long = char(M_.endo_names_long, 'pi_t');
 M_.endo_names = char(M_.endo_names, 'z_t');
 M_.endo_names_tex = char(M_.endo_names_tex, 'z\_t');
+M_.endo_names_long = char(M_.endo_names_long, 'z_t');
 M_.endo_names = char(M_.endo_names, 'zbar_t');
 M_.endo_names_tex = char(M_.endo_names_tex, 'zbar\_t');
+M_.endo_names_long = char(M_.endo_names_long, 'zbar_t');
 M_.endo_names = char(M_.endo_names, 'fo_t');
 M_.endo_names_tex = char(M_.endo_names_tex, 'fo\_t');
+M_.endo_names_long = char(M_.endo_names_long, 'fo_t');
 M_.endo_names = char(M_.endo_names, 'CapG_t');
 M_.endo_names_tex = char(M_.endo_names_tex, 'CapG\_t');
+M_.endo_names_long = char(M_.endo_names_long, 'CapG_t');
 M_.endo_names = char(M_.endo_names, 'co_t');
 M_.endo_names_tex = char(M_.endo_names_tex, 'co\_t');
+M_.endo_names_long = char(M_.endo_names_long, 'co_t');
 M_.endo_names = char(M_.endo_names, 'ho_t');
 M_.endo_names_tex = char(M_.endo_names_tex, 'ho\_t');
+M_.endo_names_long = char(M_.endo_names_long, 'ho_t');
 M_.endo_names = char(M_.endo_names, 'omeg_t');
 M_.endo_names_tex = char(M_.endo_names_tex, 'omeg\_t');
+M_.endo_names_long = char(M_.endo_names_long, 'omeg_t');
 M_.endo_names = char(M_.endo_names, 'n_t');
 M_.endo_names_tex = char(M_.endo_names_tex, 'n\_t');
+M_.endo_names_long = char(M_.endo_names_long, 'n_t');
 M_.endo_names = char(M_.endo_names, 'y_t');
 M_.endo_names_tex = char(M_.endo_names_tex, 'y\_t');
+M_.endo_names_long = char(M_.endo_names_long, 'y_t');
 M_.endo_names = char(M_.endo_names, 'ni_t');
 M_.endo_names_tex = char(M_.endo_names_tex, 'ni\_t');
+M_.endo_names_long = char(M_.endo_names_long, 'ni_t');
 M_.endo_names = char(M_.endo_names, 'rl_t');
 M_.endo_names_tex = char(M_.endo_names_tex, 'rl\_t');
+M_.endo_names_long = char(M_.endo_names_long, 'rl_t');
 M_.endo_names = char(M_.endo_names, 'del_t');
 M_.endo_names_tex = char(M_.endo_names_tex, 'del\_t');
+M_.endo_names_long = char(M_.endo_names_long, 'del_t');
 M_.endo_names = char(M_.endo_names, 'lagz_t');
 M_.endo_names_tex = char(M_.endo_names_tex, 'lagz\_t');
+M_.endo_names_long = char(M_.endo_names_long, 'lagz_t');
 M_.endo_names = char(M_.endo_names, 'dumnum_t');
 M_.endo_names_tex = char(M_.endo_names_tex, 'dumnum\_t');
+M_.endo_names_long = char(M_.endo_names_long, 'dumnum_t');
 M_.endo_names = char(M_.endo_names, 'dumden_t');
 M_.endo_names_tex = char(M_.endo_names_tex, 'dumden\_t');
+M_.endo_names_long = char(M_.endo_names_long, 'dumden_t');
 M_.endo_names = char(M_.endo_names, 'a_t');
 M_.endo_names_tex = char(M_.endo_names_tex, 'a\_t');
+M_.endo_names_long = char(M_.endo_names_long, 'a_t');
 M_.endo_names = char(M_.endo_names, 'mu_t');
 M_.endo_names_tex = char(M_.endo_names_tex, 'mu\_t');
+M_.endo_names_long = char(M_.endo_names_long, 'mu_t');
 M_.endo_names = char(M_.endo_names, 'gam_t');
 M_.endo_names_tex = char(M_.endo_names_tex, 'gam\_t');
+M_.endo_names_long = char(M_.endo_names_long, 'gam_t');
 M_.endo_names = char(M_.endo_names, 'std_t');
 M_.endo_names_tex = char(M_.endo_names_tex, 'std\_t');
+M_.endo_names_long = char(M_.endo_names_long, 'std_t');
 M_.endo_names = char(M_.endo_names, 'pol_t');
 M_.endo_names_tex = char(M_.endo_names_tex, 'pol\_t');
+M_.endo_names_long = char(M_.endo_names_long, 'pol_t');
 M_.endo_names = char(M_.endo_names, 'Util');
 M_.endo_names_tex = char(M_.endo_names_tex, 'Util');
+M_.endo_names_long = char(M_.endo_names_long, 'Util');
 M_.endo_names = char(M_.endo_names, 'Welf');
 M_.endo_names_tex = char(M_.endo_names_tex, 'Welf');
+M_.endo_names_long = char(M_.endo_names_long, 'Welf');
 M_.endo_names = char(M_.endo_names, 'interest');
 M_.endo_names_tex = char(M_.endo_names_tex, 'interest');
+M_.endo_names_long = char(M_.endo_names_long, 'interest');
 M_.endo_names = char(M_.endo_names, 'inflation');
 M_.endo_names_tex = char(M_.endo_names_tex, 'inflation');
+M_.endo_names_long = char(M_.endo_names_long, 'inflation');
 M_.endo_names = char(M_.endo_names, 'inflationq');
 M_.endo_names_tex = char(M_.endo_names_tex, 'inflationq');
+M_.endo_names_long = char(M_.endo_names_long, 'inflationq');
 M_.endo_names = char(M_.endo_names, 'output');
 M_.endo_names_tex = char(M_.endo_names_tex, 'output');
+M_.endo_names_long = char(M_.endo_names_long, 'output');
 M_.endo_names = char(M_.endo_names, 'outputgap');
 M_.endo_names_tex = char(M_.endo_names_tex, 'outputgap');
+M_.endo_names_long = char(M_.endo_names_long, 'outputgap');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LEAD_82');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LEAD\_82');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LEAD_82');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LEAD_86');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LEAD\_86');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LEAD_86');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LEAD_90');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LEAD\_90');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LEAD_90');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LEAD_117');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LEAD\_117');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LEAD_117');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LEAD_121');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LEAD\_121');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LEAD_121');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LEAD_125');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LEAD\_125');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LEAD_125');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LEAD_152');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LEAD\_152');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LEAD_152');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LEAD_156');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LEAD\_156');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LEAD_156');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LEAD_160');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LEAD\_160');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LEAD_160');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LAG_2_1');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LAG\_2\_1');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LAG_2_1');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LAG_2_2');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LAG\_2\_2');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LAG_2_2');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LAG_28_1');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LAG\_28\_1');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LAG_28_1');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LAG_28_2');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LAG\_28\_2');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LAG_28_2');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LAG_28_3');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LAG\_28\_3');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LAG_28_3');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LAG_29_1');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LAG\_29\_1');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LAG_29_1');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LAG_29_2');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LAG\_29\_2');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LAG_29_2');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LAG_29_3');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LAG\_29\_3');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LAG_29_3');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LAG_25_1');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LAG\_25\_1');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LAG_25_1');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LAG_25_2');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LAG\_25\_2');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LAG_25_2');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LAG_25_3');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LAG\_25\_3');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LAG_25_3');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LAG_27_1');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LAG\_27\_1');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LAG_27_1');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LAG_27_2');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LAG\_27\_2');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LAG_27_2');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LAG_27_3');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LAG\_27\_3');
+M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LAG_27_3');
+M_.endo_partitions = struct();
 M_.param_names = 'cofintintb1';
 M_.param_names_tex = 'cofintintb1';
+M_.param_names_long = 'cofintintb1';
 M_.param_names = char(M_.param_names, 'cofintintb2');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintintb2');
+M_.param_names_long = char(M_.param_names_long, 'cofintintb2');
 M_.param_names = char(M_.param_names, 'cofintintb3');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintintb3');
+M_.param_names_long = char(M_.param_names_long, 'cofintintb3');
 M_.param_names = char(M_.param_names, 'cofintintb4');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintintb4');
+M_.param_names_long = char(M_.param_names_long, 'cofintintb4');
 M_.param_names = char(M_.param_names, 'cofintinf0');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintinf0');
+M_.param_names_long = char(M_.param_names_long, 'cofintinf0');
 M_.param_names = char(M_.param_names, 'cofintinfb1');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintinfb1');
+M_.param_names_long = char(M_.param_names_long, 'cofintinfb1');
 M_.param_names = char(M_.param_names, 'cofintinfb2');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintinfb2');
+M_.param_names_long = char(M_.param_names_long, 'cofintinfb2');
 M_.param_names = char(M_.param_names, 'cofintinfb3');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintinfb3');
+M_.param_names_long = char(M_.param_names_long, 'cofintinfb3');
 M_.param_names = char(M_.param_names, 'cofintinfb4');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintinfb4');
+M_.param_names_long = char(M_.param_names_long, 'cofintinfb4');
 M_.param_names = char(M_.param_names, 'cofintinff1');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintinff1');
+M_.param_names_long = char(M_.param_names_long, 'cofintinff1');
 M_.param_names = char(M_.param_names, 'cofintinff2');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintinff2');
+M_.param_names_long = char(M_.param_names_long, 'cofintinff2');
 M_.param_names = char(M_.param_names, 'cofintinff3');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintinff3');
+M_.param_names_long = char(M_.param_names_long, 'cofintinff3');
 M_.param_names = char(M_.param_names, 'cofintinff4');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintinff4');
+M_.param_names_long = char(M_.param_names_long, 'cofintinff4');
 M_.param_names = char(M_.param_names, 'cofintout');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintout');
+M_.param_names_long = char(M_.param_names_long, 'cofintout');
 M_.param_names = char(M_.param_names, 'cofintoutb1');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintoutb1');
+M_.param_names_long = char(M_.param_names_long, 'cofintoutb1');
 M_.param_names = char(M_.param_names, 'cofintoutb2');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintoutb2');
+M_.param_names_long = char(M_.param_names_long, 'cofintoutb2');
 M_.param_names = char(M_.param_names, 'cofintoutb3');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintoutb3');
+M_.param_names_long = char(M_.param_names_long, 'cofintoutb3');
 M_.param_names = char(M_.param_names, 'cofintoutb4');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintoutb4');
+M_.param_names_long = char(M_.param_names_long, 'cofintoutb4');
 M_.param_names = char(M_.param_names, 'cofintoutf1');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintoutf1');
+M_.param_names_long = char(M_.param_names_long, 'cofintoutf1');
 M_.param_names = char(M_.param_names, 'cofintoutf2');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintoutf2');
+M_.param_names_long = char(M_.param_names_long, 'cofintoutf2');
 M_.param_names = char(M_.param_names, 'cofintoutf3');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintoutf3');
+M_.param_names_long = char(M_.param_names_long, 'cofintoutf3');
 M_.param_names = char(M_.param_names, 'cofintoutf4');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintoutf4');
+M_.param_names_long = char(M_.param_names_long, 'cofintoutf4');
 M_.param_names = char(M_.param_names, 'cofintoutp');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintoutp');
+M_.param_names_long = char(M_.param_names_long, 'cofintoutp');
 M_.param_names = char(M_.param_names, 'cofintoutpb1');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintoutpb1');
+M_.param_names_long = char(M_.param_names_long, 'cofintoutpb1');
 M_.param_names = char(M_.param_names, 'cofintoutpb2');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintoutpb2');
+M_.param_names_long = char(M_.param_names_long, 'cofintoutpb2');
 M_.param_names = char(M_.param_names, 'cofintoutpb3');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintoutpb3');
+M_.param_names_long = char(M_.param_names_long, 'cofintoutpb3');
 M_.param_names = char(M_.param_names, 'cofintoutpb4');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintoutpb4');
+M_.param_names_long = char(M_.param_names_long, 'cofintoutpb4');
 M_.param_names = char(M_.param_names, 'cofintoutpf1');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintoutpf1');
+M_.param_names_long = char(M_.param_names_long, 'cofintoutpf1');
 M_.param_names = char(M_.param_names, 'cofintoutpf2');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintoutpf2');
+M_.param_names_long = char(M_.param_names_long, 'cofintoutpf2');
 M_.param_names = char(M_.param_names, 'cofintoutpf3');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintoutpf3');
+M_.param_names_long = char(M_.param_names_long, 'cofintoutpf3');
 M_.param_names = char(M_.param_names, 'cofintoutpf4');
 M_.param_names_tex = char(M_.param_names_tex, 'cofintoutpf4');
+M_.param_names_long = char(M_.param_names_long, 'cofintoutpf4');
 M_.param_names = char(M_.param_names, 'std_r_');
 M_.param_names_tex = char(M_.param_names_tex, 'std\_r\_');
+M_.param_names_long = char(M_.param_names_long, 'std_r_');
 M_.param_names = char(M_.param_names, 'std_r_quart');
 M_.param_names_tex = char(M_.param_names_tex, 'std\_r\_quart');
+M_.param_names_long = char(M_.param_names_long, 'std_r_quart');
 M_.param_names = char(M_.param_names, 'alf');
 M_.param_names_tex = char(M_.param_names_tex, 'alf');
+M_.param_names_long = char(M_.param_names_long, 'alf');
 M_.param_names = char(M_.param_names, 'sig');
 M_.param_names_tex = char(M_.param_names_tex, 'sig');
+M_.param_names_long = char(M_.param_names_long, 'sig');
 M_.param_names = char(M_.param_names, 'mu');
 M_.param_names_tex = char(M_.param_names_tex, 'mu');
+M_.param_names_long = char(M_.param_names_long, 'mu');
 M_.param_names = char(M_.param_names, 'gam');
 M_.param_names_tex = char(M_.param_names_tex, 'gam');
+M_.param_names_long = char(M_.param_names_long, 'gam');
 M_.param_names = char(M_.param_names, 'bet');
 M_.param_names_tex = char(M_.param_names_tex, 'bet');
+M_.param_names_long = char(M_.param_names_long, 'bet');
 M_.param_names = char(M_.param_names, 'nbeta');
 M_.param_names_tex = char(M_.param_names_tex, 'nbeta');
+M_.param_names_long = char(M_.param_names_long, 'nbeta');
 M_.param_names = char(M_.param_names, 'zet');
 M_.param_names_tex = char(M_.param_names_tex, 'zet');
+M_.param_names_long = char(M_.param_names_long, 'zet');
 M_.param_names = char(M_.param_names, 'poly');
 M_.param_names_tex = char(M_.param_names_tex, 'poly');
+M_.param_names_long = char(M_.param_names_long, 'poly');
 M_.param_names = char(M_.param_names, 'std_oi');
 M_.param_names_tex = char(M_.param_names_tex, 'std\_oi');
+M_.param_names_long = char(M_.param_names_long, 'std_oi');
 M_.param_names = char(M_.param_names, 'rho_a');
 M_.param_names_tex = char(M_.param_names_tex, 'rho\_a');
+M_.param_names_long = char(M_.param_names_long, 'rho_a');
 M_.param_names = char(M_.param_names, 'rho_mu');
 M_.param_names_tex = char(M_.param_names_tex, 'rho\_mu');
+M_.param_names_long = char(M_.param_names_long, 'rho_mu');
 M_.param_names = char(M_.param_names, 'rho_gam');
 M_.param_names_tex = char(M_.param_names_tex, 'rho\_gam');
+M_.param_names_long = char(M_.param_names_long, 'rho_gam');
 M_.param_names = char(M_.param_names, 'rho_std');
 M_.param_names_tex = char(M_.param_names_tex, 'rho\_std');
+M_.param_names_long = char(M_.param_names_long, 'rho_std');
 M_.param_names = char(M_.param_names, 'rho_g');
 M_.param_names_tex = char(M_.param_names_tex, 'rho\_g');
+M_.param_names_long = char(M_.param_names_long, 'rho_g');
 M_.param_names = char(M_.param_names, 'g');
 M_.param_names_tex = char(M_.param_names_tex, 'g');
+M_.param_names_long = char(M_.param_names_long, 'g');
 M_.param_names = char(M_.param_names, 'bbar');
 M_.param_names_tex = char(M_.param_names_tex, 'bbar');
+M_.param_names_long = char(M_.param_names_long, 'bbar');
+M_.param_partitions = struct();
 M_.exo_det_nbr = 0;
 M_.exo_nbr = 6;
 M_.endo_nbr = 53;
@@ -316,12 +427,21 @@ M_.aux_vars(23).type = 1;
 M_.aux_vars(23).orig_index = 28;
 M_.aux_vars(23).orig_lead_lag = -3;
 M_.Sigma_e = zeros(6, 6);
+M_.Correlation_matrix = eye(6, 6);
 M_.H = 0;
+M_.Correlation_matrix_ME = 1;
+M_.sigma_e_is_diagonal = 1;
+M_.det_shocks = [];
 options_.block=0;
 options_.bytecode=0;
 options_.use_dll=0;
+M_.hessian_eq_zero = 0;
 erase_compiled_function('RBC_DTT11_static');
 erase_compiled_function('RBC_DTT11_dynamic');
+M_.orig_eq_nbr = 30;
+M_.eq_nbr = 53;
+M_.ramsey_eq_nbr = 0;
+M_.set_auxiliary_variables = exist(['./' M_.fname '_set_auxiliary_variables.m'], 'file') == 2;
 M_.lead_lag_incidence = [
  0 31 84;
  0 32 0;
@@ -380,8 +500,12 @@ M_.nstatic = 8;
 M_.nfwrd   = 15;
 M_.npred   = 23;
 M_.nboth   = 7;
+M_.nsfwrd   = 22;
+M_.nspred   = 30;
+M_.ndynamic   = 45;
 M_.equations_tags = {
 };
+M_.static_and_dynamic_models_differ = 0;
 M_.exo_names_orig_ord = [1:6];
 M_.maximum_lag = 1;
 M_.maximum_lead = 1;
@@ -392,10 +516,7 @@ M_.maximum_exo_lag = 0;
 M_.maximum_exo_lead = 0;
 oo_.exo_steady_state = zeros(6, 1);
 M_.params = NaN(49, 1);
-M_.NNZDerivatives = zeros(3, 1);
-M_.NNZDerivatives(1) = 178;
-M_.NNZDerivatives(2) = 146;
-M_.NNZDerivatives(3) = -1;
+M_.NNZDerivatives = [178; 146; -1];
 M_.params( 34 ) = 5.0;
 alf = M_.params( 34 );
 M_.params( 35 ) = 1.0;
@@ -485,27 +606,44 @@ oo_.steady_state(50)=oo_.steady_state(49);
 oo_.steady_state(51)=oo_.steady_state(28);
 oo_.steady_state(52)=oo_.steady_state(51);
 oo_.steady_state(53)=oo_.steady_state(52);
-if M_.exo_nbr > 0;
-	oo_.exo_simul = [ones(M_.maximum_lag,1)*oo_.exo_steady_state'];
-end;
-if M_.exo_det_nbr > 0;
-	oo_.exo_det_simul = [ones(M_.maximum_lag,1)*oo_.exo_det_steady_state'];
-end;
-options_.solve_algo = 2;
-steady;
-check(M_,options_,oo_);
+if M_.exo_nbr > 0
+	oo_.exo_simul = ones(M_.maximum_lag,1)*oo_.exo_steady_state';
+end
+if M_.exo_det_nbr > 0
+	oo_.exo_det_simul = ones(M_.maximum_lag,1)*oo_.exo_det_steady_state';
+end
+oo_.dr.eigval = check(M_,options_,oo_);
 %
 % SHOCKS instructions
 %
-make_ex_;
 M_.exo_det_length = 0;
 M_.Sigma_e(1, 1) = (.01)^2;
 M_.Sigma_e(2, 2) = (1.2)^2;
 M_.Sigma_e(3, 3) = (1.6)^2;
 M_.Sigma_e(4, 4) = (0.25)^2;
-M_.sigma_e_is_diagonal = 1;
 save('RBC_DTT11_results.mat', 'oo_', 'M_', 'options_');
+if exist('estim_params_', 'var') == 1
+  save('RBC_DTT11_results.mat', 'estim_params_', '-append');
+end
+if exist('bayestopt_', 'var') == 1
+  save('RBC_DTT11_results.mat', 'bayestopt_', '-append');
+end
+if exist('dataset_', 'var') == 1
+  save('RBC_DTT11_results.mat', 'dataset_', '-append');
+end
+if exist('estimation_info', 'var') == 1
+  save('RBC_DTT11_results.mat', 'estimation_info', '-append');
+end
+if exist('dataset_info', 'var') == 1
+  save('RBC_DTT11_results.mat', 'dataset_info', '-append');
+end
+if exist('oo_recursive_', 'var') == 1
+  save('RBC_DTT11_results.mat', 'oo_recursive_', '-append');
+end
 
 
-disp(['Total computing time : ' dynsec2hms(toc) ]);
+disp(['Total computing time : ' dynsec2hms(toc(tic0)) ]);
+if ~isempty(lastwarn)
+  disp('Note: warning(s) encountered in MATLAB/Octave code')
+end
 diary off

@@ -4,12 +4,6 @@
 % Warning : this file is generated automatically by Dynare
 %           from model file (.mod)
 
-if isoctave || matlab_ver_less_than('8.6')
-    clear all
-else
-    clearvars -global
-    clear_persistent_variables(fileparts(which('dynare')), false)
-end
 tic0 = tic;
 % Save empty dates and dseries objects in memory.
 dates('initialize');
@@ -18,9 +12,9 @@ dseries('initialize');
 global M_ options_ oo_ estim_params_ bayestopt_ dataset_ dataset_info estimation_info ys0_ ex0_
 options_ = [];
 M_.fname = 'US_YR13AL';
-M_.dynare_version = 'master-2017-05-12-ae50f25';
-oo_.dynare_version = 'master-2017-05-12-ae50f25';
-options_.dynare_version = 'master-2017-05-12-ae50f25';
+M_.dynare_version = '4.5.6';
+oo_.dynare_version = '4.5.6';
+options_.dynare_version = '4.5.6';
 %
 % Some global variables initialization
 %
@@ -492,53 +486,54 @@ erase_compiled_function('US_YR13AL_dynamic');
 M_.orig_eq_nbr = 39;
 M_.eq_nbr = 39;
 M_.ramsey_eq_nbr = 0;
+M_.set_auxiliary_variables = exist(['./' M_.fname '_set_auxiliary_variables.m'], 'file') == 2;
 M_.lead_lag_incidence = [
- 1 22 0;
- 2 23 0;
- 0 24 0;
+ 1 23 0;
+ 2 24 0;
  0 25 0;
- 0 26 61;
- 0 27 0;
- 3 28 62;
- 4 29 63;
- 5 30 64;
- 0 31 0;
- 0 32 65;
- 6 33 66;
- 7 34 67;
- 0 35 0;
- 8 36 0;
- 9 37 0;
- 10 38 0;
- 11 39 0;
- 12 40 0;
- 13 41 0;
- 14 42 0;
- 0 43 0;
+ 0 26 0;
+ 0 27 62;
+ 0 28 0;
+ 3 29 63;
+ 4 30 64;
+ 5 31 65;
+ 0 32 0;
+ 0 33 66;
+ 6 34 67;
+ 7 35 68;
+ 0 36 0;
+ 8 37 0;
+ 9 38 0;
+ 10 39 0;
+ 11 40 0;
+ 12 41 0;
+ 13 42 0;
+ 14 43 0;
  0 44 0;
- 15 45 0;
- 16 46 0;
- 0 47 0;
+ 0 45 0;
+ 15 46 0;
+ 16 47 0;
  0 48 0;
  0 49 0;
- 17 50 0;
- 0 51 0;
- 18 52 68;
- 19 53 0;
- 20 54 0;
- 0 55 0;
- 21 56 0;
- 0 57 0;
- 0 58 0;
+ 0 50 0;
+ 17 51 0;
+ 0 52 0;
+ 18 53 69;
+ 19 54 0;
+ 20 55 0;
+ 0 56 0;
+ 21 57 0;
+ 22 58 0;
  0 59 0;
- 0 60 0;]';
-M_.nstatic = 16;
+ 0 60 0;
+ 0 61 0;]';
+M_.nstatic = 15;
 M_.nfwrd   = 2;
-M_.npred   = 15;
+M_.npred   = 16;
 M_.nboth   = 6;
 M_.nsfwrd   = 8;
-M_.nspred   = 21;
-M_.ndynamic   = 23;
+M_.nspred   = 22;
+M_.ndynamic   = 24;
 M_.equations_tags = {
 };
 M_.static_and_dynamic_models_differ = 0;
@@ -552,7 +547,7 @@ M_.maximum_exo_lag = 0;
 M_.maximum_exo_lead = 0;
 oo_.exo_steady_state = zeros(7, 1);
 M_.params = NaN(101, 1);
-M_.NNZDerivatives = [151; 0; -1];
+M_.NNZDerivatives = [153; 0; -1];
 M_.params( 45 ) = 0.025;
 ctou = M_.params( 45 );
 M_.params( 56 ) = 1.5;

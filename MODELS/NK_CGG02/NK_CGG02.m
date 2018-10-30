@@ -4,12 +4,6 @@
 % Warning : this file is generated automatically by Dynare
 %           from model file (.mod)
 
-if isoctave || matlab_ver_less_than('8.6')
-    clear all
-else
-    clearvars -global
-    clear_persistent_variables(fileparts(which('dynare')), false)
-end
 tic0 = tic;
 % Save empty dates and dseries objects in memory.
 dates('initialize');
@@ -18,9 +12,9 @@ dseries('initialize');
 global M_ options_ oo_ estim_params_ bayestopt_ dataset_ dataset_info estimation_info ys0_ ex0_
 options_ = [];
 M_.fname = 'NK_CGG02';
-M_.dynare_version = '4.5.0';
-oo_.dynare_version = '4.5.0';
-options_.dynare_version = '4.5.0';
+M_.dynare_version = '4.5.4';
+oo_.dynare_version = '4.5.4';
+options_.dynare_version = '4.5.4';
 %
 % Some global variables initialization
 %
@@ -508,6 +502,7 @@ erase_compiled_function('NK_CGG02_dynamic');
 M_.orig_eq_nbr = 21;
 M_.eq_nbr = 59;
 M_.ramsey_eq_nbr = 0;
+M_.set_auxiliary_variables = exist(['./' M_.fname '_set_auxiliary_variables.m'], 'file') == 2;
 M_.lead_lag_incidence = [
  0 36 95;
  0 37 96;

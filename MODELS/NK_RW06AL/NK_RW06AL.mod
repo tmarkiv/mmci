@@ -22,7 +22,7 @@ var x pi R
 
 //**************************************************************************
 // Modelbase Variables                                                   //*
-   interest inflation inflationq outputgap                               //*
+   interest inflation inflationq outputgap output                        //*
    inflationql inflationql2 inflationqls pinf4;                          //*
 //**************************************************************************
 

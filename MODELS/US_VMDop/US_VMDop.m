@@ -1,26 +1,13 @@
 %
-% Status : main Dynare file
+% Status : main Dynare file 
 %
 % Warning : this file is generated automatically by Dynare
 %           from model file (.mod)
 
-if isoctave || matlab_ver_less_than('8.6')
-    clear all
-else
-    clearvars -global
-    clear_persistent_variables(fileparts(which('dynare')), false)
-end
-tic0 = tic;
-% Save empty dates and dseries objects in memory.
-dates('initialize');
-dseries('initialize');
-% Define global variables.
-global M_ options_ oo_ estim_params_ bayestopt_ dataset_ dataset_info estimation_info ys0_ ex0_
+tic;
+global M_ oo_ options_ ys0_ ex0_ estimation_info
 options_ = [];
 M_.fname = 'US_VMDop';
-M_.dynare_version = 'master-2017-05-12-ae50f25';
-oo_.dynare_version = 'master-2017-05-12-ae50f25';
-options_.dynare_version = 'master-2017-05-12-ae50f25';
 %
 % Some global variables initialization
 %
@@ -348,7 +335,6 @@ M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LAG_80_3');
 M_.endo_names = char(M_.endo_names, 'AUX_ENDO_LAG_82_3');
 M_.endo_names_tex = char(M_.endo_names_tex, 'AUX\_ENDO\_LAG\_82\_3');
 M_.endo_names_long = char(M_.endo_names_long, 'AUX_ENDO_LAG_82_3');
-M_.endo_partitions = struct();
 M_.param_names = 'KtotUU';
 M_.param_names_tex = 'KtotUU';
 M_.param_names_long = 'KtotUU';
@@ -691,7 +677,6 @@ M_.param_names_long = char(M_.param_names_long, 'std_r_');
 M_.param_names = char(M_.param_names, 'std_r_quart');
 M_.param_names_tex = char(M_.param_names_tex, 'std\_r\_quart');
 M_.param_names_long = char(M_.param_names_long, 'std_r_quart');
-M_.param_partitions = struct();
 M_.exo_det_nbr = 0;
 M_.exo_nbr = 1;
 M_.endo_nbr = 106;
@@ -768,16 +753,11 @@ M_.Correlation_matrix = eye(1, 1);
 M_.H = 0;
 M_.Correlation_matrix_ME = 1;
 M_.sigma_e_is_diagonal = 1;
-M_.det_shocks = [];
 options_.block=0;
 options_.bytecode=0;
 options_.use_dll=0;
-M_.hessian_eq_zero = 0;
 erase_compiled_function('US_VMDop_static');
 erase_compiled_function('US_VMDop_dynamic');
-M_.orig_eq_nbr = 85;
-M_.eq_nbr = 106;
-M_.ramsey_eq_nbr = 0;
 M_.lead_lag_incidence = [
  1 41 147;
  2 42 148;
@@ -905,7 +885,10 @@ M_.maximum_exo_lag = 0;
 M_.maximum_exo_lead = 0;
 oo_.exo_steady_state = zeros(1, 1);
 M_.params = NaN(114, 1);
-M_.NNZDerivatives = [484; 1160; -1];
+M_.NNZDerivatives = zeros(3, 1);
+M_.NNZDerivatives(1) = 484;
+M_.NNZDerivatives(2) = 1160;
+M_.NNZDerivatives(3) = -1;
 std1_xpU=0.25;
 M_.params( 76 ) = 24;
 alpha3 = M_.params( 76 );
@@ -1052,6 +1035,7 @@ end;
 %
 % SHOCKS instructions
 %
+make_ex_;
 M_.exo_det_length = 0;
 M_.Sigma_e(1, 1) = (0.01)^2;
 save('US_VMDop_results.mat', 'oo_', 'M_', 'options_');
@@ -1067,15 +1051,9 @@ end
 if exist('estimation_info', 'var') == 1
   save('US_VMDop_results.mat', 'estimation_info', '-append');
 end
-if exist('dataset_info', 'var') == 1
-  save('US_VMDop_results.mat', 'dataset_info', '-append');
-end
-if exist('oo_recursive_', 'var') == 1
-  save('US_VMDop_results.mat', 'oo_recursive_', '-append');
-end
 
 
-disp(['Total computing time : ' dynsec2hms(toc(tic0)) ]);
+disp(['Total computing time : ' dynsec2hms(toc) ]);
 if ~isempty(lastwarn)
   disp('Note: warning(s) encountered in MATLAB/Octave code')
 end

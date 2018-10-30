@@ -20,7 +20,7 @@ var i pi pi_tilde x x_tilde r_n u
 
 //**************************************************************************
 // Modelbase Variables                                                   //*    
-   interest inflation inflationq outputgap                          	 //*
+   interest inflation inflationq outputgap output                     	 //*
    inflationql inflationql2 inflationqls;                                //*
 //**************************************************************************
 

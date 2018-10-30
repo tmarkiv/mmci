@@ -1,0 +1,148 @@
+Starting Dynare (version 4.5.4).
+Starting preprocessing of the model file ...
+WARNING: in the 'steady_state_model' block, variable 'G_' is not assigned a value
+Substitution of endo leads >= 2: added 9 auxiliary variables and equations.
+Substitution of endo lags >= 2: added 14 auxiliary variables and equations.
+Found 85 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+ - order 2
+Processing outputs ...
+done
+Preprocessing completed.
+
+STEADY-STATE RESULTS:
+
+yn                		 0.33
+cn                		 0.264
+hn                		 0.33
+wn                		 0.833333
+mn                		 0.0231285
+Dn                		 0.165
+Dnewn             		 0.00857015
+i_Dn              		 0.0151515
+i_Dnewn           		 0.0151515
+in                		 0.0151515
+Rn                		 1.0101
+pin               		 1.005
+lamdan            		 7.37215
+mun               		 16.0381
+taun              		 0.245642
+Dbs               		 0
+taun_obs          		 0
+PIESTARn          		 0
+Dn_obs            		 0
+y                 		 0.33
+c                 		 0.264
+h                 		 0.33
+w                 		 0.833333
+m                 		 0.0231285
+D                 		 0.165
+Dnew              		 0.00857015
+i_D               		 0.0151515
+i_Dnew            		 0.0151515
+i                 		 0.0151515
+R                 		 1.0101
+pi                		 1.005
+lamda             		 7.37215
+mu                		 16.0381
+tau               		 0.245642
+PIESTAR           		 0
+pistar            		 1.005
+MC                		 0.833333
+G                 		 0.066
+D_obs             		 0
+tau_obs           		 0
+i_obs             		 0
+pi_obs            		 0
+y_obs             		 0
+yn_obs            		 0
+Disp              		 1
+Z1                		 7.87317
+Z2                		 9.4478
+c_obs             		 0
+w_obs             		 0
+h_obs             		 0
+Dnew_obs          		 0
+m_obs             		 0
+Rrate             		 0
+mu_obs            		 0
+i_Dnew_obs        		 0
+G_                		 0
+interest          		 0
+inflation         		 0
+inflationq        		 0
+outputgap         		 0
+output            		 0
+fispol            		 0
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+
+               0               -0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+       1.264e-17        1.264e-17                0
+       1.291e-15       -1.291e-15                0
+       3.939e-15       -3.939e-15                0
+       1.347e-14       -1.347e-14                0
+       8.592e-07        8.592e-07                0
+       8.593e-07       -4.296e-07        7.442e-07
+       8.593e-07       -4.296e-07       -7.442e-07
+           0.505            0.505                0
+          0.5056           0.5056                0
+          0.6542           0.6542                0
+            0.75             0.75                0
+          0.8556           0.8556                0
+          0.9479           0.9479                0
+          0.9481           0.9481                0
+            0.99             0.99                0
+            0.99             0.99                0
+          0.9988           0.9988                0
+          0.9988           0.9988                0
+           1.065            1.065                0
+           1.065            1.065                0
+           1.065            1.065                0
+           1.066            1.066                0
+           1.347            1.347                0
+           1.522            1.522                0
+           116.7           -116.7                0
+       6.515e+15       -6.515e+15                0
+       7.954e+15       -7.954e+15                0
+       1.623e+16       -1.623e+16                0
+       2.055e+16        2.055e+16                0
+       2.891e+16       -2.891e+16                0
+       3.485e+16        3.485e+16                0
+       3.789e+16       -3.789e+16                0
+       4.409e+16        4.409e+16                0
+       4.771e+16        4.771e+16                0
+       6.628e+16        6.628e+16                0
+        7.95e+16         7.95e+16                0
+       8.491e+16        8.491e+16                0
+       3.186e+17        3.186e+17                0
+       1.148e+20        1.148e+20                0
+       1.445e+20       -1.445e+20                0
+       5.082e+21        5.082e+21                0
+
+
+There are 23 eigenvalue(s) larger than 1 in modulus 
+for 24 forward-looking variable(s)
+
+The rank condition ISN'T verified!
+
+Total computing time : 0h00m00s
+Note: 1 warning(s) encountered in the preprocessor

@@ -1,0 +1,101 @@
+Starting Dynare (version 4.5.4).
+Starting preprocessing of the model file ...
+Found 72 equation(s).
+Evaluating expressions...done
+Computing static model derivatives:
+ - order 1
+Computing dynamic model derivatives:
+ - order 1
+Processing outputs ...
+done
+Preprocessing completed.
+
+KV =
+
+  -0.494350535353517
+   0.009375820031119
+
+[Warning: Some of the parameters have no value (Lambdas, Cs, Disps, DHS, kappa,
+epsps, Pies, Int_news, D_news, Int_Ds, Ints, ws, trs, epsim, Ys, Hs, Ptilds, Mcs,
+Q1s, Q2s, xi, Ws, As, DGs, Taus, Ds, Tauns, Cns, Yns, Mns, Hns, Ms, Mus) when using
+steady. If these parameters are not initialized in a steadystate file or a
+steady_state_model-block, Dynare may not be able to solve the model...] 
+
+STEADY-STATE RESULTS:
+
+Y             		 0.33
+Disp          		 1
+C             		 0.264
+H             		 0.33
+Mu            		 16.0381
+M             		 0.0231
+Int_new       		 0.0151515
+Int_D         		 0.0151515
+D             		 0.165
+D_new         		 0.00857015
+Tau           		 0.245643
+Tax_obs       		 0
+Mu_obs        		 0
+Q1            		 7.87317
+Pie           		 1.005
+Lambda        		 7.37215
+Mc            		 0.833333
+Int           		 0.0151515
+AW            		 1
+Z1            		 0.0478696
+Z2            		 0.614607
+Q2            		 9.4478
+Ptild         		 1
+W             		 0.833333
+DG            		 0.066
+A_t           		 1
+Dbs           		 0
+DI_obs        		 0
+Rrate         		 0
+Delta         		 1
+Y_obs         		 0
+Int_obs       		 0
+Int_new_obs   		 0
+Pie_obs       		 0
+H_obs         		 0
+W_obs         		 0
+C_obs         		 0
+Tau_obs       		 0
+D_obs         		 0
+D_new_obs     		 0
+Int_D_obs     		 0
+PIESTAR       		 0
+EPSI_R        		 0
+PIESTAR_frcst 		 0
+PIESTAR_est   		 0
+EPSI_R_est    		 0
+EPSI_R_frcst  		 0
+ETA_PIE_est   		 0
+ETA_R_est     		 0
+M_obs         		 0
+PIESTAR4      		 0
+Mcn           		 0.833333
+Wn            		 0.833333
+Z1n           		 0.0478696
+Z2n           		 0.614607
+Lambdan       		 7.37215
+Taun          		 0.245643
+Hn            		 0.33
+Mn            		 0.0231
+D_newn        		 0.00857015
+Int_Dn        		 0.0151515
+Dn            		 0.165
+Rn            		 1.0101
+Pien          		 1.005
+Yn            		 0.33
+Cn            		 0.264
+Taun_obs      		 0
+Yn_obs        		 0
+Int_newn      		 0.0151515
+Mun           		 16.0381
+Intn          		 0.0151515
+Dn_obs        		 0
+ 
+IRFs are saved in IRFs_KM_debt_AEJ.mat
+Total computing time : 0h00m05s
+Note: warning(s) encountered in MATLAB/Octave code

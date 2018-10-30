@@ -40,9 +40,9 @@ var         bdt ct dt gt ht
    interest inflation inflationq output outputgap fispol;                
 //**************************************************************************
  
-varexo      ect edt /*egt*/ ekt ewt ezt //emt 
+varexo      ect edt /*egt*/ ekt ewt ezt  
             uct ugt ukt uwt
-
+	    //emt
 //**************************************************************************
 // Modelbase Shocks                                                      
        interest_ fiscal_;                                                
@@ -572,12 +572,12 @@ var uct = 1 ;
 var ugt = 1 ;
 var uwt = 1 ;
 
-// var emt = (0.01/4)^2;
+//var emt = (0.01/4)^2;
 var interest_ = 1;
 
 end;
 
-steady ;
+%steady ;
 
 //stoch_simul(order = 1, irf = 20) interest inflation inflationq output outputgap;
 

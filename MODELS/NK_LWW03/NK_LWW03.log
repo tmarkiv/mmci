@@ -1,4 +1,4 @@
-Starting Dynare (version 4.5.0).
+Starting Dynare (version 4.5.6).
 Starting preprocessing of the model file ...
 Substitution of endo leads >= 2: added 6 auxiliary variables and equations.
 Substitution of endo lags >= 2: added 11 auxiliary variables and equations.
@@ -12,11 +12,4 @@ Computing dynamic model derivatives:
 Processing outputs ...
 done
 Preprocessing completed.
-warning: load: 'C:\Temp\Shared Ubuntu\mmci-cli-master\MODELS\policy_param.mat' found by searching load path
-warning: called from
-    NK_LWW03 at line 382 column 1
-    dynare at line 223 column 1
-    CMD_MMB>MMB_opt2 at line 741 column 9
-    CMD_MMB at line 93 column 73
 Total computing time : 0h00m00s
-Note: warning(s) encountered in MATLAB/Octave code

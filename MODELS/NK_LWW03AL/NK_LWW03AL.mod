@@ -20,7 +20,7 @@ var ygap pdot rff rstar drff pdotsh pinf4
 
 //**************************************************************************
 // Modelbase Variables                                                   //*    
-   interest inflation inflationq outputgap                               //*
+   interest inflation inflationq outputgap  output                       //*
    inflationql inflationql2 inflationqls;  
 //**************************************************************************    
 
