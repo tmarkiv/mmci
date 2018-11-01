@@ -218,6 +218,7 @@ else
                 R= [ R, diag(oo_.autocorr{i}) ];
             end
         end
+        
         if base.option(1) == 1; % If ACF are selected...
            base.AUTR.(num2str(deblank(base.rulenamesshort1(base.l,:))))(:,:)=[ones(size(R,1),1),R];
            base.AUTendo_names.(num2str(deblank(base.rulenamesshort1(base.l,:))))(:,:)=M_.endo_names(ivar,:);
@@ -232,51 +233,51 @@ else
             options_.irf = base.horizon; % horizon for IRFs
             shocks = M_.exo_names(M_.exo_names_orig_ord,:);  % put shocks in the right order for Dynare
             inv_lgx_orig_ord_(M_.exo_names_orig_ord)=(1:M_.exo_nbr)'; % save the order
-            if base.option(6)==1 % this is the case if only one model and then all shocks for this model have been chosen
-                if base.l==min(find(base.info==0))
-                    % the menu for model-specific shocks is shown once when the model with the first chosen rule is solved.
-                    option3=0;
-                    option4=1;
-                    shocks= M_.exo_names(M_.exo_names_orig_ord,:);
-                    s=size(shocks);
-                    chosenshocks = zeros(s(1,1),1);
-                    model_specific_gui
-                    waitfor(MODELGUI)
-                    shocks = shocks(find(chosenshocks>0),:);
-                    base.option(4)=option4;
-                    base.option(3)=option3;
-                    if option3 == 0
-                        disp('Selected innovations will not be shocked contemporaneously.');
-                    end
-                    base.innos = shocks; % put all chosen shocks in the choice vector for the IRFs
-                    base.namesshocks1 = shocks; % put the right shock names for correct plots
-                    if size(base.namesshocks1,2)<size(base.namesshocks,2)  % check if long names for monetary and fiscal shock fit in the names vector
-                        nblanks=size(base.namesshocks,2)-size(base.namesshocks1,2);  % adjust vector length
-                        for j= 1:size(base.namesshocks1,1)
-                            blankvector(j,:) = blanks(nblanks);
-                        end
-                        base.namesshocks1 = [base.namesshocks1 blankvector];
-                    end
-                    if loc(base.namesshocks1,'interest_')~=0
-                        base.namesshocks1(loc(base.namesshocks1,'interest_'),:)=char('Mon. Pol. Shock      ');  %put nice names for 'interest_' and 'fiscal_'
-                    end
-                    if loc(base.namesshocks1,'fiscal_')~=0
-                        base.namesshocks1(loc(base.namesshocks1,'fiscal_'),:)  =char('Fiscal Pol. Shock    ');
-                    end
-                    base.namesshocks = base.namesshocks1; clear base.namesshocks1;
-                    base.option(4)=option4;
-                    base.option(3)=option3;
-                    disp(' ');
-                    if base.option(4) ==1
-                        disp('You decided to plot selected variables.');
-                        disp(' ');
-                    else disp('You decided to plot all variables.');
-                        disp(' ');
-                    end
-                    
-                end
-            else  base.option(4)=1;
-            end
+%             if base.option(6)==1 % this is the case if only one model and then all shocks for this model have been chosen
+%                 if base.l==min(find(base.info==0))
+%                     % the menu for model-specific shocks is shown once when the model with the first chosen rule is solved.
+%                     option3=0;
+%                     option4=1;
+%                     shocks= M_.exo_names(M_.exo_names_orig_ord,:);
+%                     s=size(shocks);
+%                     chosenshocks = zeros(s(1,1),1);
+%                     model_specific_gui
+%                     waitfor(MODELGUI)
+%                     shocks = shocks(find(chosenshocks>0),:);
+%                     base.option(4)=option4;
+%                     base.option(3)=option3;
+%                     if option3 == 0
+%                         disp('Selected innovations will not be shocked contemporaneously.');
+%                     end
+%                     base.innos = shocks; % put all chosen shocks in the choice vector for the IRFs
+%                     base.namesshocks1 = shocks; % put the right shock names for correct plots
+%                     if size(base.namesshocks1,2)<size(base.namesshocks,2)  % check if long names for monetary and fiscal shock fit in the names vector
+%                         nblanks=size(base.namesshocks,2)-size(base.namesshocks1,2);  % adjust vector length
+%                         for j= 1:size(base.namesshocks1,1)
+%                             blankvector(j,:) = blanks(nblanks);
+%                         end
+%                         base.namesshocks1 = [base.namesshocks1 blankvector];
+%                     end
+%                     if loc(base.namesshocks1,'interest_')~=0
+%                         base.namesshocks1(loc(base.namesshocks1,'interest_'),:)=char('Mon. Pol. Shock      ');  %put nice names for 'interest_' and 'fiscal_'
+%                     end
+%                     if loc(base.namesshocks1,'fiscal_')~=0
+%                         base.namesshocks1(loc(base.namesshocks1,'fiscal_'),:)  =char('Fiscal Pol. Shock    ');
+%                     end
+%                     base.namesshocks = base.namesshocks1; clear base.namesshocks1;
+%                     base.option(4)=option4;
+%                     base.option(3)=option3;
+%                     disp(' ');
+%                     if base.option(4) ==1
+%                         disp('You decided to plot selected variables.');
+%                         disp(' ');
+%                     else disp('You decided to plot all variables.');
+%                         disp(' ');
+%                     end
+%                     
+%                 end
+%             else  base.option(4)=1;
+%             end
             if base.option(3)==1 %Several innovations are shocked contemporaneously
                 cd('..');
                 if AL

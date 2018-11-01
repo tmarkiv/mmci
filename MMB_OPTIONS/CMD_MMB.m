@@ -130,8 +130,9 @@ rulenamesshort1= deblank(modelbase.rulenamesshort1(logical(modelbase.rule),:));
             disp(deblank(modelbase.rulenames(i,:)));
         elseif  i==2
             % Original Model-Specific Policy Rule
-            for r = 1: size(modelbase.modelchosen,1)
-                coeff_vec=MSR_COEFFS(modelbase.modelchosen(r));
+%            for r = 1: size(modelbase.modelchosen,1)
+               coeff_vec=MSR_COEFFS(modelbase.modelchosen(epsilon));
+%               coeff_vec=MSR_COEFFS(epsilon);
                         if prod(isnan(coeff_vec ))
                             disp('**********************************************************');
                             disp('The selected model does not feature a model specific rule.');
@@ -149,7 +150,7 @@ rulenamesshort1= deblank(modelbase.rulenamesshort1(logical(modelbase.rule),:));
                 disp(' ')
                 disp('Selected Policy Rule:');
                 disp('Model Specific Policy Rule');
-            end
+ %           end
         end
         %%
         
@@ -202,6 +203,9 @@ end
 
 for i=1:size(modelbase.rulenames,1);
     if (modelbase.rule(i)>0); % If the i-th rule has been chosen
+        if i==2 & prod(isnan(coeff_vec )) 
+            disp('')    % in case the option model-specific rule has been chosen in conjunction with a model that does not feature a model-specific rule
+        else
         modelbase.l=i;
             warning off
             if modelbase.option(1)==1
@@ -263,7 +267,8 @@ for i=1:size(modelbase.rulenames,1);
                    end;
               end;
           end;
-     end;
+        end; 
+    end;
 end;
 try
     eval(['modelbase.result.', strtrim(modelbase.names(modelbase.modelchosen,:)),  '= result;']);

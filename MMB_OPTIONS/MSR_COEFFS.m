@@ -168,7 +168,7 @@ switch model
         
     case 8  % NK_GM05
         
-    case 9  % NK_GK11
+    case 9  % NK_GK09lin
         % References: Gertler, M. and Karadi, P. ``A Model of
         % Unconvetional Monetary Policy'' In: Journal of Monetary Economics (2011)
         % Original formulation of the policy rule
@@ -1366,7 +1366,7 @@ switch model
         coeff_vec(23) = (1-0.7145)*0.0776*4;coeff_vec(24) = 0;coeff_vec(25) = 0;coeff_vec(26) = 0;coeff_vec(27) = 0;coeff_vec(28) = 0;coeff_vec(29) = 0;coeff_vec(30) = 0;coeff_vec(31) = 0;
         coeff_vec(32) = 1;
         coeff_vec(33) = 0.25;
-    case 65 %
+    case 65 % NK_GK11
     
     case 66 % US_FM95
         

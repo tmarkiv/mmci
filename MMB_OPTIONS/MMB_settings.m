@@ -87,11 +87,6 @@ modelbase.horizon = horizon;
 maxhorizon = 100;
 modelbase.maxhorizon = maxhorizon;
 
-%% ------------------------------ Exercise
-exercise= 2;
-modelbase.exercise = exercise;
-
-
 %% ------------------------------ Models
 if ~exist('modelsvec','var') 
     modelsvec=zeros(Number_models,1);      
