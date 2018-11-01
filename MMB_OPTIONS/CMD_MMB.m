@@ -217,6 +217,7 @@ for i=1:size(modelbase.rulenames,1);
                             eval(['json.' , autmod, '.', autrule, '.AUTR.', autvar ,'= modelbase.AUTR.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.AUTendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),:);']);
                         end;
                 end;
+            end;
             if modelbase.option(5)==1
                   disp(' ')
                   disp([strtrim(deblank(strtrim(modelbase.names(modelbase.models(epsilon),:))))]); 
@@ -238,7 +239,7 @@ for i=1:size(modelbase.rulenames,1);
                             disp(st);
                        end;
                 end;
-            end
+            end;
             if modelbase.option(2)==1
                for p=1:size(modelbase.innos,1)
                    for pp=1:4;
@@ -260,11 +261,10 @@ for i=1:size(modelbase.rulenames,1);
                             end;
                         end;
                    end;
-               end;
-            end;
-        end;
-    end;
-end
+              end;
+          end;
+     end;
+end;
 try
     eval(['modelbase.result.', strtrim(modelbase.names(modelbase.modelchosen,:)),  '= result;']);
 catch
