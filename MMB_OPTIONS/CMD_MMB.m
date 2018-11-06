@@ -52,12 +52,8 @@ disp(deblank(modelbase.rulenames(modelbase.rule,:)));
 modelbase.modelchosen=find(modelsvec>0);
 modelbase.rule=rule;
 save Modelbase modelbase                                % neccessary to save in between as dynare clears the workspace
-MMB_opt2    
-
-end
 
 
-function MMB_opt2
 load Modelbase
 keyvariables = [ 'inflation'; 'interest '; 'output   ';'outputgap'];
 %% One model many rules
@@ -89,6 +85,11 @@ if modelbase.option(2)==1
     % this is neccesary for plotting the right shock in the right figure otherwise the order might get confused; if all model specific shocks are chosen, we put [] here. The names are assigned in stoch_simul_modelbase
     
 end;
+
+delete('Modelbasefile.json');
+fid = fopen('Modelbasefile.json','a');
+fprintf(fid, '\n');
+fclose(fid);
 
 %%
 %%%%%%%%   Loop for Solving a model together with each chosen rule and producing results %%%%%%
@@ -201,68 +202,197 @@ end
 
 %% Creating JSON structure
 
+
 for i=1:size(modelbase.rulenames,1);
     if (modelbase.rule(i)>0); % If the i-th rule has been chosen
         if i==2 & prod(isnan(coeff_vec )) 
             disp('')    % in case the option model-specific rule has been chosen in conjunction with a model that does not feature a model-specific rule
-        else
-        modelbase.l=i;
+            modelbase.l=i;
             warning off
             if modelbase.option(1)==1
                 for pp=1:4;
-                        if loc(modelbase.AUTendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:))~=0;
-                            autmod = deblank(strtrim(modelbase.names(modelbase.models(epsilon),:)));
-%                             if modelbase.rulenamesshort1(modelbase.l,:) == char('Model_Rule  ');
-%                                 autrule = autmod;
-%                             else
-                                 autrule = deblank(modelbase.rulenamesshort1(modelbase.l,:));
-%                             end
-                            autvar = keyvariables(pp,:);
-                            eval(['json.' , autmod, '.', autrule, '.AUTR.', autvar ,'= modelbase.AUTR.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.AUTendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),:);']);
-                        end;
+                    autmod = deblank(strtrim(modelbase.names(modelbase.models(epsilon),:)));
+                    autrule = deblank(modelbase.rulenamesshort1(modelbase.l,:));
+                    autvar = keyvariables(pp,:);
+                    fid = fopen('Modelbasefile.json','a');
+                    fprintf(fid, '{ \n');
+                    fprintf(fid,['"model":"', deblank(autmod),'",\n' ]);
+                    fprintf(fid,['"rule":"', deblank(autrule), '",\n']);
+                    fprintf(fid,['"shock":"----",\n' ]);
+                    fprintf(fid,['"func":"Autocorr. fct.", \n',]);
+                    fprintf(fid,['"outputvar":"', deblank(autvar), '",\n']);
+                    fprintf(fid,['"values": [', 'false',' ] \n' ]);
+                    fprintf(fid, '} \n');
+                    fclose(fid);
                 end;
-            end;
+            end
             if modelbase.option(5)==1
-                  disp(' ')
-                  disp([strtrim(deblank(strtrim(modelbase.names(modelbase.models(epsilon),:))))]); 
-                  disp([strtrim(modelbase.rulenamesshort1(modelbase.l,:))]);
-                  disp(' ')
-                  disp('Variables           Variance       ')
                 for pp=1:4;
-                       if loc(modelbase.VARendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:))~=0;
-                            var = modelbase.VAR.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.VARendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),loc(modelbase.VARendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)));
-                            vmod = deblank(strtrim(modelbase.names(modelbase.models(epsilon),:)));
- %                            if modelbase.rulenamesshort1(modelbase.l,:) == char('Model_Rule  ');
- %                                vrule = vmod;
- %                            else
-                                 vrule = deblank(modelbase.rulenamesshort1(modelbase.l,:));
- %                            end
-                            vname = keyvariables(pp,:);
-                            eval(['json.' , vmod, '.', vrule, '.VAR.', vname ,' = var;']);
-                            st = sprintf('%9s %19f', vname,var);
-                            disp(st);
-                       end;
+                    vmod = deblank(strtrim(modelbase.names(modelbase.models(epsilon),:)));
+                    vrule = deblank(modelbase.rulenamesshort1(modelbase.l,:));
+                    vname = keyvariables(pp,:);
+                    fid = fopen('Modelbasefile.json','a');
+                    fprintf(fid, '{ \n');
+                    fprintf(fid,['"model":"', deblank(vmod),'",\n' ]);
+                    fprintf(fid,['"rule":"', deblank(vrule), '",\n']);
+                    fprintf(fid,['"shock":"----",\n' ]);
+                    fprintf(fid,['"func":"Variance", \n',]);
+                    fprintf(fid,['"outputvar":"', deblank(vname), '",\n']);
+                    fprintf(fid,['"values": [', 'false',' ] \n' ]);
+                    fprintf(fid, '} \n');
+                    fclose(fid);
                 end;
             end;
             if modelbase.option(2)==1
                for p=1:size(modelbase.innos,1)
                    for pp=1:4;
                         if  modelbase.pos_shock(p,modelbase.models(epsilon))~=0
-           %% Creating JSON structure - Inflation, interest rate, and output gap
                             irfmod = deblank(strtrim(modelbase.names(modelbase.models(epsilon),:)));
-%                             if modelbase.rulenamesshort1(modelbase.l,:) == char('Model_Rule  ');
-%                                 irfrule = irfmod;
-%                             else
-                                 irfrule = deblank(modelbase.rulenamesshort1(modelbase.l,:));
-%                             end
-                            irfshock = ([deblank(modelbase.namesshocks(p,1:3)),'_shock']);
+                            irfrule = deblank(modelbase.rulenamesshort1(modelbase.l,:));
+                            irfshock = ([deblank(modelbase.namesshocks(p,1:3))]);
+                            irfvar = keyvariables(pp,:);
+                            fid = fopen('Modelbasefile.json','a');
+                            fprintf(fid, '{ \n');
+                            fprintf(fid,['"model":"', deblank(irfmod),'",\n' ]);
+                            fprintf(fid,['"rule":"', deblank(irfrule), '",\n']);
+                            if irfshock == 'Mon'
+                            fprintf(fid,['"shock":"monetary_policy",\n' ]);
+                            else
+                            fprintf(fid,['"shock":"fiscal_policy",\n' ]);
+                            end
+                            fprintf(fid,['"func":"IRF", \n',]);
+                            fprintf(fid,['"outputvar":"', deblank(irfvar), '",\n']);
+                            fprintf(fid,['"values": [', 'false',' ] \n' ]);
+                            fprintf(fid, '} \n');
+                            fclose(fid);
+                       end;
+                   end;
+              end;
+          end;
+        else
+        modelbase.l=i;
+            warning off
+            if modelbase.option(1)==1
+                for pp=1:4;
+                            autmod = deblank(strtrim(modelbase.names(modelbase.models(epsilon),:)));
+                            autrule = deblank(modelbase.rulenamesshort1(modelbase.l,:));
+                            autvar = keyvariables(pp,:);
+                        if loc(modelbase.AUTendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:))~=0;
+                            eval(['json.' , autmod, '.', autrule, '.AUT.', autvar ,'= modelbase.AUTR.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.AUTendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),:);']);
+                            fid = fopen('Modelbasefile.json','a');
+                            fprintf(fid, '{ \n');
+                            fprintf(fid,['"model":"', deblank(autmod),'",\n' ]);
+                            fprintf(fid,['"rule":"', deblank(autrule), '",\n']);
+                            fprintf(fid,['"shock":"----",\n' ]);
+                            fprintf(fid,['"func":"Autocorr. fct.", \n',]);
+                            fprintf(fid,['"outputvar":"', deblank(autvar), '",\n']);
+                            eval(['AUTval = modelbase.AUTR.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.AUTendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),:);']);
+                            fprintf(fid,['"values": [', regexprep(num2str(AUTval),'\s+',',\n') ,' ] \n' ]);
+                            fprintf(fid, '} \n');
+                            fclose(fid);
+                        else
+                            fid = fopen('Modelbasefile.json','a');
+                            fprintf(fid, '{ \n');
+                            fprintf(fid,['"model":"', deblank(autmod),'",\n' ]);
+                            fprintf(fid,['"rule":"', deblank(autrule), '",\n']);
+                            fprintf(fid,['"shock":"----",\n' ]);
+                            fprintf(fid,['"func":"Autocorr. fct.", \n',]);
+                            fprintf(fid,['"outputvar":"', deblank(autvar), '",\n']);
+                            fprintf(fid,['"values": [', 'false',' ] \n' ]);
+                            fprintf(fid, '} \n');
+                            fclose(fid);
+                        end;
+                end;
+            end;
+            if modelbase.option(5)==1
+                for pp=1:4;
+                            vmod = deblank(strtrim(modelbase.names(modelbase.models(epsilon),:)));
+                            vrule = deblank(modelbase.rulenamesshort1(modelbase.l,:));
+                            vname = keyvariables(pp,:);
+                       if loc(modelbase.VARendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:))~=0;
+                            var = modelbase.VAR.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.VARendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),loc(modelbase.VARendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)));
+                            eval(['json.' , vmod, '.', vrule, '.VAR.', vname ,' = var;']);
+                            fid = fopen('Modelbasefile.json','a');
+                            fprintf(fid, '{ \n');
+                            fprintf(fid,['"model":"', deblank(vmod),'",\n' ]);
+                            fprintf(fid,['"rule":"', deblank(vrule), '",\n']);
+                            fprintf(fid,['"shock":"----",\n' ]);
+                            fprintf(fid,['"func":"Variance", \n',]);
+                            fprintf(fid,['"outputvar":"', deblank(vname), '",\n']);
+                            eval(['VARval = modelbase.VAR.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.VARendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),loc(modelbase.VARendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)));']);
+                            fprintf(fid,['"values": [', regexprep(num2str(VARval),'\s+',',\n') ,' ] \n' ]);
+                            fprintf(fid, '} \n');
+                            fclose(fid);
+                       else
+                            fid = fopen('Modelbasefile.json','a');
+                            fprintf(fid, '{ \n');
+                            fprintf(fid,['"model":"', deblank(vmod),'",\n' ]);
+                            fprintf(fid,['"rule":"', deblank(vrule), '",\n']);
+                            fprintf(fid,['"shock":"----",\n' ]);
+                            fprintf(fid,['"func":"Variance", \n',]);
+                            fprintf(fid,['"outputvar":"', deblank(vname), '",\n']);
+                            fprintf(fid,['"values": [', 'false',' ] \n' ]);
+                            fprintf(fid, '} \n');
+                            fclose(fid);
+                       end;
+                end;
+            end;
+            if modelbase.option(2)==1
+               for p=1:size(modelbase.innos,1)
+                   irfmod = deblank(strtrim(modelbase.names(modelbase.models(epsilon),:)));
+                   irfrule = deblank(modelbase.rulenamesshort1(modelbase.l,:));
+                   irfshock = ([deblank(modelbase.namesshocks(p,1:3))]);
+                   for pp=1:4;
+                        if  modelbase.pos_shock(p,modelbase.models(epsilon))~=0
                             irfvar = keyvariables(pp,:);
                             if loc(modelbase.IRFendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:))~=0
-                            eval(['json.' , irfmod , '.', irfrule, '.IRF.', irfshock, '.', irfvar ,'= modelbase.IRF.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.IRFendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),:,p);']);
-                            eval(['json.' , irfmod , '.', irfrule, '.IRF.', irfshock, '.', irfvar, '= modelbase.IRF.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.IRFendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),:,p);']);
-                            eval(['json.' , irfmod , '.', irfrule, '.IRF.', irfshock, '.', irfvar ,'= modelbase.IRF.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.IRFendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),:,p);']);
-                            eval(['json.' , irfmod , '.', irfrule, '.IRF.', irfshock, '.', irfvar ,'= modelbase.IRF.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.IRFendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),:,p);']);
+                                eval(['json.' , irfmod , '.', irfrule, '.IRF.', irfshock, '.', irfvar ,'= modelbase.IRF.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.IRFendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),:,p);']);
+                                fid = fopen('Modelbasefile.json','a');
+                                fprintf(fid, '{ \n');
+                                fprintf(fid,['"model":"', deblank(irfmod),'",\n' ]);
+                                fprintf(fid,['"rule":"', deblank(irfrule), '",\n']);
+                                if irfshock == 'Mon'
+                                fprintf(fid,['"shock":"monetary_policy",\n' ]);
+                                else
+                                fprintf(fid,['"shock":"fiscal_policy",\n' ]);
+                                end
+                                fprintf(fid,['"func":"IRF", \n',]);
+                                fprintf(fid,['"outputvar":"', deblank(irfvar), '",\n']);
+                                eval(['IRFval = modelbase.IRF.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.IRFendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),:,p);']);
+                                fprintf(fid,['"values": [', regexprep(num2str(IRFval),'\s+',',\n') ,' ] \n' ]);
+                                fprintf(fid, '} \n');
+                                fclose(fid);
+                            else
+                                fid = fopen('Modelbasefile.json','a');
+                                fprintf(fid, '{ \n');
+                                fprintf(fid,['"model":"', deblank(irfmod),'",\n' ]);
+                                fprintf(fid,['"rule":"', deblank(irfrule), '",\n']);
+                                if irfshock == 'Mon'
+                                    fprintf(fid,['"shock":"monetary_policy",\n' ]);
+                                else
+                                    fprintf(fid,['"shock":"fiscal_policy",\n' ]);
+                                end
+                                fprintf(fid,['"func":"IRF", \n',]);
+                                fprintf(fid,['"outputvar":"', deblank(irfvar), '",\n']);
+                                fprintf(fid,['"values": [', 'false',' ] \n' ]);
+                                fprintf(fid, '} \n');
+                                fclose(fid);
                             end;
+                        else
+                            fid = fopen('Modelbasefile.json','a');
+                            fprintf(fid, '{ \n');
+                            fprintf(fid,['"model":"', deblank(irfmod),'",\n' ]);
+                            fprintf(fid,['"rule":"', deblank(irfrule), '",\n']);
+                            if irfshock == 'Mon'
+                            fprintf(fid,['"shock":"monetary_policy",\n' ]);
+                            else
+                            fprintf(fid,['"shock":"fiscal_policy",\n' ]);
+                            end
+                            fprintf(fid,['"func":"IRF", \n',]);
+                            fprintf(fid,['"outputvar":"', deblank(irfvar), '",\n']);
+                            fprintf(fid,['"values": [', 'false',' ] \n' ]);
+                            fprintf(fid, '} \n');
+                            fclose(fid);
                         end;
                    end;
               end;
@@ -283,7 +413,7 @@ end;
 
 save Modelbase modelbase -append
 modelbase.totaltime = cputime-modelbase.totaltime;
-savejson('',json,'OUTPUTSJSON');
+%savejson('',json,'OUTPUTSJSON');
 
 disp(['Total elapsed cputime: ' ,num2str(modelbase.totaltime), ' seconds.']);
 rmpath(modelbase.homepath);
@@ -310,3 +440,4 @@ IRF_Non_Aux_Var=IRF_STR.(strtrim(deblank(rules_setshort1(current_rule,:))))(To_b
 IRFendo_names_Non_Aux = All_Endo_Var(To_be_plotted,:);
 end
 
+    

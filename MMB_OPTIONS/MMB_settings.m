@@ -692,8 +692,8 @@ common_rule=zeros(Number_rule,33);
        
 
 %% User specific rule 
-data =[NaN 0 0 0;0 0 0 0;0 0 0 0;0 0 0 0;...
-    0 0 0 0;NaN 0 0 0;NaN 0 0 0;NaN 0 0 0;NaN 0 0 0];
+%data =[NaN 0 0 0;0 0 0 0;0 0 0 0;0 0 0 0;...
+%    0 0 0 0;NaN 0 0 0;NaN 0 0 0;NaN 0 0 0;NaN 0 0 0];
 
 
 %%
