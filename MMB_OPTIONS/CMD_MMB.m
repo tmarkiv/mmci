@@ -13,14 +13,19 @@ end
 
 %%%%%%%%%%%%%%%%%%% Declaration of key settings
 warning('off','all')
+OSenvironment = isunix;
 %% Adding dynare to path if it was not
-addpath c:\dynare\4.5.6\matlab
+if OSenvironment==1
+    addpath /usr/local/opt/dynare/lib/dynare/matlab
+    addpath /Applications/Dynare/4.5.6/matlab
+else
+    addpath c:\dynare\4.5.6\matlab
+end
 %% Adding MMB to path (required for Dynare and Octave)
 cd(fileparts(mfilename('fullpath')));
 cd ..
 currentpath= cd;  cd(currentpath);
 addpath(currentpath);
-OSenvironment = isunix;
 
 addpath([currentpath filesep 'ALTOOL' filesep]);
 addpath([currentpath filesep 'MODELS' filesep]);
@@ -60,17 +65,6 @@ keyvariables = [ 'inflation'; 'interest '; 'output   ';'outputgap'];
 rulechosen=find(modelbase.rule>0);
 modelbase.info = ones(size(modelbase.rule,2),1);
 modelbase.rulerank=0;
-disp(' ');
-disp('Selected options:');
-if modelbase.option(1) == 1
-    disp('Autocorrelation functions will be plotted.');
-else disp('Autocorrelation functions will not be plotted.');
-end
-
-if modelbase.option(2) == 1
-    disp('Impulse response functions will be plotted.');
-else disp('Impulse response functions will not be plotted.');
-end
 
 modelbase.namesshocks= char(['Mon. Pol. Shock      '
     'Fiscal Pol. Shock    ']);
@@ -88,7 +82,7 @@ end;
 
 delete('Modelbasefile.json');
 fid = fopen('Modelbasefile.json','a');
-fprintf(fid, '\n');
+fprintf(fid, '[ \n');
 fclose(fid);
 
 %%
@@ -153,7 +147,33 @@ rulenamesshort1= deblank(modelbase.rulenamesshort1(logical(modelbase.rule),:));
                 disp('Model Specific Policy Rule');
  %           end
         end
-        %%
+        %% AL: defining state variables
+        if ~exist('states','var')
+            modelbase.setpath(modelbase.models(epsilon),:) = [modelbase.uphomepath filesep 'MODELS' filesep strtrim(modelbase.names(modelbase.models(epsilon),:))]; % path for dynare file of specific model
+            al=deblank(modelbase.names(modelbase.models(epsilon),:));
+            modelbase.AL=strcmp(al(end-1:end),'AL');
+            if modelbase.AL
+                if ~ismember(modelbase.rule,[8 9 10])
+                    thepath=cd;
+                    cd(modelbase.setpath(modelbase.models(epsilon),:))
+                    load AL_Info
+                    cd(thepath);
+                    AL_.forwards = AL_Info.forwards;
+                    if ismember(modelbase.rule,[6 7])
+                        AL_.states = AL_Info.states_short;
+                    else
+                        AL_.states = AL_Info.states_long;
+                    end
+                        modelbase.AL_=AL_;
+                        modelbase.ModelStates(modelbase.models(epsilon))={modelbase.AL_.states};
+                else
+                        modelbase.AL_=[];
+                        modelbase.ModelStates(modelbase.models(epsilon))={[]};
+                end        
+            end
+            modelbase = rmfield(modelbase,'setpath') ; % path for dynare file of specific model
+            options_.ar=100;
+        end
         
         cd('..');
         cd MODELS
@@ -222,7 +242,12 @@ for i=1:size(modelbase.rulenames,1);
                     fprintf(fid,['"func":"Autocorr. fct.", \n',]);
                     fprintf(fid,['"outputvar":"', deblank(autvar), '",\n']);
                     fprintf(fid,['"values": [', 'false',' ] \n' ]);
-                    fprintf(fid, '} \n');
+                    % this if/else is necessary to prevent a , being written at the end of the last JSON object.
+                    if epsilon == size(modelbase.models,2) & sum(modelbase.rule(i+1:end))==0 & pp==4 & modelbase.option(2)==0 & modelbase.option(5)==0
+                        fprintf(fid, '} \n');
+                    else
+                        fprintf(fid, '}, \n');
+                    end
                     fclose(fid);
                 end;
             end
@@ -239,7 +264,12 @@ for i=1:size(modelbase.rulenames,1);
                     fprintf(fid,['"func":"Variance", \n',]);
                     fprintf(fid,['"outputvar":"', deblank(vname), '",\n']);
                     fprintf(fid,['"values": [', 'false',' ] \n' ]);
-                    fprintf(fid, '} \n');
+                    % this if/else is necessary to prevent a , being written at the end of the last JSON object.
+                    if epsilon == size(modelbase.models,2) & sum(modelbase.rule(i+1:end))==0 & pp==4 & modelbase.option(2)==0
+                        fprintf(fid, '} \n');
+                    else
+                        fprintf(fid, '}, \n');
+                    end
                     fclose(fid);
                 end;
             end;
@@ -263,7 +293,12 @@ for i=1:size(modelbase.rulenames,1);
                             fprintf(fid,['"func":"IRF", \n',]);
                             fprintf(fid,['"outputvar":"', deblank(irfvar), '",\n']);
                             fprintf(fid,['"values": [', 'false',' ] \n' ]);
-                            fprintf(fid, '} \n');
+                            % this if/else is necessary to prevent a , being written at the end of the last JSON object.
+                            if epsilon == size(modelbase.models,2) & sum(modelbase.rule(i+1:end))==0 & p ==size(modelbase.innos,1) & pp==4
+                               fprintf(fid, '} \n');
+                            else
+                               fprintf(fid, '}, \n');
+                            end
                             fclose(fid);
                        end;
                    end;
@@ -288,7 +323,11 @@ for i=1:size(modelbase.rulenames,1);
                             fprintf(fid,['"outputvar":"', deblank(autvar), '",\n']);
                             eval(['AUTval = modelbase.AUTR.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.AUTendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),:);']);
                             fprintf(fid,['"values": [', regexprep(num2str(AUTval),'\s+',',\n') ,' ] \n' ]);
-                            fprintf(fid, '} \n');
+                            if epsilon == size(modelbase.models,2) & sum(modelbase.rule(i+1:end))==0 & pp==4 & modelbase.option(2)==0 & modelbase.option(5)==0
+                               fprintf(fid, '} \n');
+                            else
+                               fprintf(fid, '}, \n');
+                            end
                             fclose(fid);
                         else
                             fid = fopen('Modelbasefile.json','a');
@@ -299,7 +338,12 @@ for i=1:size(modelbase.rulenames,1);
                             fprintf(fid,['"func":"Autocorr. fct.", \n',]);
                             fprintf(fid,['"outputvar":"', deblank(autvar), '",\n']);
                             fprintf(fid,['"values": [', 'false',' ] \n' ]);
-                            fprintf(fid, '} \n');
+                            % this if/else is necessary to prevent a , being written at the end of the last JSON object.
+                            if epsilon == size(modelbase.models,2) & sum(modelbase.rule(i+1:end))==0 & pp==4 & modelbase.option(2)==0 & modelbase.option(5)==0
+                               fprintf(fid, '} \n');
+                            else
+                               fprintf(fid, '}, \n');
+                            end
                             fclose(fid);
                         end;
                 end;
@@ -321,7 +365,12 @@ for i=1:size(modelbase.rulenames,1);
                             fprintf(fid,['"outputvar":"', deblank(vname), '",\n']);
                             eval(['VARval = modelbase.VAR.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.VARendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),loc(modelbase.VARendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)));']);
                             fprintf(fid,['"values": [', regexprep(num2str(VARval),'\s+',',\n') ,' ] \n' ]);
-                            fprintf(fid, '} \n');
+                            % this if/else is necessary to prevent a , being written at the end of the last JSON object.
+                            if epsilon == size(modelbase.models,2) & sum(modelbase.rule(i+1:end))==0 & pp==4 & modelbase.option(2)==0
+                               fprintf(fid, '} \n');
+                            else
+                               fprintf(fid, '}, \n');
+                            end
                             fclose(fid);
                        else
                             fid = fopen('Modelbasefile.json','a');
@@ -332,7 +381,12 @@ for i=1:size(modelbase.rulenames,1);
                             fprintf(fid,['"func":"Variance", \n',]);
                             fprintf(fid,['"outputvar":"', deblank(vname), '",\n']);
                             fprintf(fid,['"values": [', 'false',' ] \n' ]);
-                            fprintf(fid, '} \n');
+                            % this if/else is necessary to prevent a , being written at the end of the last JSON object.
+                            if epsilon == size(modelbase.models,2) & sum(modelbase.rule(i+1:end))==0 & pp==4 & modelbase.option(2)==0
+                               fprintf(fid, '} \n');
+                            else
+                               fprintf(fid, '}, \n');
+                            end
                             fclose(fid);
                        end;
                 end;
@@ -360,7 +414,12 @@ for i=1:size(modelbase.rulenames,1);
                                 fprintf(fid,['"outputvar":"', deblank(irfvar), '",\n']);
                                 eval(['IRFval = modelbase.IRF.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.IRFendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),:,p);']);
                                 fprintf(fid,['"values": [', regexprep(num2str(IRFval),'\s+',',\n') ,' ] \n' ]);
-                                fprintf(fid, '} \n');
+                                % this if/else is necessary to prevent a , being written at the end of the last JSON object.
+                                if epsilon == size(modelbase.models,2) & sum(modelbase.rule(i+1:end))==0 & p ==size(modelbase.innos,1) & pp==4
+                                    fprintf(fid, '} \n');
+                                else
+                                    fprintf(fid, '}, \n');
+                                end
                                 fclose(fid);
                             else
                                 fid = fopen('Modelbasefile.json','a');
@@ -375,7 +434,12 @@ for i=1:size(modelbase.rulenames,1);
                                 fprintf(fid,['"func":"IRF", \n',]);
                                 fprintf(fid,['"outputvar":"', deblank(irfvar), '",\n']);
                                 fprintf(fid,['"values": [', 'false',' ] \n' ]);
-                                fprintf(fid, '} \n');
+                                % this if/else is necessary to prevent a , being written at the end of the last JSON object.
+                                if epsilon == size(modelbase.models,2) & sum(modelbase.rule(i+1:end))==0 & p ==size(modelbase.innos,1) & pp==4 
+                                    fprintf(fid, '} \n');
+                                else
+                                    fprintf(fid, '}, \n');
+                                end
                                 fclose(fid);
                             end;
                         else
@@ -391,7 +455,12 @@ for i=1:size(modelbase.rulenames,1);
                             fprintf(fid,['"func":"IRF", \n',]);
                             fprintf(fid,['"outputvar":"', deblank(irfvar), '",\n']);
                             fprintf(fid,['"values": [', 'false',' ] \n' ]);
-                            fprintf(fid, '} \n');
+                            % this if/else is necessary to prevent a , being written at the end of the last JSON object.
+                            if epsilon == size(modelbase.models,2) & sum(modelbase.rule(i+1:end))==0 & p ==size(modelbase.innos,1) & pp==4
+                                fprintf(fid, '} \n');
+                            else
+                                fprintf(fid, '}, \n');
+                            end
                             fclose(fid);
                         end;
                    end;
@@ -411,6 +480,10 @@ modelbase.pos_shock = [];
 
 end;
 
+fid = fopen('Modelbasefile.json','a');
+fprintf(fid, '] \n');
+fclose(fid);
+                
 save Modelbase modelbase -append
 modelbase.totaltime = cputime-modelbase.totaltime;
 %savejson('',json,'OUTPUTSJSON');
