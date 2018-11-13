@@ -483,7 +483,22 @@ end;
 fid = fopen('Modelbasefile.json','a');
 fprintf(fid, '] \n');
 fclose(fid);
-                
+
+for m=1:100
+        n=101-m;
+        o=100-m;
+    if m<100
+        if ~exist(['Modelbasefile_',num2str(n),'.json']) & exist(['Modelbasefile_',num2str(o),'.json'])
+           movefile('Modelbasefile.json',['Modelbasefile_',num2str(n),'.json']);
+        end
+    else
+        if ~exist(['Modelbasefile_',num2str(n),'.json'])
+            movefile('Modelbasefile.json',['Modelbasefile_',num2str(n),'.json']);
+        end
+    end
+end
+        
+        
 save Modelbase modelbase -append
 modelbase.totaltime = cputime-modelbase.totaltime;
 %savejson('',json,'OUTPUTSJSON');
