@@ -16,10 +16,10 @@ warning('off','all')
 OSenvironment = isunix;
 %% Adding dynare to path if it was not
 if OSenvironment==1
-    addpath /usr/local/opt/dynare/lib/dynare/matlab
-    addpath /Applications/Dynare/4.5.6/matlab
+    addpath('/usr/local/opt/dynare/lib/dynare/matlab')
+    addpath('/Applications/Dynare/4.5.6/matlab')
 else
-    addpath c:\dynare\4.5.6\matlab
+    addpath('c:\dynare\4.5.6\matlab')
 end
 %% Adding MMB to path (required for Dynare and Octave)
 cd(fileparts(mfilename('fullpath')));
@@ -29,6 +29,7 @@ addpath(currentpath);
 
 addpath([currentpath filesep 'ALTOOL' filesep]);
 addpath([currentpath filesep 'MODELS' filesep]);
+addpath([currentpath filesep 'MMB_OPTIONS' filesep 'jsonlab'])
 newpath=[currentpath filesep 'MMB_OPTIONS' filesep];
 cd([currentpath filesep 'MMB_OPTIONS' filesep])
 
@@ -77,13 +78,20 @@ if modelbase.option(2)==1
     modelbase.innos=modelbase.namesinnos(choices,:);
     modelbase.namesshocks = modelbase.namesshocks(choices,:);
     % this is neccesary for plotting the right shock in the right figure otherwise the order might get confused; if all model specific shocks are chosen, we put [] here. The names are assigned in stoch_simul_modelbase
-    
+
 end;
 
 delete('Modelbasefile.json');
-fid = fopen('Modelbasefile.json','a');
-fprintf(fid, '[ \n');
-fclose(fid);
+
+% Creating JSON structure
+outputmodel = struct(...
+  "model", {},...
+  "rule", {},...
+  "shock", {},...
+  "func", {},...
+  "outputvar", {},...
+  "values", {}...
+);
 
 %%
 %%%%%%%%   Loop for Solving a model together with each chosen rule and producing results %%%%%%
@@ -220,9 +228,6 @@ rulenamesshort1= deblank(modelbase.rulenamesshort1(logical(modelbase.rule),:));
     end
 end
 
-%% Creating JSON structure
-
-
 for i=1:size(modelbase.rulenames,1);
     if (modelbase.rule(i)>0); % If the i-th rule has been chosen
         if i==2 & prod(isnan(coeff_vec )) 
@@ -234,21 +239,15 @@ for i=1:size(modelbase.rulenames,1);
                     autmod = deblank(strtrim(modelbase.names(modelbase.models(epsilon),:)));
                     autrule = deblank(modelbase.rulenamesshort1(modelbase.l,:));
                     autvar = keyvariables(pp,:);
-                    fid = fopen('Modelbasefile.json','a');
-                    fprintf(fid, '{ \n');
-                    fprintf(fid,['"model":"', deblank(autmod),'",\n' ]);
-                    fprintf(fid,['"rule":"', deblank(autrule), '",\n']);
-                    fprintf(fid,['"shock":"----",\n' ]);
-                    fprintf(fid,['"func":"Autocorr. fct.", \n',]);
-                    fprintf(fid,['"outputvar":"', deblank(autvar), '",\n']);
-                    fprintf(fid,['"values": [', 'false',' ] \n' ]);
-                    % this if/else is necessary to prevent a , being written at the end of the last JSON object.
-                    if epsilon == size(modelbase.models,2) & sum(modelbase.rule(i+1:end))==0 & pp==4 & modelbase.option(2)==0 & modelbase.option(5)==0
-                        fprintf(fid, '} \n');
-                    else
-                        fprintf(fid, '}, \n');
-                    end
-                    fclose(fid);
+
+                    outputmodel = horzcat(outputmodel, struct(...
+                        "model", deblank(autmod),...
+                        "rule", deblank(autrule),...
+                        "shock", [],...
+                        "func", "AC",...
+                        "outputvar", deblank(autvar),...
+                        "values", []...
+                    ));
                 end;
             end
             if modelbase.option(5)==1
@@ -256,21 +255,15 @@ for i=1:size(modelbase.rulenames,1);
                     vmod = deblank(strtrim(modelbase.names(modelbase.models(epsilon),:)));
                     vrule = deblank(modelbase.rulenamesshort1(modelbase.l,:));
                     vname = keyvariables(pp,:);
-                    fid = fopen('Modelbasefile.json','a');
-                    fprintf(fid, '{ \n');
-                    fprintf(fid,['"model":"', deblank(vmod),'",\n' ]);
-                    fprintf(fid,['"rule":"', deblank(vrule), '",\n']);
-                    fprintf(fid,['"shock":"----",\n' ]);
-                    fprintf(fid,['"func":"Variance", \n',]);
-                    fprintf(fid,['"outputvar":"', deblank(vname), '",\n']);
-                    fprintf(fid,['"values": [', 'false',' ] \n' ]);
-                    % this if/else is necessary to prevent a , being written at the end of the last JSON object.
-                    if epsilon == size(modelbase.models,2) & sum(modelbase.rule(i+1:end))==0 & pp==4 & modelbase.option(2)==0
-                        fprintf(fid, '} \n');
-                    else
-                        fprintf(fid, '}, \n');
-                    end
-                    fclose(fid);
+
+                    outputmodel = horzcat(outputmodel, struct(...
+                        "model", deblank(vmod),...
+                        "rule", deblank(vrule),...
+                        "shock", [],...
+                        "func", "VAR",...
+                        "outputvar", deblank(vname),...
+                        "values", []...
+                    ));
                 end;
             end;
             if modelbase.option(2)==1
@@ -281,25 +274,15 @@ for i=1:size(modelbase.rulenames,1);
                             irfrule = deblank(modelbase.rulenamesshort1(modelbase.l,:));
                             irfshock = ([deblank(modelbase.namesshocks(p,1:3))]);
                             irfvar = keyvariables(pp,:);
-                            fid = fopen('Modelbasefile.json','a');
-                            fprintf(fid, '{ \n');
-                            fprintf(fid,['"model":"', deblank(irfmod),'",\n' ]);
-                            fprintf(fid,['"rule":"', deblank(irfrule), '",\n']);
-                            if irfshock == 'Mon'
-                            fprintf(fid,['"shock":"monetary_policy",\n' ]);
-                            else
-                            fprintf(fid,['"shock":"fiscal_policy",\n' ]);
-                            end
-                            fprintf(fid,['"func":"IRF", \n',]);
-                            fprintf(fid,['"outputvar":"', deblank(irfvar), '",\n']);
-                            fprintf(fid,['"values": [', 'false',' ] \n' ]);
-                            % this if/else is necessary to prevent a , being written at the end of the last JSON object.
-                            if epsilon == size(modelbase.models,2) & sum(modelbase.rule(i+1:end))==0 & p ==size(modelbase.innos,1) & pp==4
-                               fprintf(fid, '} \n');
-                            else
-                               fprintf(fid, '}, \n');
-                            end
-                            fclose(fid);
+
+                            outputmodel = horzcat(outputmodel, struct(...
+                                "model", deblank(irfmod),...
+                                "rule", deblank(irfrule),...
+                                "shock", irfshock,...
+                                "func", "IRF",...
+                                "outputvar", deblank(irfvar),...
+                                "values", []...
+                            ));
                        end;
                    end;
               end;
@@ -313,38 +296,25 @@ for i=1:size(modelbase.rulenames,1);
                             autrule = deblank(modelbase.rulenamesshort1(modelbase.l,:));
                             autvar = keyvariables(pp,:);
                         if loc(modelbase.AUTendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:))~=0;
-                            eval(['json.' , autmod, '.', autrule, '.AUT.', autvar ,'= modelbase.AUTR.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.AUTendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),:);']);
-                            fid = fopen('Modelbasefile.json','a');
-                            fprintf(fid, '{ \n');
-                            fprintf(fid,['"model":"', deblank(autmod),'",\n' ]);
-                            fprintf(fid,['"rule":"', deblank(autrule), '",\n']);
-                            fprintf(fid,['"shock":"----",\n' ]);
-                            fprintf(fid,['"func":"Autocorr. fct.", \n',]);
-                            fprintf(fid,['"outputvar":"', deblank(autvar), '",\n']);
                             eval(['AUTval = modelbase.AUTR.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.AUTendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),:);']);
-                            fprintf(fid,['"values": [', regexprep(num2str(AUTval),'\s+',',\n') ,' ] \n' ]);
-                            if epsilon == size(modelbase.models,2) & sum(modelbase.rule(i+1:end))==0 & pp==4 & modelbase.option(2)==0 & modelbase.option(5)==0
-                               fprintf(fid, '} \n');
-                            else
-                               fprintf(fid, '}, \n');
-                            end
-                            fclose(fid);
+
+                            outputmodel = horzcat(outputmodel, struct(...
+                                "model", deblank(autmod),...
+                                "rule", deblank(autrule),...
+                                "shock", [],...
+                                "func", "AC",...
+                                "outputvar", deblank(autvar),...
+                                "values", AUTval...
+                            ));
                         else
-                            fid = fopen('Modelbasefile.json','a');
-                            fprintf(fid, '{ \n');
-                            fprintf(fid,['"model":"', deblank(autmod),'",\n' ]);
-                            fprintf(fid,['"rule":"', deblank(autrule), '",\n']);
-                            fprintf(fid,['"shock":"----",\n' ]);
-                            fprintf(fid,['"func":"Autocorr. fct.", \n',]);
-                            fprintf(fid,['"outputvar":"', deblank(autvar), '",\n']);
-                            fprintf(fid,['"values": [', 'false',' ] \n' ]);
-                            % this if/else is necessary to prevent a , being written at the end of the last JSON object.
-                            if epsilon == size(modelbase.models,2) & sum(modelbase.rule(i+1:end))==0 & pp==4 & modelbase.option(2)==0 & modelbase.option(5)==0
-                               fprintf(fid, '} \n');
-                            else
-                               fprintf(fid, '}, \n');
-                            end
-                            fclose(fid);
+                            outputmodel = horzcat(outputmodel, struct(...
+                                "model", deblank(autmod),...
+                                "rule", deblank(autrule),...
+                                "shock", [],...
+                                "func", "AC",...
+                                "outputvar", deblank(autvar),...
+                                "values", []...
+                            ));
                         end;
                 end;
             end;
@@ -355,39 +325,25 @@ for i=1:size(modelbase.rulenames,1);
                             vname = keyvariables(pp,:);
                        if loc(modelbase.VARendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:))~=0;
                             var = modelbase.VAR.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.VARendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),loc(modelbase.VARendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)));
-                            eval(['json.' , vmod, '.', vrule, '.VAR.', vname ,' = var;']);
-                            fid = fopen('Modelbasefile.json','a');
-                            fprintf(fid, '{ \n');
-                            fprintf(fid,['"model":"', deblank(vmod),'",\n' ]);
-                            fprintf(fid,['"rule":"', deblank(vrule), '",\n']);
-                            fprintf(fid,['"shock":"----",\n' ]);
-                            fprintf(fid,['"func":"Variance", \n',]);
-                            fprintf(fid,['"outputvar":"', deblank(vname), '",\n']);
+
                             eval(['VARval = modelbase.VAR.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.VARendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),loc(modelbase.VARendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)));']);
-                            fprintf(fid,['"values": [', regexprep(num2str(VARval),'\s+',',\n') ,' ] \n' ]);
-                            % this if/else is necessary to prevent a , being written at the end of the last JSON object.
-                            if epsilon == size(modelbase.models,2) & sum(modelbase.rule(i+1:end))==0 & pp==4 & modelbase.option(2)==0
-                               fprintf(fid, '} \n');
-                            else
-                               fprintf(fid, '}, \n');
-                            end
-                            fclose(fid);
+                            outputmodel = horzcat(outputmodel, struct(...
+                                "model", deblank(vmod),...
+                                "rule", deblank(vrule),...
+                                "shock", [],...
+                                "func", "VAR",...
+                                "outputvar", deblank(vname),...
+                                "values", VARval...
+                            ));
                        else
-                            fid = fopen('Modelbasefile.json','a');
-                            fprintf(fid, '{ \n');
-                            fprintf(fid,['"model":"', deblank(vmod),'",\n' ]);
-                            fprintf(fid,['"rule":"', deblank(vrule), '",\n']);
-                            fprintf(fid,['"shock":"----",\n' ]);
-                            fprintf(fid,['"func":"Variance", \n',]);
-                            fprintf(fid,['"outputvar":"', deblank(vname), '",\n']);
-                            fprintf(fid,['"values": [', 'false',' ] \n' ]);
-                            % this if/else is necessary to prevent a , being written at the end of the last JSON object.
-                            if epsilon == size(modelbase.models,2) & sum(modelbase.rule(i+1:end))==0 & pp==4 & modelbase.option(2)==0
-                               fprintf(fid, '} \n');
-                            else
-                               fprintf(fid, '}, \n');
-                            end
-                            fclose(fid);
+                           outputmodel = horzcat(outputmodel, struct(...
+                               "model", deblank(vmod),...
+                               "rule", deblank(vrule),...
+                               "shock", [],...
+                               "func", "VAR",...
+                               "outputvar", deblank(vname),...
+                               "values", []...
+                           ));
                        end;
                 end;
             end;
@@ -400,68 +356,35 @@ for i=1:size(modelbase.rulenames,1);
                         if  modelbase.pos_shock(p,modelbase.models(epsilon))~=0
                             irfvar = keyvariables(pp,:);
                             if loc(modelbase.IRFendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:))~=0
-                                eval(['json.' , irfmod , '.', irfrule, '.IRF.', irfshock, '.', irfvar ,'= modelbase.IRF.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.IRFendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),:,p);']);
-                                fid = fopen('Modelbasefile.json','a');
-                                fprintf(fid, '{ \n');
-                                fprintf(fid,['"model":"', deblank(irfmod),'",\n' ]);
-                                fprintf(fid,['"rule":"', deblank(irfrule), '",\n']);
-                                if irfshock == 'Mon'
-                                fprintf(fid,['"shock":"monetary_policy",\n' ]);
-                                else
-                                fprintf(fid,['"shock":"fiscal_policy",\n' ]);
-                                end
-                                fprintf(fid,['"func":"IRF", \n',]);
-                                fprintf(fid,['"outputvar":"', deblank(irfvar), '",\n']);
                                 eval(['IRFval = modelbase.IRF.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:))))(loc(modelbase.IRFendo_names.(strtrim(deblank(modelbase.rulenamesshort1(modelbase.l,:)))),keyvariables(pp,:)),:,p);']);
-                                fprintf(fid,['"values": [', regexprep(num2str(IRFval),'\s+',',\n') ,' ] \n' ]);
-                                % this if/else is necessary to prevent a , being written at the end of the last JSON object.
-                                if epsilon == size(modelbase.models,2) & sum(modelbase.rule(i+1:end))==0 & p ==size(modelbase.innos,1) & pp==4
-                                    fprintf(fid, '} \n');
-                                else
-                                    fprintf(fid, '}, \n');
-                                end
-                                fclose(fid);
+
+                                outputmodel = horzcat(outputmodel, struct(...
+                                    "model", deblank(irfmod),...
+                                    "rule", deblank(irfrule),...
+                                    "shock", irfshock,...
+                                    "func", "IRF",...
+                                    "outputvar", deblank(irfvar),...
+                                    "values", IRFval...
+                                ));
                             else
-                                fid = fopen('Modelbasefile.json','a');
-                                fprintf(fid, '{ \n');
-                                fprintf(fid,['"model":"', deblank(irfmod),'",\n' ]);
-                                fprintf(fid,['"rule":"', deblank(irfrule), '",\n']);
-                                if irfshock == 'Mon'
-                                    fprintf(fid,['"shock":"monetary_policy",\n' ]);
-                                else
-                                    fprintf(fid,['"shock":"fiscal_policy",\n' ]);
-                                end
-                                fprintf(fid,['"func":"IRF", \n',]);
-                                fprintf(fid,['"outputvar":"', deblank(irfvar), '",\n']);
-                                fprintf(fid,['"values": [', 'false',' ] \n' ]);
-                                % this if/else is necessary to prevent a , being written at the end of the last JSON object.
-                                if epsilon == size(modelbase.models,2) & sum(modelbase.rule(i+1:end))==0 & p ==size(modelbase.innos,1) & pp==4 
-                                    fprintf(fid, '} \n');
-                                else
-                                    fprintf(fid, '}, \n');
-                                end
-                                fclose(fid);
+                                outputmodel = horzcat(outputmodel, struct(...
+                                    "model", deblank(irfmod),...
+                                    "rule", deblank(irfrule),...
+                                    "shock", irfshock,...
+                                    "func", "IRF",...
+                                    "outputvar", deblank(irfvar),...
+                                    "values", []...
+                                ));
                             end;
                         else
-                            fid = fopen('Modelbasefile.json','a');
-                            fprintf(fid, '{ \n');
-                            fprintf(fid,['"model":"', deblank(irfmod),'",\n' ]);
-                            fprintf(fid,['"rule":"', deblank(irfrule), '",\n']);
-                            if irfshock == 'Mon'
-                            fprintf(fid,['"shock":"monetary_policy",\n' ]);
-                            else
-                            fprintf(fid,['"shock":"fiscal_policy",\n' ]);
-                            end
-                            fprintf(fid,['"func":"IRF", \n',]);
-                            fprintf(fid,['"outputvar":"', deblank(irfvar), '",\n']);
-                            fprintf(fid,['"values": [', 'false',' ] \n' ]);
-                            % this if/else is necessary to prevent a , being written at the end of the last JSON object.
-                            if epsilon == size(modelbase.models,2) & sum(modelbase.rule(i+1:end))==0 & p ==size(modelbase.innos,1) & pp==4
-                                fprintf(fid, '} \n');
-                            else
-                                fprintf(fid, '}, \n');
-                            end
-                            fclose(fid);
+                            outputmodel = horzcat(outputmodel, struct(...
+                                "model", deblank(irfmod),...
+                                "rule", deblank(irfrule),...
+                                "shock", irfshock,...
+                                "func", "IRF",...
+                                "outputvar", deblank(irfvar),...
+                                "values", []...
+                            ));
                         end;
                    end;
               end;
@@ -480,9 +403,7 @@ modelbase.pos_shock = [];
 
 end;
 
-fid = fopen('Modelbasefile.json','a');
-fprintf(fid, '] \n');
-fclose(fid);
+savejson('', outputmodel, 'Modelbasefile.json');
 
 for m=1:100
         n=101-m;
@@ -501,7 +422,6 @@ end
         
 save Modelbase modelbase -append
 modelbase.totaltime = cputime-modelbase.totaltime;
-%savejson('',json,'OUTPUTSJSON');
 
 disp(['Total elapsed cputime: ' ,num2str(modelbase.totaltime), ' seconds.']);
 rmpath(modelbase.homepath);
@@ -527,5 +447,3 @@ To_be_plotted=intersect(Index_Non_Aux_Var,Index_Non_Negligeable_Var{current_shoc
 IRF_Non_Aux_Var=IRF_STR.(strtrim(deblank(rules_setshort1(current_rule,:))))(To_be_plotted,:,:);
 IRFendo_names_Non_Aux = All_Endo_Var(To_be_plotted,:);
 end
-
-    
